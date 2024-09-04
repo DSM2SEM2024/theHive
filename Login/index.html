@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Fatec</title>
+    <!-- Estilo CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body> 
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Fatec</h1>
+    </header>
+
+    <!-- Container geral de login -->
+    <div class="login-container">
+        <!-- Card branco -->
+        <div class="white-card">
+            
+            <!-- Container para a imagem de perfil e o texto "Login" -->
+            <div class="pfp-container">
+                <img src="Images/iconfatec.png" alt="Imagem" class="card-image">
+                <p class="card-text">Login</p>
+            </div>
+
+            <!-- Card vermelho -->
+            <div class="login-card">
+                <form id="loginForm">
+                    
+                    <!-- Campos de entrada -->
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Digite seu email aqui" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Senha</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" name="password" placeholder="Digite sua senha aqui" required>
+                        </div>
+                    </div>
+
+                    <!-- Container para a checkbox de mostrar senha -->
+                    <div class="show-password-container">
+                        <input type="checkbox" id="showPassword" class="show-password-checkbox">
+                        <label for="showPassword" class="show-password-label">Mostrar Senha</label>
+                    </div>
+
+                    <!-- Botão de envio do formulário -->
+                    <button type="submit">Entrar</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+        <!-- Código JavaScript -->
+        <script src="script.js"></script>
+</body>
+</html>
