@@ -13,7 +13,6 @@
 
 /* Corpo */
 body {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,10 +32,15 @@ header {
     background-color: var(--main-color);
     padding: 10px;
     color: white;
-    position: fixed;
     top: 0;
-    left: 0;
-    z-index: 3;
+}
+
+main {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Container geral do Login */
@@ -45,9 +49,9 @@ header {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start; 
-    margin-top: 150px; 
     width: 100%;
     height: calc(100vh - 10%);
+    margin: 1.5 rem;
 }
 
 /* Posição do card branco */
