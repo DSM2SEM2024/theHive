@@ -1,6 +1,10 @@
 /* Configurações gerais */
 :root {
     --main-color: #B03648;
+    --text-color: #575757;
+    --text-color-light: #909090;
+    --gray-color: #e2e2e2;
+    --white-color: #f6f6f6;
 }
 
 * {
@@ -31,7 +35,7 @@ header {
     font-size: 25px;
     background-color: var(--main-color);
     padding: 10px;
-    color: white;
+    color: var(--white-color);
     top: 0;
 }
 
@@ -51,7 +55,7 @@ main {
     justify-content: flex-start; 
     width: 100%;
     height: calc(100vh - 10%);
-    margin: 1.5 rem;
+    margin: 1.5rem;
 }
 
 /* Posição do card branco */
@@ -62,7 +66,7 @@ main {
     align-items: center;
     width: 70%;
     max-width: 600px;
-    background-color: #ffffff;
+    background-color: var(--white-color);
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -78,15 +82,14 @@ main {
 }
 
 /* Imagem dentro do card branco */
-.card-image {
-    max-width: 70%;
-    height: auto;
+.pfp-container i {
+    color: var(--main-color);
+    font-size: 10rem;
 }
 
 /* Texto abaixo da imagem */
 .card-text {
-    margin-top: 10px; 
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bolder;
     color: var(--main-color); 
 }
@@ -117,7 +120,7 @@ main {
 .input-group label {
     font-size: 1rem;
     font-weight: bold; 
-    color: #ffffff;  
+    color: var(--white-color);  
     display: block;
     margin-bottom: 6px;
 }
@@ -126,7 +129,7 @@ main {
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--text-color-light);
     border-radius: 10px;
 }
 
@@ -138,7 +141,7 @@ button {
     width: 100%;
     max-width: 150px;
     padding: 10px;
-    background-color: #ffffff;
+    background-color: var(--white-color);
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -146,12 +149,12 @@ button {
 
 /* Quando passa o mouse em um botão */
 button:hover {
-    background-color: #adadad;
+    background-color: var(--gray-color);
 }
 
 /* Quando clica em um campo */
 input:focus {
-    outline-color: #adadad;
+    outline-color: var(--text-color-light);
     outline-width: 2px;
     outline-style: solid; 
 }
@@ -192,13 +195,13 @@ input:focus {
     transform: translate(-50%, -50%) scale(1); 
     width: 10px; 
     height: 10px;
-    background-color: white;
+    background-color: var(--white-color);
     clip-path: polygon(0% 50%, 40% 90%, 100% 10%, 100% 0%, 40% 70%, 0% 50%); 
 }
 
 /* Texto "Mostrar Senha" */
 .show-password-label {
-    color: white;
+    color: var(--white-color);
     font-size: 15px;
     font-weight: 300;
 }

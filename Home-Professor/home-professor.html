@@ -1,26 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fatec - SALA</title>
     <link rel="stylesheet" href="css/home-professor.css">
     <link rel="stylesheet" href="css/reset.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
+
 <body>
     <header class="cabecalho">
+
         <h1>Fatec - SALA</h1>
+
         <div class="busca">
-            <img src="Imagens/search.png" alt="Ícone de pesquisa">
+            <img src="Images/search.png" alt="Ícone de pesquisa">
             <input id="pesquisa" type="text" placeholder="O que está procurando?">
         </div>
-        <img src="Imagens/menu-hamburguer.png" alt="Menu de opções">
- 
+
+        <div id="icons">
+            <i class="fi fi-ss-bell"></i>
+            <i class="fi fi-ss-circle-user"></i>
+            <i class="fi fi-br-menu-burger"></i>
+        </div>
+
     </header>
 
     <main>
 
+        <p id="titulo-ola">Olá, NOME, seja bem vindo(a) ao <b>SALA</b>!</p>
+
+        <div class="card-pesquisa">
+            <div class="busca-2">
+                <img src="Images/search.png" alt="Ícone de pesquisa">
+                <input id="pesquisa-2" type="text" placeholder="O que está procurando?">
+            </div>
+            <div id="info">?</div>
+        </div>
+
+        <h2>Minhas reservas:</h2>
+
+        <div class="card-reservas">
+            <p>Você não possui reservas no momento.</p>
+            <button>Fazer reserva</button>
+        </div>
     </main>
-    
+
 </body>
+
 </html>

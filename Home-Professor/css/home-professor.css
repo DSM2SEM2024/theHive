@@ -1,6 +1,10 @@
 /* Configurações gerais */
 :root {
     --main-color: #B03648;
+    --text-color: #575757;
+    --text-color-light: #909090;
+    --gray-color: #e2e2e2;
+    --white-color: #f6f6f6;
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
     font-family: "Inter", sans-serif;
 }
@@ -14,16 +18,17 @@ header {
     align-items: center;
     justify-content: space-around;
     text-align: center;
-    font-size: 25px;
+    font-size: 23px;
     background-color: var(--main-color);
     padding: 10px;
-    color: white;
+    color: var(--white-color);
     top: 0;
+    gap: 2rem;
 }
 
 .busca {
-    background-color: #f2f2f2;
-    width: 25rem;
+    background-color: var(--white-color);
+    width: 30rem;
     height: 2.3rem;
     border-radius: 10px;
     display: flex;
@@ -38,4 +43,143 @@ header {
 .busca img {
     width: 20px;
     height: 20px;
+}
+
+#pesquisa {
+    height: 2rem;
+    width: 28rem;
+    background-color: var(--white-color);
+    border: 0;
+    font-size: 16px;
+    color: var(--text-color-light);
+}
+
+#pesquisa:focus {
+    outline-color: var(--white-color);
+    outline-width: 2px;
+    outline-style: solid; 
+}
+
+#icons {
+    height: 32px;
+    width: 20rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#icons i {
+    text-align: center;
+    font-size: 32px;
+    color: var(--white-color);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#icons i:hover{
+    transition: 0.2s;
+    color: var(--gray-color);
+}
+
+main {
+    padding-top: 3rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    background-color: var(--white-color);
+    min-height: calc(100vh - 100px);
+}
+
+#titulo-ola {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--main-color); 
+}
+
+.card-pesquisa {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    gap: 5rem;
+}
+
+.busca-2 {
+    background-color: var(--gray-color);
+    width: 60rem;
+    height: 3rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding: 10px;
+    padding-left: 15px;
+    gap: 1.5rem;
+}
+
+.busca-2 img {
+    width: 25px;
+    height: 25px;
+}
+
+#pesquisa-2 {
+    height: 2rem;
+    width: 55rem;
+    background-color: var(--gray-color);
+    border: 0;
+    font-size: 18px;
+    color: var(--text-color-light);
+}
+
+#pesquisa-2:focus {
+    outline-color: var(--gray-color);
+    outline-width: 2px;
+    outline-style: solid; 
+}
+
+#info {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--main-color);
+    font-size: 22px;
+    color: var(--white-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+main h2 {
+    margin-top: 1.5rem;
+    color: var(--main-color);
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.card-reservas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem;
+    gap: 2rem;
+}
+
+.card-reservas p {
+    color: var(--text-color);
+    font-size: 25px;
+}
+
+.card-reservas button {
+    width: 15rem;
+    height: 4rem;
+    background-color: var(--main-color);
+    color: var(--white-color);
+    font-size: 25px;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
 }
