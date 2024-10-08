@@ -1,0 +1,41 @@
+/* Configurações gerais */
+:root {
+    --main-color: #B03648;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    font-family: "Inter", sans-serif;
+}
+
+/* Cabeçalho */
+
+header {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 25px;
+    background-color: var(--main-color);
+    padding: 10px;
+    color: white;
+    top: 0;
+}
+
+.busca {
+    background-color: #f2f2f2;
+    width: 25rem;
+    height: 2.3rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding: 10px;
+    padding-left: 15px;
+    gap: 12px;
+}
+
+.busca img {
+    width: 20px;
+    height: 20px;
+}
