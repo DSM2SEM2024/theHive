@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <title>Formulário</title>
+</head>
+
+<body>
+    <header class="cabecalho">
+
+        <h1>Fatec - SALA</h1>
+
+        <div class="busca">
+            <img src="Home-Professor/Images/search.png" alt="Ícone de pesquisa">
+            <input id="pesquisa" type="text" placeholder="O que está procurando?">
+        </div>
+
+        <div id="icons">
+            <i class="fi fi-ss-bell"></i>
+            <i class="fi fi-ss-circle-user"></i>
+            <i class="fi fi-br-menu-burger"></i>
+        </div>
+
+    </header>
+
+    <main>
+        <article id="card-cinza">
+            
+            <section id="card-vermelho">
+                <h1>RESERVA DE LABORATÓRIOS</h1>
+            </section>
+           
+            <section>
+                <h2>*Campos obrigatórios</h2>
+            </section>
+            
+            <label for="semestre">
+                <h2>Semeste: <span>*</span></h2>
+            </label>
+            <form class="radio-form1" name="Semestre" id="semestre">
+                <div class="radio-group1">
+
+                <input type="radio" id="optionSemestre1">
+                <label for="optionSemestre1">1° Semestre</label>
+
+                <input type="radio" id="optionSemestre2">
+                <label for="optionSemestre2">2° Semestre</label>
+
+                <input type="radio" id="optionSemestre3">
+                <label for="optionSemestre3">3° Semestre</label>
+
+                <input type="radio" id="optionSemestre4">
+                <label for="optionSemestre4">4° Semestre</label>
+
+                <input type="radio" id="optionSemestre5">
+                <label for="optionSemestre5">5° Semestre</label>
+
+                <input type="radio" id="optionSemestre6">
+                <label for="optionSemestre6">6° Semestre</label>
+            </form>
+            </div>
+            
+            <section>
+                <label for="disciplina">
+                    Disciplina(s): <span>*</span>
+                </label>
+            </section>
+            <form>
+                <input type="text" id="disciplina" name="Disciplina" placeholder="Ex: Banco de Dados Relacional, Estrutura de Dados, etc.">
+            </form>
+           
+            <label for="motivo">
+                Motivo da Reserva: <span>*</span>
+            </label>
+            <form class="radio-form2" name="Motivo" id="motivo">
+               <div class="radio-group2"></div>
+            
+                <input type="radio" id="optionMotivo1">
+                <label for="optionMotivo1">Ministração de aula</label>
+
+                <input type="radio" id="optionMotivo2">
+                <label for="optionMotivo2">Aplicação de Prova</label>
+
+                <input type="radio" id="optionMotivo3">
+                <label for="optionMotivo3">Palestra</label>
+
+                <input type="radio" id="optionMotivo4">
+                <label for="optionMotivo4">Outro</label>
+            </form>
+            
+            <label for="atividade">
+                Atividade executada <span>*</span>
+            </label>
+            <form>
+                <input type="text" id="atividade" name="Atividade" placeholder="Ex: Realização de exercícios práticos sobre a linguagem PHP, etc.">
+            </form>
+
+            <label for="equipamentos"></label>
+                Equipamentos, ferramentas e materiais <span>*</span>
+            </label>
+            <form>
+                <input type="text" id="equipamentos" name="Equipamentos" placeholder="Liste os equipamentos/ferramentas necessárias para a Atividade">
+            </form>
+           
+            <section>
+                <button>Finalizar Reserva</button>
+            </section>
+        </article>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
