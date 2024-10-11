@@ -39,77 +39,84 @@
                 <h2>*Campos obrigatórios</h2>
             </section>
             
-            <section class="section-geral" for="semestre">
-                <h2>Semestre: <span>*</span></h2>
-            </section>
-            <form class="radio-form1">
-                <div class="radio-group1">
-
-                <input class="radio" type="radio" id="optionSemestre1" name="semestre"> 
-                <label for="optionSemestre1">1° Semestre</label>
-
-                <input class="radio" type="radio" id="optionSemestre2" name="semestre"> 
-                <label for="optionSemestre2">2° Semestre</label>
-
-                <input class="radio" type="radio" id="optionSemestre3" name="semestre"> 
-                <label for="optionSemestre3">3° Semestre</label>
-
-                <input class="radio" type="radio" id="optionSemestre4" name="semestre"> 
-                <label for="optionSemestre4">4° Semestre</label>
-
-                <input class="radio" type="radio" id="optionSemestre5" name="semestre"> 
-                <label for="optionSemestre5">5° Semestre</label>
-
-                <input class="radio" type="radio" id="optionSemestre6" name="semestre"> 
-                <label for="optionSemestre6">6° Semestre</label>
-            </form>
-            </div>
             
-            <section class="section-geral" for="disciplina">
-                <h2>Disciplina(s): <span>*</span></h2>
-            </section>
-            <form  class="box-disciplina" >
-                <input id="disciplina" name="Disciplina" placeholder="Ex: Banco de Dados Relacional, Estrutura de Dados, etc.">
-            </form>
+            <form action="" id="formulario" method="">
+
+                <section class="section-geral">
+                    <h2>Semestre: <span>*</span></h2>
+                </section>
+            
+                <fieldset class="radio-group1">
+                    <input class="radio" type="radio" id="optionSemestre1" name="semestre"> 
+                    <label for="optionSemestre1">1° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre2" name="semestre"> 
+                    <label for="optionSemestre2">2° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre3" name="semestre"> 
+                    <label for="optionSemestre3">3° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre4" name="semestre"> 
+                    <label for="optionSemestre4">4° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre5" name="semestre"> 
+                    <label for="optionSemestre5">5° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre6" name="semestre"> 
+                    <label for="optionSemestre6">6° Semestre</label>
+                </fieldset>
+
+                <section class="section-geral">
+                    <h2>Disciplina(s): <span>*</span></h2>
+                </section>
+            
+                <section  class="box-input-text">
+                    <input type="text" id="Disciplina" name="disciplina" placeholder="Ex: Banco de Dados Relacional, Estrutura de Dados, etc.">
+                </section>
            
-            <section class="section-geral" for="motivo">
-                <h2>Motivo da Reserva: <span>*</span></h2>
-            </section>
-            <form class="radio-form2" name="Motivo" id="motivo">
-               <div class="radio-group2"></div>
+                <section class="section-geral">
+                    <h2>Motivo da Reserva: <span>*</span></h2>
+                </section>
             
-                <input type="radio" id="optionMotivo1">
-                <label for="optionMotivo1">Ministração de aula</label>
+                <fieldset class="radio-group2">
+                    <input type="radio" id="optionMotivo1">
+                    <label for="optionMotivo1">Ministração de aula</label>
 
-                <input type="radio" id="optionMotivo2">
-                <label for="optionMotivo2">Aplicação de Prova</label>
+                    <input type="radio" id="optionMotivo2">
+                    <label for="optionMotivo2">Aplicação de Prova</label>
 
-                <input type="radio" id="optionMotivo3">
-                <label for="optionMotivo3">Palestra</label>
+                    <input type="radio" id="optionMotivo3">
+                    <label for="optionMotivo3">Palestra</label>
 
-                <input type="radio" id="optionMotivo4">
-                <label for="optionMotivo4">Outro</label>
-            </form>
+                    <input type="radio" id="optionMotivo4">
+                    <label for="optionMotivo4">Outro</label>
+                </fieldset>
             
-            <section class="section-geral" for="atividade">
-                <h2>Atividade executada: <span>*</span></h2>
-            </section>
-            <form>
-                <input type="text" id="atividade" name="Atividade" placeholder="Ex: Realização de exercícios práticos sobre a linguagem PHP, etc.">
-            </form>
+                <section class="section-geral">
+                    <h2>Atividade executada: <span>*</span></h2>
+                </section>
+            
+                <section class="box-input-text">
+                    <input type="text" id="atividade" name="Atividade" placeholder="Ex: Realização de exercícios práticos sobre a linguagem PHP, etc.">
+                </section class="">
 
-            <section class="section-geral" for="equipamentos">
-                <h2>Equipamentos, ferramentas e materiais: <span>*</span></h2>
-            </section>
-            <form>
-                <input type="text" id="equipamentos" name="Equipamentos" placeholder="Liste os equipamentos/ferramentas necessárias para a Atividade">
-            </form>
+                <section class="section-geral" >
+                    <h2>Equipamentos, ferramentas e materiais: <span>*</span></h2>
+                </section>
+                
+                <section class="box-input-text">
+                    <input type="text" id="equipamentos" name="Equipamentos" placeholder="Liste os equipamentos/ferramentas necessárias para a Atividade.">
+                </section>
            
-            <section id="section-botao">
-                <button>Finalizar Reserva</button>
-            </section>
+                <section id="section-button">
+                    <button>Finalizar Reserva</button>
+                </section>
+            
+            </form>
         </article>
     </main>
+    
     <script src="script.js"></script>
+
 </body>
 </html>
