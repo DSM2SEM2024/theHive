@@ -30,6 +30,7 @@ header {
     gap: 2rem;
     z-index: 1;
     position: relative;
+    border-bottom: solid var(--white-color) 2px;
 }
 
 .busca {
@@ -103,11 +104,69 @@ nav {
     right: 0;
     top: -40rem;
     transition: 0.3s;
+    padding: 2rem;
 }
 
 .notificacoes.mostrar {
     top: 46.25rem;
     transition: 0.3s;
+}
+
+#titulo-not {
+    padding-top: 3rem;
+    color: var(--white-color);
+    font-size: 24px;
+    font-weight: 500;
+}
+
+#titulo-not-1 {
+    color: var(--white-color);
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.pendentes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 10rem;
+    width: 25rem;
+}
+
+.aprovadas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 15rem;
+    width: 25rem;
+}
+
+.reprovadas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 10rem;
+    width: 25rem;
+}
+
+.card-pedido {
+    width: 25rem;
+    height: 5rem;
+    background-color: var(--gray-color);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 1rem;
+    margin-top: 1rem;
 }
 
 .perfil {
