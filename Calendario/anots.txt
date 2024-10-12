@@ -1,0 +1,7 @@
+Alterar todas as medidas que estão em px para rem (se possível)
+Padronizar as bordas (se possível)
+Ver como centraliza o dropdown por completo (se possível)
+
+Dúvida: Precisa faze um dropdown para o ano?
+
+Ver os eventos necessários para aplicar no JS (deixa para o final) 

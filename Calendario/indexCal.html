@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="idCal.css">
     <link rel="stylesheet" href="classCal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <title>Calendário</title>
 </head>
-<body>
+<body id="corpo">
     <main>
 
         <!-- Card Cinza no fundo -->
@@ -18,8 +19,8 @@
                 <h3>2024</h3>
             </section>
 
+            <!-- Dropdown para selecionar o mês -->
             <section id="mes">
-             <!-- Dropdown para selecionar o mês -->
                 <select id="meses" name="meses">
                     <option value="janeiro">Janeiro</option>
                     <option value="fevereiro">Fevereiro</option>
@@ -35,15 +36,57 @@
                     <option value="dezembro">Dezembro</option>
                 </select>
             </section>
+
+            <!-- Calenário em si com os dias e números -->
             <section id="calendario">
+                <section class="semana">Domingo</section>
+                <section class="semana">Segunda</section>
+                <section class="semana">Terça</section>
+                <section class="semana">Quarta</section>
+                <section class="semana">Quinta</section>
+                <section class="semana">Sexta</section>
+                <section class="semana">Sábado</section>
                 <section class="dia">1</section>
+                <section class="dia">2</section>
+                <section class="dia">3</section>
+                <section class="dia">4</section>
+                <section class="dia">5</section>
+                <section class="dia">6</section>
+                <section class="dia">7</section>
+                <section class="dia">8</section>
+                <section class="dia">9</section>
+                <section class="dia">10</section>
+                <section class="dia">11</section>
+                <section class="dia">12</section>
+                <section class="dia">13</section>
+                <section class="dia">14</section>
+                <section class="dia">15</section>
+                <section class="dia">16</section>
+                <section class="dia">17</section>
+                <section class="dia">18</section>
+                <section class="dia">19</section>
+                <section class="dia">20</section>
+                <section class="dia">21</section>
+                <section class="dia">22</section>
+                <section class="dia">23</section>
+                <section class="dia">24</section>
+                <section class="dia">25</section>
+                <section class="dia">26</section>
+                <section class="dia">27</section>
+                <section class="dia">28</section>
+                <section class="dia">29</section>
+                <section class="dia">30</section>
+                <section class="dia">31</section>
             </section>
 
-
+            <!-- Botão "confirmar" -->
+            <button id="botao">Confirmar</button>
 
         </article>
     
     </main>
+
     <script src="jsCal.js"></script>
+    
 </body>
 </html>
