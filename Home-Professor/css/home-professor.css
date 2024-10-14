@@ -49,7 +49,7 @@ header {
     align-items: center;
     padding: 10px;
     padding-left: 15px;
-    gap: 12px;
+    padding-right: 3px;
 }
 
 .busca img {
@@ -58,18 +58,36 @@ header {
 }
 
 #pesquisa {
-    height: 2rem;
+    margin-top: 1.5px;
+    margin-left: 12px;
+    height: 1.9rem;
     width: 28rem;
     background-color: var(--white-color);
     border: 0;
-    font-size: 16px;
-    color: var(--text-color-light);
+    font-size: 15px;
+    color: var(--black-gray-color);
+    border-radius: 10px;
 }
 
 #pesquisa:focus {
     outline-color: var(--white-color);
     outline-width: 2px;
     outline-style: solid;
+}
+
+.btn-limpar {
+    height: 2rem;
+    width: 2rem;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-color-light);
+    cursor: pointer;
+    display: none; /* Escondido por padrão */
+}
+
+.btn-limpar:hover {
+    color: var(--black-gray-color); /* Cor mais escura ao passar o mouse */
 }
 
 #icons {
@@ -293,6 +311,67 @@ nav {
     transition: 0.3s;
 }
 
+.usuario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.usuario h3 {
+    font-size: 20px;
+    color: var(--black-gray-color);
+}
+
+#avatar {
+    background-color: #4caf50;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white-color);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+.info-perfil {
+    margin-top: 1.5rem;
+}
+
+#label {
+    color: var(--main-color);
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#courses {
+    color: var(--black-gray-color);
+    margin-top: 8px;
+    margin-bottom: 14px;
+}
+
+#email {
+    color: var(--black-gray-color);
+    margin-top: 8px;
+    margin-bottom: 2rem;
+}
+
+.info-perfil a {
+    display: block;
+    color: var(--main-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.info-perfil a:hover {
+    text-decoration: underline;
+}
+
 main {
     padding-top: 3rem;
     padding-left: 3rem;
@@ -327,7 +406,7 @@ main {
     align-items: center;
     padding: 10px;
     padding-left: 15px;
-    gap: 1.5rem;
+    padding-right: 5px;
 }
 
 .busca-2 img {
@@ -336,18 +415,35 @@ main {
 }
 
 #pesquisa-2 {
-    height: 2rem;
+    margin-left: 1.5rem;
+    margin-top: 1.5px;
+    height: 1.9rem;
     width: 55rem;
     background-color: var(--gray-color);
     border: 0;
     font-size: 18px;
-    color: var(--text-color-light);
+    color: var(--black-gray-color);
 }
 
 #pesquisa-2:focus {
     outline-color: var(--gray-color);
     outline-width: 2px;
     outline-style: solid;
+}
+
+.btn-limpar2 {
+    height: 2rem;
+    width: 2rem;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-color-light);
+    cursor: pointer; 
+    display: none; /* Escondido por padrão */
+}
+
+.btn-limpar2:hover {
+    color: var(--black-gray-color); /* Cor mais escura ao passar o mouse */
 }
 
 #info {
@@ -418,64 +514,3 @@ main h2 {
     scale: 1.05;
     transition: 0.2s;
 } */
-
-.usuario {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.usuario h3 {
-    font-size: 20px;
-    color: var(--black-gray-color);
-}
-
-.avatar {
-    background-color: #4caf50;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--white-color);
-    font-size: 24px;
-    font-weight: bold;
-}
-
-
-.info-perfil {
-    margin-top: 1.5rem;
-}
-
-.label {
-    color: var(--main-color);
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.courses {
-    color: var(--black-gray-color);
-    margin-top: 8px;
-    margin-bottom: 14px;
-}
-
-.email {
-    color: var(--black-gray-color);
-    margin-top: 8px;
-    margin-bottom: 2rem;
-}
-
-.logout {
-    display: block;
-    color: var(--main-color);
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-.logout:hover {
-    text-decoration: underline;
-}
