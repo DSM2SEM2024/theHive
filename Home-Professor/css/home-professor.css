@@ -168,7 +168,7 @@ nav {
 .pendentes {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-self: start;
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
@@ -194,7 +194,7 @@ nav {
 .aprovadas {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-items: start;
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
@@ -220,7 +220,7 @@ nav {
 .reprovadas {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-items: start;
     align-items: center;
     overflow-y: auto;
     max-height: 13rem;
