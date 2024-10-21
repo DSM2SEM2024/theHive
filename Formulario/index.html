@@ -49,36 +49,38 @@
             
                 <fieldset class="radio-group1">
                     <div class="radio-option">
-                        <input class="radio" type="radio" id="optionSemestre1" name="semestre"> 
+                        <input class="radio" type="radio" id="optionSemestre1" name="semestre" required> 
                         <label for="optionSemestre1">1° Semestre</label>
                     </div>
 
                     
                     <div class="radio-option">
-                        <input class="radio" type="radio" id="optionSemestre2" name="semestre"> 
+                        <input class="radio" type="radio" id="optionSemestre2" name="semestre" required> 
                         <label for="optionSemestre2">2° Semestre</label>
                     </div>
 
                     <div class="radio-option">
-                        <input class="radio" type="radio" id="optionSemestre3" name="semestre"> 
+                        <input class="radio" type="radio" id="optionSemestre3" name="semestre" required> 
                         <label for="optionSemestre3">3° Semestre</label>
                     </div>
 
                     
                     <div class="radio-option">
-                        <input class="radio" type="radio" id="optionSemestre4" name="semestre"> 
+                        <input class="radio" type="radio" id="optionSemestre4" name="semestre" required> 
                         <label for="optionSemestre4">4° Semestre</label>
                     </div>
 
                     <div class="radio-option">
-                        <input class="radio" type="radio" id="optionSemestre5" name="semestre"> 
+                        <input class="radio" type="radio" id="optionSemestre5" name="semestre" required> 
                         <label for="optionSemestre5">5° Semestre</label>
                     </div>  
 
                     <div class="radio-option">
-                        <input class="radio" type="radio" id="optionSemestre6" name="semestre"> 
+                        <input class="radio" type="radio" id="optionSemestre6" name="semestre" required> 
                         <label for="optionSemestre6">6° Semestre</label>
                     </div>
+
+                    <div class="error-message" style="color: var(--red-color); font-size: 12px;"></div> <!-- Mensagem de erro -->
 
                 </fieldset>
 
@@ -86,39 +88,43 @@
                     <h2>Disciplina(s): <span>*</span></h2>
                 </section>
             
-                <section  class="box-input-text">
-                    <textarea type="text" id="Disciplina" name="disciplina" placeholder="Ex: Banco de Dados Relacional, Estrutura de Dados, etc." rows="2"  maxlength="200"></textarea>
-                    <div class="char-count" id="charCount">0/200</div>
+                <section class="box-input-text">
+                    <textarea id="Disciplina" name="disciplina" placeholder="Ex: Banco de Dados Relacional" rows="2" maxlength="200" required></textarea>
+                    <div class="char-count">0/200</div>
+                    <div class="error-message" style="color: var(--red-color); font-size: 12px;"></div> <!-- Mensagem de erro -->
                 </section>
-           
+                
                 <section class="section-geral">
                     <h2>Motivo da Reserva: <span>*</span></h2>
                 </section>
             
                 <fieldset class="radio-group2">
                     <div class="radio-option">
-                        <input type="radio" id="optionMotivo1" name="motivo">
+                        <input type="radio" id="optionMotivo1" name="motivo" required>
                         <label for="optionMotivo1">Ministração de aula</label>
                     </div>
 
                     <div class="radio-option">
-                        <input type="radio"  id="optionMotivo2" name="motivo">
+                        <input type="radio"  id="optionMotivo2" name="motivo" required>
                         <label for="optionMotivo2">Aplicação de Prova</label>
                     </div>
 
                     <div class="radio-option">
-                        <input type="radio" id="optionMotivo3" name="motivo">
+                        <input type="radio" id="optionMotivo3" name="motivo" required>
                         <label for="optionMotivo3">Palestra</label>
                     </div>
 
                     <div class="radio-option">
-                        <input type="radio" id="optionMotivo4" name="motivo">
+                        <input type="radio" id="optionMotivo4" name="motivo" required>
                         <label for="optionMotivo4">Outro</label>
                     </div>
 
                     <div class="class-outro-motivo">
-                        <input type="text" id="outroMotivo" name="outroMotivo" placeholder="Ex: Eventos, apresentações de trabalho, etc.">
+                        <input type="text" id="outroMotivo" name="outroMotivo" placeholder="Ex: Eventos, apresentações de trabalho, etc." required>
                     </div>
+
+                    <div class="error-message" style="color: var(--red-color); font-size: 12px;"></div> <!-- Mensagem de erro -->
+
                 </fieldset>
             
                 <section class="section-geral">
@@ -126,8 +132,9 @@
                 </section>
             
                 <section class="box-input-text">
-                    <textarea type="text" id="atividade" name="Atividade" placeholder="Ex: Realização de exercícios práticos sobre a linguagem PHP, etc."  rows="2"  maxlength="200"></textarea>
+                    <textarea type="text" id="atividade" name="Atividade" placeholder="Ex: Realização de exercícios práticos sobre a linguagem PHP, etc."  rows="2"  maxlength="200" required></textarea>
                     <div class="char-count" id="charCount">0/200</div>
+                    <div class="error-message" style="color: var(--red-color); font-size: 12px;"></div> <!-- Mensagem de erro -->
                 </section>
 
                 <section class="section-geral" >
@@ -135,8 +142,9 @@
                 </section>
                 
                 <section class="box-input-text">
-                    <textarea type="text" id="equipamentos" name="Equipamentos" placeholder="Liste os equipamentos/ferramentas necessárias para a Atividade." rows="2"  maxlength="200"></textarea>
+                    <textarea type="text" id="equipamentos" name="Equipamentos" placeholder="Liste os equipamentos/ferramentas necessárias para a Atividade." rows="2"  maxlength="200" required></textarea>
                     <div class="char-count" id="charCount">0/200</div>
+                    <div class="error-message" style="color: var(--red-color); font-size: 12px;"></div> <!-- Mensagem de erro -->
                 </section>
            
                 <section id="section-button">

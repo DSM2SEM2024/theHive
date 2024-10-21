@@ -275,6 +275,8 @@ form{
     background-color: var(--white-color); 
     border-radius: 15px; 
     padding: 20px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease; 
 }
 
 .box-input-text textarea{
