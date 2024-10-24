@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <title>Formulário</title>
+</head>
+
+<body>
+    <header class="cabecalho">
+
+        <h1>Fatec - SALA</h1>
+
+        <div class="busca">
+            <img src="Imagens/search.png" alt="Ícone de pesquisa">
+            <input id="pesquisa" type="text" placeholder="O que está procurando?">
+        </div>
+
+        <div id="icons">
+            <i class="fi fi-ss-bell"></i>
+            <i class="fi fi-ss-circle-user"></i>
+            <i class="fi fi-br-menu-burger"></i>
+        </div>
+
+    </header>
+
+    <main>
+        <article id="card-cinza">
+            
+            <section id="card-vermelho">
+                <h1>RESERVA DE LABORATÓRIOS</h1>
+            </section>
+           
+            <section id="section-camposObg">
+                <h2>*Campos obrigatórios</h2>
+            </section>
+            
+            
+            <form action="" id="formulario" method="">
+
+                <section class="section-geral">
+                    <h2>Semestre: <span>*</span></h2>
+                </section>
+            
+                <fieldset class="radio-group1">
+                    <input class="radio" type="radio" id="optionSemestre1" name="semestre"> 
+                    <label for="optionSemestre1">1° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre2" name="semestre"> 
+                    <label for="optionSemestre2">2° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre3" name="semestre"> 
+                    <label for="optionSemestre3">3° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre4" name="semestre"> 
+                    <label for="optionSemestre4">4° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre5" name="semestre"> 
+                    <label for="optionSemestre5">5° Semestre</label>
+
+                    <input class="radio" type="radio" id="optionSemestre6" name="semestre"> 
+                    <label for="optionSemestre6">6° Semestre</label>
+                </fieldset>
+
+                <section class="section-geral">
+                    <h2>Disciplina(s): <span>*</span></h2>
+                </section>
+            
+                <section  class="box-input-text">
+                    <input type="text" id="Disciplina" name="disciplina" placeholder="Ex: Banco de Dados Relacional, Estrutura de Dados, etc.">
+                </section>
+           
+                <section class="section-geral">
+                    <h2>Motivo da Reserva: <span>*</span></h2>
+                </section>
+            
+                <fieldset class="radio-group2">
+                    <input type="radio" id="optionMotivo1">
+                    <label for="optionMotivo1">Ministração de aula</label>
+
+                    <input type="radio" id="optionMotivo2">
+                    <label for="optionMotivo2">Aplicação de Prova</label>
+
+                    <input type="radio" id="optionMotivo3">
+                    <label for="optionMotivo3">Palestra</label>
+
+                    <input type="radio" id="optionMotivo4">
+                    <label for="optionMotivo4">Outro</label>
+                </fieldset>
+            
+                <section class="section-geral">
+                    <h2>Atividade executada: <span>*</span></h2>
+                </section>
+            
+                <section class="box-input-text">
+                    <input type="text" id="atividade" name="Atividade" placeholder="Ex: Realização de exercícios práticos sobre a linguagem PHP, etc.">
+                </section class="">
+
+                <section class="section-geral" >
+                    <h2>Equipamentos, ferramentas e materiais: <span>*</span></h2>
+                </section>
+                
+                <section class="box-input-text">
+                    <input type="text" id="equipamentos" name="Equipamentos" placeholder="Liste os equipamentos/ferramentas necessárias para a Atividade.">
+                </section>
+           
+                <section id="section-button">
+                    <button>Finalizar Reserva</button>
+                </section>
+            
+            </form>
+        </article>
+    </main>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

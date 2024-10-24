@@ -1,0 +1,135 @@
+/* Paleta de cores do projeto*/
+:root {
+    --main-color: #B03648;
+    --text-color: #575757;
+    --text-color-light: #909090;
+    --gray-color: #e2e2e2;
+    --white-color: #f6f6f6;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    font-family: "Inter", sans-serif;
+}
+
+/* Geral */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo/body da tela */
+#corpo{
+    overflow: hidden;
+}
+
+/* Card cinza no fundo */
+#cardCinza{
+    background-color:#d9d9d9;
+    border-radius: 17px;
+    max-width: 100%; /* talvez inútil */
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    height: 44rem;
+    margin-top: 10px;
+    margin-bottom: 40px; /* talvez inútil */
+    padding: 70px;
+    color: var(--gray-color);
+}
+
+/* Card vermelho no canto superior esquerdo */
+#cardVermelho{
+    border-radius: 17px 0 17px 0;
+    background-color: var(--main-color);
+    padding: 15px;
+    width: 7%;
+    margin-top: -70px;
+    margin-left: -70px;
+    text-align: center;
+    color: var(--white-color);
+    font-family: 'Inter', sans-serif; 
+}
+
+/* Elemento pai do  dropdown */
+#mes{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/* Dropdown para selecionar o mês */
+#meses{
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 100px 10px 100px;
+    font-size: 20px;
+    color: var(--main-color);
+    font-weight: bold;
+    border: 0px;
+    font-family: 'Inter', sans-serif;
+    margin-top: -20px;
+}
+
+/* Efeitos dropdown */
+#meses:hover {
+    background-color: white; /* Altera a cor de fundo ao passar o mouse */
+    cursor: pointer; /* Muda o cursor para indicar que o elemento é clicável */
+    color: var(--main-color);
+    transform: scale(1.1); /* Aumenta ligeiramente o tamanho */
+    transition: transform 0.3s ease; /* Efeito de transição suave */
+}
+
+/* Efeitos dropdown saída */
+#meses:not(:hover) {
+    transition: transform 0.5s ease /* Para suavizar a transição ao sair */
+}
+
+/* Estrutura do calendário (externa) */
+#calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 colunas, uma para cada dia da semana */
+    grid-template-rows: auto 1fr; /* A primeira linha para os dias da semana, a segunda para os dias do mês */
+    width: 88rem; 
+    height: 2rem; 
+    text-align: center;
+    padding-right: 3.5rem;  
+}
+
+/* botão "confirmar" */
+#botao{
+    background-color: var(--main-color);
+    color: var(--white-color);
+    border-radius: 0.3rem;
+    margin-left: 75rem;
+    margin-top: 28rem;
+    padding: 1.5rem;
+    width: 10rem;
+    width: 11%;
+    margin-left: 74.5rem;
+    border: 0px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Efeitos botão */
+#botao:hover {
+    background-color: var(--white-color); /* Altera a cor de fundo ao passar o mouse */
+    cursor: pointer; /* Muda o cursor para indicar que o elemento é clicável */
+    color: var(--main-color);
+    border: 1px solid var(--main-color);
+    transform: scale(1.1); /* Aumenta ligeiramente o tamanho */
+    transition: transform 0.3s ease; /* Efeito de transição suave */
+}
+
+/* Efeitos botão saída */
+#botao:not(:hover) {
+    transition: transform 0.5s ease; /* Para suavizar a transição ao sair */
+}
+
+
+
+
+
+
+
