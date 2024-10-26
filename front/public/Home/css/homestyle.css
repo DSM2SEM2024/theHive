@@ -33,9 +33,11 @@ header {
     color: var(--white-color);
     top: 0;
     gap: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     z-index: 1;
     position: relative;
-    /* border-bottom: solid var(--white-color) 5px; */
+    transition: 0.3s;
 }
 
 .busca {
@@ -50,11 +52,13 @@ header {
     padding: 10px;
     padding-left: 15px;
     padding-right: 3px;
+    transition: 0.3s;
 }
 
 .busca img {
     width: 20px;
     height: 20px;
+    transition: 0.3s;
 }
 
 #pesquisa {
@@ -97,6 +101,7 @@ header {
     flex-direction: row;
     justify-content: end;
     gap: 5rem;
+    transition: 0.3s;
 }
 
 #icons i {
@@ -121,7 +126,7 @@ nav {
 
 .notificacoes {
     width: 30rem;
-    min-height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
     position: absolute;
     background-color: var(--main-color);
     right: 0;
@@ -152,6 +157,7 @@ nav {
     font-size: 22px;
     font-weight: 500;
     margin-bottom: 0.9rem;
+    transition: 0.3s;
 }
 
 #titulo-not-1 {
@@ -164,6 +170,7 @@ nav {
     font-weight: 500;
     margin-top: 0.9rem;
     margin-bottom: 0.8rem;
+    transition: 0.3s;
 }
 
 .pendentes {
@@ -252,6 +259,11 @@ nav {
     flex-direction: row;
     padding: 1rem;
     justify-content: space-between;
+    border: solid 2px var(--white-color);
+}
+
+.card-pedido:hover {
+    border: solid 2px var(--text-color);
 }
 
 #txt-card {
@@ -275,6 +287,7 @@ nav {
     color: var(--main-color);
     font-weight: 600;
     font-size: 16px;
+    transition: 0.3s;
 }
 
 #txt-card-hrs {
@@ -282,18 +295,21 @@ nav {
     font-weight: 600;
     font-size: 16px;
     text-align: end;
+    transition: 0.3s;
 }
 
 #txt-card-dia {
     color: var(--main-color);
     font-weight: 600;
     font-size: 16px;
+    transition: 0.3s;
 }
 
 #txt-card-dic {
     color: var(--text-color);
     font-weight: 600;
     font-size: 16px;
+    transition: 0.3s;
 }
 
 .perfil {
@@ -392,11 +408,9 @@ main {
 
 .card-pesquisa {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
     padding: 2.5rem;
-    gap: 5rem;
 }
 
 .busca-2 {
@@ -411,6 +425,7 @@ main {
     padding: 10px;
     padding-left: 15px;
     padding-right: 5px;
+    transition: 0.3s;
 }
 
 .busca-2 img {
@@ -450,30 +465,12 @@ main {
     color: var(--black-gray-color); /* Cor mais escura ao passar o mouse */
 }
 
-#info {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: var(--main-color);
-    font-size: 22px;
-    color: var(--white-color);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-#info:hover {
-    transition: 0.2s;
-    scale: 1.1;
-}
-
 main h2 {
     margin-top: 1.5rem;
     color: var(--main-color);
     font-size: 30px;
     font-weight: 700;
+    transition: 0.3s;
 }
 
 .card-reservas {
@@ -487,7 +484,8 @@ main h2 {
 
 .card-reservas p {
     color: var(--text-color);
-    font-size: 25px;
+    font-size: 24px;
+    transition: 0.3s;
 }
 
 .card-reservas button {
@@ -511,10 +509,3 @@ main h2 {
     color: var(--main-color);
     transition: 0.2s;
 }
-
-/* Efeito que aumenta do botão reserva:  */
-
-/* .card-reservas button:hover {
-    scale: 1.05;
-    transition: 0.2s;
-} */
