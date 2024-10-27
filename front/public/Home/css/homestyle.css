@@ -53,6 +53,7 @@ header {
     padding-left: 15px;
     padding-right: 3px;
     transition: 0.3s;
+    /* visibility: hidden; */
 }
 
 .busca img {
@@ -183,6 +184,7 @@ nav {
     max-height: 13rem;
     width: 28rem;
     gap: 1rem;
+    transition: 0.3s;
 }
 
 .pendentes::-webkit-scrollbar {
@@ -209,6 +211,7 @@ nav {
     max-height: 13rem;
     width: 28rem;
     gap: 1rem;
+    transition: 0.3s;
 }
 
 .aprovadas::-webkit-scrollbar {
@@ -234,6 +237,7 @@ nav {
     max-height: 13rem;
     width: 28rem;
     gap: 1rem;
+    transition: 0.3s;
 }
 
 .reprovadas::-webkit-scrollbar {
@@ -260,6 +264,7 @@ nav {
     padding: 1rem;
     justify-content: space-between;
     border: solid 2px var(--white-color);
+    transition: 0.3s;
 }
 
 .card-pedido:hover {
@@ -272,6 +277,7 @@ nav {
     flex-direction: column;
     justify-content: center;
     gap: 8px;
+    transition: 0.3s;
 }
 
 #txt-card-2 {
@@ -280,6 +286,7 @@ nav {
     flex-direction: column;
     justify-content: center;
     gap: 8px;
+    transition: 0.3s;
 }
 
 
@@ -317,7 +324,7 @@ nav {
     top: -40rem;
     right: 5px;
     width: 20rem;
-    height: 20rem;
+    min-height: 20rem;
     background-color: var(--gray-color);
     border: solid 2px var(--main-color);
     border-radius: 10px;
@@ -336,11 +343,14 @@ nav {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    transition: 0.3s;
 }
 
 .usuario h3 {
     font-size: 20px;
+    text-align: center;
     color: var(--black-gray-color);
+    transition: 0.3s;
 }
 
 #avatar {
@@ -355,37 +365,44 @@ nav {
     color: var(--white-color);
     font-size: 24px;
     font-weight: bold;
+    transition: 0.3s;
 }
 
 
 .info-perfil {
     margin-top: 1.5rem;
+    transition: 0.3s;
 }
 
 #label {
     color: var(--main-color);
     font-weight: bold;
-    margin-top: 10px;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
 #courses {
     color: var(--black-gray-color);
     margin-top: 8px;
     margin-bottom: 14px;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
 #email {
     color: var(--black-gray-color);
     margin-top: 8px;
     margin-bottom: 2rem;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
 .info-perfil a {
-    display: block;
     color: var(--main-color);
     text-decoration: none;
     font-weight: bold;
     margin-top: 15px;
+    transition: 0.3s;
 }
 
 .info-perfil a:hover {
@@ -404,6 +421,7 @@ main {
     font-size: 22px;
     font-weight: 500;
     color: var(--main-color);
+    transition: 0.3s;
 }
 
 .card-pesquisa {
