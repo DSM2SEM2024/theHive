@@ -1,6 +1,7 @@
 const form = document.getElementById('formulario'); // Seleciona o formulário
 const textareas = document.querySelectorAll('textarea'); // Seleciona todos os textareas
 const requiredFields = document.querySelectorAll('[required]'); // Seleciona todos os campos obrigatórios
+const outroMotivoInput = document.getElementById('outroMotivo'); // Seleciona o campo de texto "outro"
 
 textareas.forEach(textarea => {
     const charCount = textarea.nextElementSibling; // Seleciona o próximo elemento (charCount)
@@ -31,26 +32,37 @@ form.addEventListener('submit', (event) => {
         const boxInputText = field.parentElement; // Seleciona o contêiner do campo obrigatório
         const errorMessage = boxInputText.querySelector('.error-message'); // Seleciona a mensagem de erro
 
-        if (field.tagName === 'TEXTAREA' && !field.value.trim()) {
+        // Verifica se o campo é o texto do motivo "Outro"
+        if (field.id === 'outroMotivo' && !outroMotivoInput.value.trim() && document.querySelector('input[name="motivo"]:checked').id === 'optionMotivo4') {
             isValid = false;
-            boxInputText.style.borderColor = 'var(--red-color)'; // Borda vermelha para campos vazios
-            errorMessage.textContent = `Por favor, preencha o campo: ${field.placeholder}`; // Exibe mensagem de erro
-        } else if (field.type === 'radio') {
-            const isChecked = Array.from(document.getElementsByName(field.name)).some(radio => radio.checked);
-            if (!isChecked) {
-                isValid = false;
-                boxInputText.style.borderColor = 'var(--red-color)'; // Borda vermelha para campos vazios
-                errorMessage.textContent = `Por favor, selecione uma opção para: ${field.name}`; // Exibe mensagem de erro
-            } else {
-                errorMessage.textContent = ''; // Limpa a mensagem de erro se preenchido
-            }
+            errorMessage.textContent = 'Por favor, informe o motivo se selecionar "Outro".';
+        } else if (field.tagName === 'TEXTAREA' && !field.value.trim()) {
+            isValid = false;
+            errorMessage.textContent = 'Este campo é obrigatório.';
         } else {
-            boxInputText.style.borderColor = ''; // Remove a borda vermelha se preenchido
-            errorMessage.textContent = ''; // Limpa a mensagem de erro
+            errorMessage.textContent = ''; // Limpa mensagem de erro se válido
         }
     });
 
     if (!isValid) {
-        event.preventDefault(); // Impede o envio do formulário se não for válido
+        event.preventDefault(); // Impede o envio do formulário se houver erro
     }
 });
+
+// Lógica para ativar/desativar o campo "Outro"
+const motivoRadios = document.querySelectorAll('input[name="motivo"]');
+motivoRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+        if (document.getElementById('optionMotivo4').checked) {
+            outroMotivoInput.disabled = false; // Habilita o campo de texto
+            outroMotivoInput.required = true; // Torna o campo obrigatório
+        } else {
+            outroMotivoInput.value = ''; // Limpa o valor
+            outroMotivoInput.disabled = true; // Desabilita o campo de texto
+            outroMotivoInput.required = false; // Remove a obrigatoriedade
+        }
+    });
+});
+
+// Desabilita o campo "Outro" ao carregar a página
+outroMotivoInput.disabled = true; // Desabilita o campo de texto inicialmente

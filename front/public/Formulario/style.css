@@ -27,9 +27,11 @@ header {
     color: var(--white-color);
     top: 0;
     gap: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     z-index: 1;
     position: relative;
-    border-bottom: solid var(--white-color) 2px;
+    transition: 0.3s;
 }
 
 .busca {
@@ -126,11 +128,11 @@ main{
 
 }
 
-#card-vermelho{
+#card-vermelho {
     background-color: var(--red-color);
     border-radius: 0 0 10px 10px;
     height: 70px;
-    width: 100%;
+    width: 400px;
     max-width: 32%;
     padding: 10px;
     color: var(--white-color);
@@ -139,17 +141,17 @@ main{
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 40px;
-
 }
 
-#card-vermelho h1{
+#card-vermelho h1 {
     color: var(--white-color);
     font-weight: bold;
-    font-size: 20px;
+    font-size: 18px; /* Tamanho padrão reduzido */
     width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-top: 15px;
+    overflow: hidden; /* Oculta o overflow */
+    text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
+   
+    margin-top: 10px;
 }
 
 span{
@@ -342,4 +344,50 @@ form{
     background-color: var(--white-color);
     color: var(--red-color);
     border: 1px solid var(--red-color);
+}
+
+
+@media (max-width: 768px) {
+
+    header {
+        height: auto;
+        padding: 20px;
+        font-size: 18px;
+    }
+
+    .busca {
+        max-width: 100%;
+        height: auto;
+    }
+
+    #pesquisa {
+        width: 80%;
+    }
+
+    #icons {
+        width: auto;
+        gap: 1rem;
+    }
+
+    #card-vermelho h1 {
+        font-size: 6vw;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    .radio-group1, .radio-group2 {
+        display: block;
+        padding: 15px;
+    }
+
+    .radio-option {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
+
+    #section-button button {
+        width: 100%;
+    }
 }
