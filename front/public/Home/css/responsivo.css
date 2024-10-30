@@ -285,6 +285,11 @@
         margin-top: 1rem;
     }
 
+    .card-reservas {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
     .card-reservas p {
         font-size: 20px;
     }
@@ -308,6 +313,36 @@
 
 @media (max-width: 510px) {
 
+    header {
+        height: 80px;
+    }
+
+    main {
+        padding-top: 2rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        min-height: calc(100vh - 160px);
+    }
+
+    #titulo-ola {
+        font-size: 17px;
+        text-align: center;
+    }
+
+    main h2 {
+        font-size: 24px;
+        margin-top: 3rem;
+    }
+
+    .card-reservas p {
+        font-size: 18px;
+    }
+    .card-reservas button {
+        width: 12.5rem;
+        height: 3rem;
+        font-size: 19px;
+    }
+
     ::-webkit-scrollbar {
         display: none;
     }
@@ -319,13 +354,43 @@
         display: none;
     }
 
+    .card-pesquisa {
+        padding: 0;
+        margin-top: 2rem;
+    }
+    
+    .busca-2 {
+        width: 25rem;
+        height: 2rem;
+        border-radius: 8px;
+    }
+    
+    .busca-2 img {
+        width: 16px;
+        height: 16px;
+    }
+    
+    #pesquisa-2 {
+        margin-left: 1rem;
+        height: 1.5rem;
+        width: 22rem;
+        font-size: 16px;
+    }
+
+    .btn-limpar2 {
+        height: 2rem;
+        width: 2rem;
+        font-size: 20px;
+    }
+    
+    #icons {
+        display: none;
+    }
+
     .notificacoes {
-        width: 30rem;
-        max-height: calc(100vh - 100px);
-        position: absolute;
-        background-color: var(--main-color);
-        right: -40rem;
-        top: calc(100vh - 179px);
+        width: 100vw;
+        max-height: calc(100vh - 130px);
+        top: 100rem;
         transition: 0.3s;
         display: flex;
         justify-content: space-around;
@@ -335,43 +400,179 @@
         padding-left: 2rem;
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
-        border-top: solid 3px var(--white-color);
+        border-top: none;
     }
 
     .notificacoes.mostrar {
-        right: 0rem;
+        top: 48rem;
+        transition: 0.3s;
+    }
+
+    .pendentes {
+        display: flex;
+        flex-direction: column;
+        justify-items: start;
+        align-items: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 10rem;
+        width: 20rem;
+    }
+
+    .aprovadas {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 10rem;
+        width: 20rem;
+        gap: 1rem;
+        transition: 0.3s;
+    }
+
+    .reprovadas {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        overflow-y: auto;
+        max-height: 10rem;
+        width: 20rem;
+        gap: 1rem;
+        transition: 0.3s;
+    }
+
+    .perfil {
+        position: absolute;
+        top: 100rem;
+        right: 5px;
+        width: 15rem;
+        min-height: 18rem;
+        padding: 1rem;
+        margin-top: 5px;
+    }
+    
+    .perfil.mostrar {
+        top: 72.5rem;
+        transition: 0.3s;
+    }
+
+    .usuario h3 {
+        font-size: 18px;
+    }
+
+    #avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 20px;
+    }
+
+
+    .info-perfil {
+        margin-top: 1.3rem;
+    }
+
+    #label {
+        font-size: 15px;
+    }
+
+    #courses {
+        margin-top: 6px;
+        margin-bottom: 14px;
+        font-size: 14px;
+    }
+
+    #email {
+        margin-top: 6px;
+        margin-bottom: 1.5rem;
+        font-size: 14px;
+    }
+
+    .info-perfil a {
+        font-size: 14px;
+    }
+
+    .nav-mobile {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--main-color);
+        padding: 1rem;
+        transition: 0.3s;
+        position: relative;
+        z-index: 1;
+    }
+
+    .nav-mobile ul {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 28px;
+        justify-content: space-around;
+        transition: 0.3s;
+    }
+
+    .nav-mobile li {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .nav-mobile a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+    }
+
+    .nav-mobile i {
+        text-align: center;
+        font-size: 28px;
+        color: var(--white-color);
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    #home {
+        font-size: 26px;
+    }
+
+    .txt-footer {
+        font-size: 14px;
+        color: var(--white-color);
+        position: static;
         transition: 0.3s;
     }
 
 }
 
 
+@media (max-width: 417px) {
 
+    .busca-2 {
+        width: 20rem;
+        height: 1.9rem;
+    }
+    
+    #pesquisa-2 {
+        margin-left: 0.8rem;
+        height: 1.5rem;
+        width: 22rem;
+        font-size: 16px;
+    }
 
+    main h2 {
+        font-size: 23px;
+        margin-top: 2.5rem;
+    }
 
-
-
-
-/* .notificacoes {
-    width: 30rem;
-    max-height: calc(100vh - 100px);
-    position: absolute;
-    background-color: var(--main-color);
-    right: -40rem;
-    top: calc(100vh - 179px);
-    transition: 0.3s;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-    align-items: center;
-    padding-right: 2rem;
-    padding-left: 2rem;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-top: solid 3px var(--white-color);
 }
-
-.notificacoes.mostrar {
-    right: 0rem;
-    transition: 0.3s;
-} */

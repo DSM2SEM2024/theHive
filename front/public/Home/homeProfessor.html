@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/homestyle.css">
     <link rel="stylesheet" href="css/homereset.css">
     <link rel="stylesheet" href="css/responsivo.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
@@ -26,8 +27,8 @@
         </div>
 
         <div id="icons">
-            <i title="Notificações" id="btn-notificacoes" class="fi fi-ss-bell"></i>
-            <i title="Perfil" id="btn-perfil" class="fi fi-ss-circle-user"></i>
+            <i title="Notificações" class="btn-notificacoes fi fi-ss-bell"></i>
+            <i title="Perfil" class="btn-perfil fi fi-ss-circle-user"></i>
         </div>
 
     </header>
@@ -239,10 +240,37 @@
             <p>Você não possui reservas no momento.</p>
             <button>Fazer reserva</button>
         </div>
+
+        
     </main>
-
-
-
+    
+    <footer class="nav-mobile">
+        <ul>
+            <li>
+                <a href="#">
+                    <i id="home" class="fi fi-ss-home"></i>
+                    <p class="txt-footer">Home</p>
+                </a>
+            </li>
+            <li>
+                <i class="fi fi-br-search"></i>
+                <p class="txt-footer">Busca</p>
+            </li>
+            <li class="btn-notificacoes">
+                <i title="Notificações" class="fi fi-ss-bell"></i>
+                <p class="txt-footer">Notificações</p>
+            </li>
+            <li class="btn-perfil">
+                <i title="Perfil" class="fi fi-ss-circle-user"></i>
+                <p class="txt-footer">Perfil</p>
+            </li>
+        </ul>
+    </footer>
+    
+    
+    
+    
+    
     <script src="js/home.js"></script>
 
 </body>

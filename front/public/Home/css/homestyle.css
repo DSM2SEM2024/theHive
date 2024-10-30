@@ -485,6 +485,7 @@ main {
 
 main h2 {
     margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     color: var(--main-color);
     font-size: 30px;
     font-weight: 700;
@@ -493,10 +494,11 @@ main h2 {
 
 .card-reservas {
     display: flex;
+    width: 100%;
+    min-height: 25rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5rem;
     gap: 2rem;
 }
 
@@ -526,4 +528,8 @@ main h2 {
     border: solid 2px var(--main-color);
     color: var(--main-color);
     transition: 0.2s;
+}
+
+.nav-mobile {
+    display: none;
 }
