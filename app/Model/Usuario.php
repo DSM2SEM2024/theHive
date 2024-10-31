@@ -110,6 +110,7 @@ class Usuario {
         $nome = $this->getNome();
         $email = $this->getEmail();
         $senha = $this->getSenha();
+        $tipo = $this->getTipo();
         $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, tipo = :tipo WHERE idUsuario = :idUsuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
