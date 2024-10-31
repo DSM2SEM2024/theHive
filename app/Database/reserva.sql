@@ -1,8 +1,9 @@
 -- Tabela de Laboratórios
 CREATE USER 'teste'@'localhost' IDENTIFIED BY 'teste';
-GRANT ALL PRIVILEGES ON reserva.* TO 'teste'@'localhost'; 
+GRANT ALL PRIVILEGES ON reservas.* TO 'teste'@'localhost'; 
 FLUSH PRIVILEGES;
 
+CREATE DATABASE reservas;
 
 CREATE TABLE Laboratorio (
     idLaboratorio INT PRIMARY KEY AUTO_INCREMENT,
@@ -30,6 +31,7 @@ CREATE TABLE Disciplina (
 -- Tabela de Usuários
 CREATE TABLE Usuarios (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    curso VARCHAR(100) NOT NULL,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(100) NOT NULL,
@@ -106,4 +108,13 @@ CREATE TABLE CalendarioPanoramico (
     FOREIGN KEY (idLaboratorio) REFERENCES Laboratorio(idLaboratorio),
     FOREIGN KEY (idReserva) REFERENCES Reserva(idReserva),
     FOREIGN KEY (idCalendario) REFERENCES Calendarios(idCalendario)
+);
+
+CREATE TABLE Formulario(
+idRespostasForm INT PRIMARY KEY AUTO_INCREMENT,
+semestresForm varchar(20),
+disciplinasForm varchar(200),
+motivacoesForm varchar(150),
+atividadesForm varchar(200),
+equipamentosForm varchar(200)
 );
