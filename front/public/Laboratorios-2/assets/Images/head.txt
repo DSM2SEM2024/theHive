@@ -1,0 +1,21 @@
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Fatec - SALA</title>
+   <!-- CSS -->
+   <link rel="stylesheet" href="css/header.css">
+   <link rel="stylesheet" href="css/labsReset.css">
+   <!------------ CSS Carrosel 1 -------------->
+   <!-- <link rel="stylesheet" href="css/carrosel1.css"> -->
+   <!------------ CSS Carrosel 2 -------------->
+   <link rel="stylesheet" href="css/styles.css">
+   <link rel="stylesheet" href="css/swiper-bundle.min.css">
+   <link rel='stylesheet'
+       href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+   <link rel='stylesheet'
+       href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
+   <!-- Ícone da página -->
+   <link rel="shortcut icon" href="Images/Fatec-SALA.png" type="image/x-icon">
+</head>
