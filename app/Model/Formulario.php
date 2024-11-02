@@ -50,7 +50,7 @@ class Formulario {
         return $this->semestre;
     }
 
-    public function getSemestre($semestre): self{
+    public function setSemestre($semestre): self{
         $this->semestre = $semestre;
 
         return $this;
@@ -60,7 +60,7 @@ class Formulario {
         return $this->disciplina;
     }
 
-    public function getDisciplina($disciplina): self{
+    public function setDisciplina($disciplina): self{
         $this->disciplina = $disciplina;
         return $this;
     }
