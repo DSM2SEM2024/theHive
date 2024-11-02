@@ -9,11 +9,11 @@ textareas.forEach(textarea => {
 
     textarea.addEventListener('input', () => {
         const currentLength = textarea.value.length; 
-        charCount.textContent = `${currentLength}/200`; 
+        charCount.textContent = `${currentLength}/100`; 
 
-        if (currentLength >= 200) {
+        if (currentLength >= 100) {
             charCount.classList.add('limit-reached'); 
-            textarea.value = textarea.value.substring(0, 200); 
+            textarea.value = textarea.value.substring(0, 100); 
             boxInputText.style.borderColor = 'var(--red-color)'; // Borda vermelha
         } else {
             charCount.classList.remove('limit-reached'); 
@@ -21,7 +21,7 @@ textareas.forEach(textarea => {
         }
     });
 
-    charCount.textContent = `0/200`; 
+    charCount.textContent = `0/100`; 
 });
 
 // Validação do formulário

@@ -46,11 +46,14 @@ header {
     padding: 10px;
     padding-left: 15px;
     padding-right: 3px;
+    transition: 0.3s;
+    /* visibility: hidden; */
 }
 
 .busca img {
     width: 20px;
     height: 20px;
+    transition: 0.3s;
 }
 
 #pesquisa {
@@ -93,6 +96,7 @@ header {
     flex-direction: row;
     justify-content: end;
     gap: 5rem;
+    transition: 0.3s;
 }
 
 #icons i {
@@ -107,8 +111,6 @@ header {
     transition: 0.2s;
     color: var(--gray-color);
 }
-
-
 
 main{
     margin-left: auto;
@@ -129,6 +131,7 @@ main{
 }
 
 #card-vermelho {
+    
     background-color: var(--red-color);
     border-radius: 0 0 10px 10px;
     height: 70px;
@@ -150,7 +153,6 @@ main{
     width: 100%;
     overflow: hidden; /* Oculta o overflow */
     text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
-   
     margin-top: 10px;
 }
 
@@ -177,20 +179,25 @@ span{
 }
 
 form{
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
 }
 
 .radio-group1 {
     margin-top: 30px;
     width: 100%;
-    display: flex;
-    justify-content: space-between; 
-    gap: 20px; 
     background-color: var(--white-color);
     border-radius: 15px;
     padding: 25px;
     border: 0;
-    align-items: center;
+    display: flex;
+    justify-content: space-between; 
+    gap: 20px; 
+
+    gap: 20px;
 }
 
 .radio-group2{
@@ -223,6 +230,12 @@ form{
     margin-right: 10px;
     cursor: pointer;
     transition: color 0.3s;
+}
+
+.radio-option label p{
+    font-size: 15px;
+    white-space: nowrap; 
+    color: var(--black-gray-color);
 }
 
 .radio-option input[type="radio"]:checked {
@@ -344,50 +357,4 @@ form{
     background-color: var(--white-color);
     color: var(--red-color);
     border: 1px solid var(--red-color);
-}
-
-
-@media (max-width: 768px) {
-
-    header {
-        height: auto;
-        padding: 20px;
-        font-size: 18px;
-    }
-
-    .busca {
-        max-width: 100%;
-        height: auto;
-    }
-
-    #pesquisa {
-        width: 80%;
-    }
-
-    #icons {
-        width: auto;
-        gap: 1rem;
-    }
-
-    #card-vermelho h1 {
-        font-size: 6vw;
-    }
-
-    form {
-        width: 100%;
-    }
-
-    .radio-group1, .radio-group2 {
-        display: block;
-        padding: 15px;
-    }
-
-    .radio-option {
-        flex-basis: 100%;
-        margin-bottom: 20px;
-    }
-
-    #section-button button {
-        width: 100%;
-    }
 }
