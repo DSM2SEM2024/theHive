@@ -10,7 +10,7 @@ class UsuarioController {
         $this->user = new Usuario();
     }
     public function create($data) {
-        if (!isset($data->nome, $data->email, $data->senha, $data->tipo)) {
+        if (!isset($data->nome, $data->email, $data->senha, $data->curso, $data->tipo)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do usuário."]);
             return;
@@ -22,7 +22,7 @@ class UsuarioController {
             return;
         }
 
-        $this->user->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setTipo($data->tipo);
+        $this->user->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setCurso($data->curso)->setTipo($data->tipo);
         if ($this->user->insertUsuario($this->user)) {
             http_response_code(201);
             echo json_encode(["success"=> true,"message" => "Usuário criado com sucesso."]);
@@ -50,6 +50,7 @@ class UsuarioController {
                 "idUsuario" => $usuario['idUsuario'],
                 "nome" => $usuario['nome'],
                 "email" => $usuario['email'],
+                "curso" => $usuario['curso'],
                 "tipo" => $usuario['tipo'],
                 "paginas" => $telas
             ]]);
@@ -82,13 +83,13 @@ class UsuarioController {
     }
 
     public function update($id, $data) {
-        if (!isset($id, $data->nome, $data->email, $data->senha, $data->tipo)) {
+        if (!isset($id, $data->nome, $data->email, $data->senha, $data->curso, $data->tipo)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do usuário."]);
             return;
         }
 
-        $this->user->setUsuarioId($id)->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setTipo($data->tipo);
+        $this->user->setUsuarioId($id)->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setCurso($data->curso)->setTipo($data->tipo);
 
         if ($this->user->updateUsuario($this->user)) {
             http_response_code(200);

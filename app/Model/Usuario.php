@@ -8,6 +8,7 @@ class Usuario {
     private $nome;
     private $email;
     private $senha;
+    private $curso;
     private $tipo;
     private $conn;
     private $table = "Usuarios";
@@ -19,13 +20,15 @@ class Usuario {
         $nome = $usuario->getNome();
         $email = $usuario->getEmail();
         $senha = $usuario->getSenha();
+        $curso = $usuario->getCurso();
         $tipo = $usuario->getTipo();
-        $query = "INSERT INTO $this->table (nome, email, senha, tipo) VALUES (:nome, :email, :senha, :tipo)";
+        $query = "INSERT INTO $this->table (nome, email, senha, curso, tipo) VALUES (:nome, :email, :senha, :curso, :tipo)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
         $stmt->bindParam(":senha", $senha);
+        $stmt->bindParam(":curso", $curso);
         $stmt->bindParam(":tipo", $tipo);
 
         return $stmt->execute();
@@ -65,6 +68,15 @@ class Usuario {
 
     public function setSenha($senha): self {
         $this->senha = password_hash($senha, PASSWORD_DEFAULT);
+        return $this;
+    }
+
+    public function getCurso() {
+        return $this->curso;
+    }
+
+    public function setCurso($curso): self {
+        $this->curso = $curso;
         return $this;
     }
 
@@ -111,7 +123,7 @@ class Usuario {
         $email = $this->getEmail();
         $senha = $this->getSenha();
         $tipo = $this->getTipo();
-        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, tipo = :tipo WHERE idUsuario = :idUsuario";
+        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, curso = :curso, tipo = :tipo WHERE idUsuario = :idUsuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
