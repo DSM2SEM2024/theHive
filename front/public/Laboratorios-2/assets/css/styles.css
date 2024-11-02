@@ -8,11 +8,15 @@ html {
 
 :root {
   --green-color: #2D854E;
+  --dark-green-color: #216a3d;
   --yellow-color: #FF8324;
+  --dark-yellow-color: #d26c1e;
   --pink-color: #EB6E8E;
+  --dark-pink-color: #c25a74;
   --blue-color: #337BC3;
   --dark-blue-color: #1a5c9d;
   --purple-color: #5A3168;
+  --dark-purple-color: #42234c;
   --main-color: #B03648;
   --text-color: #575757;
   --text-color-light: #909090;
@@ -27,9 +31,9 @@ body {
 }
 
 main {
-  padding-top: 3rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   min-height: calc(100vh - 100px);
 }
 
@@ -39,7 +43,23 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+  overflow-x: none;
+  overflow-y: auto;
+  min-height: calc(100vh - 150px);
+}
+
+.andares::-webkit-scrollbar {
+  background-color: var(--white-color);
+  width: 5px;
+}
+
+.andares::-webkit-scrollbar-thumb {
+  background-color: var(--gray-color);
+  border-radius: 5px
+}
+
+.andares::-webkit-scrollbar-button {
+  display: none;
 }
 
 .container-andar {
@@ -50,25 +70,207 @@ main {
   gap: 5rem;
 }
 
-.container-andar h2 {
-  font-size: 24px;
+.container-andar {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.container-andar #nome-andar {
   color: var(--white-color);
   background-color: var(--blue-color);
-  border-radius: 30px;
-  height: 3rem;
+  text-align: center;
   width: 15rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 22px;
+  border-radius: 10px;
 }
 
 .andar {
-  padding-bottom: 3rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
+
+.card__content {
+  margin-bottom: 3rem;
+}
+
+
+.card-lab {
+  width: 10rem;
+  min-height: 20rem;
+  background-color: var(--gray-color);
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-top: 2rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.card-lab #barra-card {
+  width: 100%;
+  height: 2rem;
+  background-color: var(--blue-color);
+  border-radius: 20px 20px 0 0;
+  position: absolute;
+  top: 0;
+}
+
+.card-lab #nome-lab {
+  color: var(--blue-color);
+  text-align: center;
+  font-size: 16px;
+  margin-top: 0.5rem;
+}
+
+.lab-content {
+  background-color: var(--white-color);
+  width: 80%;
+  height: 80%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.lab-content #img-lab {
+  width: 100%;
+  height: 50%;
+  border-radius: 10px 10px 0 0;
+
+}
+
+.descricao-lab {
+  margin-top: 0.3rem;
+  width: 100%;
+  max-height: 5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.descricao-lab::-webkit-scrollbar {
+  background-color: var(--white-color);
+  width: 5px;
+}
+
+.descricao-lab::-webkit-scrollbar-thumb {
+  background-color: var(--gray-color);
+  border-radius: 5px
+}
+
+.descricao-lab::-webkit-scrollbar-button {
+  display: none;
+}
+
+.descricao-lab ul {
+  padding-left: 1.1rem;
+  font-size: 13px;
+  width: 96%;
+  max-height: 100%;
+  line-break: anywhere;
+  color: var(--text-color);
+  text-align: left;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.btn-calendario {
+  border: none;
+  font-size: 14px;
+  color: var(--white-color);
+  width: 7rem;
+  height: 2rem;
+  background-color: var(--blue-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-calendario:hover {
+  background-color: var(--dark-blue-color);
+}
+
+.container-andar #nome-andar-2 {
+  color: var(--white-color);
+  background-color: var(--green-color);
+  text-align: center;
+  width: 15rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border-radius: 10px;
+}
+
+.card-lab #barra-card-2 {
+  width: 100%;
+  height: 2rem;
+  background-color: var(--green-color);
+  border-radius: 20px 20px 0 0;
+  position: absolute;
+  top: 0;
+}
+
+.card-lab #nome-lab-2 {
+  color: var(--green-color);
+  text-align: center;
+  font-size: 16px;
+  margin-top: 0.5rem;
+}
+
+.btn-calendario-2 {
+  border: none;
+  font-size: 14px;
+  color: var(--white-color);
+  width: 7rem;
+  height: 2rem;
+  background-color: var(--green-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-calendario-2:hover {
+  background-color: var(--dark-green-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .card__content {
   margin-inline: 1.75rem;
@@ -166,21 +368,7 @@ main {
   text-align: center;
 }
 
-.btn-calendario {
-  border: none;
-  font-size: 16px;
-  color: #fff;
-  padding: 8px 16px;
-  background-color: var(--blue-color);
-  border-radius: 6px;
-  margin: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
 
-.btn-calendario:hover {
-  background-color: var(--dark-blue-color);
-}
 
 .swiper-button-prev:after,
 .swiper-button-next:after {
@@ -245,40 +433,3 @@ main {
     right: -1rem;
   }
 }
-
-
-
-.card-lab {
-  width: 10rem;
-  height: 15rem;
-  background-color: var(--gray-color);
-  border-radius: 20px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  padding-top: 2rem;
-}
-
-.card-lab span {
-  width: 100%;
-  height: 2rem;
-  background-color: var(--blue-color);
-  border-radius: 20px 20px 0 0;
-  position: absolute;
-  top: 0;
-}
-
-.card-lab h3 {
-  color: var(--blue-color);
-}
-
-.lab-content {
-  background-color: var(--white-color);
-  width: 80%;
-  height: 80%;
-  border-radius: 20px;
-}
-
-
