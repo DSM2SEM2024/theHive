@@ -101,8 +101,6 @@ class Formulario {
     
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
-    
 
     public function getAllRespostas() {
         $query = "SELECT * FROM $this->table";

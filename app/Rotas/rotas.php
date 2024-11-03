@@ -41,7 +41,6 @@ class Rotas {
                 '/labs/{id}' => [LaboratorioController::class, 'delete'],
                 //formulario
                 '/formulario' => [FormularioController::class, 'delete']
-
             ],
         ];
     }
