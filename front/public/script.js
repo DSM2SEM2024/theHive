@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const senha = document.getElementById("password").value;
 
         console.log("Tentando login com:", email, senha);
-
+        
         // Requisição para login
         fetch('http://localhost:3000/login', {
             method: 'POST',

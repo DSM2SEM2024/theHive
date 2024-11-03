@@ -18,16 +18,14 @@ class Formulario {
         $this->conn = Database::getInstance();
     }
     public function insertFormulario($formulario) {
-        $idResposta = $formulario->getIdResposta();
         $semestre = $formulario->getSemestre();
         $disciplina = $formulario->getDisciplina();
         $motivacao = $formulario->getMotivacao();
         $atividade = $formulario->getatividade();
-        $equipamentos = $formulario->getatividade();
-        $query = "INSERT INTO $this->table (idRespostasForm, semestresForm, disciplinasForm, motivacoesForm, atividadesForm, equipamentosForm) VALUES (:semestre, :disciplina, :motivacoes, :atividades, :equipamentos)";
+        $equipamentos = $formulario->getEquipamentos();
+        $query = "INSERT INTO $this->table (semestresForm, disciplinasForm, motivacoesForm, atividadesForm, equipamentosForm) VALUES (:semestres, :disciplinas, :motivacoes, :atividades, :equipamentos)";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idRespostas", $idResposta);
         $stmt->bindParam(":semestres", $semestre);
         $stmt->bindParam(":disciplinas", $disciplina);
         $stmt->bindParam(":motivacoes", $motivacao);
@@ -122,14 +120,13 @@ class Formulario {
     }
 
     public function updateFormulario() {
-        $idLaboratorio = $this->getIdResposta();
+        $idResposta = $this->getIdResposta();
         $semestre = $this->getSemestre();
         $disciplina = $this->getDisciplina();
         $motivacao = $this->getMotivacao();
         $atividade = $this->getatividade();
-        $query = "UPDATE $this->table SET idRespostasForm = idRespostas, semestreForm = :semestre, disciplinaForm = :disciplina, motivacaoForm = :motivacao, atividadeForm = :atividade, equipamentosForm = :equipamento WHERE idRespostaForm = :idResposta";
+        $query = "UPDATE $this->table SET semestreForm = :semestre, disciplinaForm = :disciplina, motivacaoForm = :motivacao, atividadeForm = :atividade, equipamentosForm = :equipamento WHERE idRespostasForm = :idResposta";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idRespostas", $idResposta);
         $stmt->bindParam(":semestre", $semestre);
         $stmt->bindParam(":disciplina", $disciplina);
         $stmt->bindParam(":motivacao", $motivacao);
@@ -140,10 +137,10 @@ class Formulario {
         return $stmt->execute();
     }
     
-    public function deleteLaboratorio($idLaboratorio) {
+    public function deleteResposta($idResposta) {
         $query = "DELETE FROM $this->table WHERE idRespostasForm = :idRespostas";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idRespostas", $idLaboratorio, PDO::PARAM_INT);
+        $stmt->bindParam(":idRespostas", $idResposta, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }

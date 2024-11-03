@@ -124,7 +124,7 @@ class Laboratorio {
     }
     
     public function deleteLaboratorio($idLaboratorio) {
-        $query = "DELETE FROM laboratorios WHERE idLaboratorio = :idLaboratorio";
+        $query = "DELETE FROM $this->table WHERE idLaboratorio = :idLaboratorio";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":idLaboratorio", $idLaboratorio, PDO::PARAM_INT);
         return $stmt->execute();
