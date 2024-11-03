@@ -17,31 +17,32 @@ class Formulario {
     public function __construct() {
         $this->conn = Database::getInstance();
     }
-    public function insertLaboratorio($formulario) {
+    public function insertFormulario($formulario) {
         $idResposta = $formulario->getIdResposta();
         $semestre = $formulario->getSemestre();
         $disciplina = $formulario->getDisciplina();
         $motivacao = $formulario->getMotivacao();
         $atividade = $formulario->getatividade();
         $equipamentos = $formulario->getatividade();
-        $query = "INSERT INTO $this->table (idRespostasForm, semestresForm, disciplinasForm, motivacoesForm, atividadesForm, equipamentosForm) VALUES (:semestreForm, :disciplinaForm, :motivacoesForm, :atividadesForm, :equipamentosForm)";
+        $query = "INSERT INTO $this->table (idRespostasForm, semestresForm, disciplinasForm, motivacoesForm, atividadesForm, equipamentosForm) VALUES (:semestre, :disciplina, :motivacoes, :atividades, :equipamentos)";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":semestre", $semestre);
-        $stmt->bindParam(":disciplina", $disciplina);
-        $stmt->bindParam(":motivacao", $motivacao);
-        $stmt->bindParam(":atividade", $atividade);
+        $stmt->bindParam(":idRespostas", $idResposta);
+        $stmt->bindParam(":semestres", $semestre);
+        $stmt->bindParam(":disciplinas", $disciplina);
+        $stmt->bindParam(":motivacoes", $motivacao);
+        $stmt->bindParam(":atividades", $atividade);
         $stmt->bindParam(":equipamentos", $equipamentos);
 
         return $stmt->execute();
     }
 
     public function getIdResposta(){
-        return $this->idLaboratorio;
+        return $this->idResposta;
     }
 
-    public function setLaboratorioId($idLaboratorio): self{
-        $this->idLaboratorio = $idLaboratorio;
+    public function setidResposta($idResposta): self{
+        $this->idResposta = $idResposta;
 
         return $this;
     }
@@ -69,24 +70,33 @@ class Formulario {
         return $this->motivacao;
     }
 
-    public function setEquipamento($motivacao): self {
+    public function setMotivacao($motivacao): self {
         $this->motivacao = $motivacao;
         return $this;
     }
 
-    public function getatividade() {
+    public function getAtividade() {
         return $this->atividade;
     }
     
-    public function setatividade($atividade): self {
+    public function setAtividade($atividade): self {
         $this->atividade = $atividade;
         return $this;
     }
+    
+    public function getEquipamentos() {
+        return $this->equipamentos;
+    }
+    
+    public function setEquipamentos($equipamentos): self {
+        $this->equipamentos = $equipamentos;
+        return $this;
+    }
 
-    public function getLaboratorioByName($semestre) {
-        $query = "SELECT * FROM $this->table WHERE semestre = :semestre";
+    public function getRespostaById($idResposta) {
+        $query = "SELECT * FROM $this->table WHERE idRespostaForm = :idResposta";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":semestre", $semestre);
+        $stmt->bindParam(":idResposta", $idResposta);
         $stmt->execute();
     
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -94,7 +104,7 @@ class Formulario {
     
     
 
-    public function getAllLaboratorios() {
+    public function getAllRespostas() {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -102,36 +112,38 @@ class Formulario {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getLaboratorioById($idLaboratorio) {
-        $query = "SELECT * FROM $this->table WHERE idLaboratorio = :idLaboratorio";
+    public function getRespostaBySem($semestre) {
+        $query = "SELECT * FROM $this->table WHERE semestreForm = :semestre";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idLaboratorio", $idLaboratorio, PDO::PARAM_INT);
+        $stmt->bindParam(":semestre", $semestre, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateLaboratorio() {
+    public function updateFormulario() {
         $idLaboratorio = $this->getIdResposta();
         $semestre = $this->getSemestre();
         $disciplina = $this->getDisciplina();
         $motivacao = $this->getMotivacao();
         $atividade = $this->getatividade();
-        $query = "UPDATE $this->table SET semestre = :semestre, disciplina = :disciplina, motivacao = :motivacao, atividade = :atividade WHERE idLaboratorio = :idLaboratorio";
+        $query = "UPDATE $this->table SET idRespostasForm = idRespostas, semestreForm = :semestre, disciplinaForm = :disciplina, motivacaoForm = :motivacao, atividadeForm = :atividade, equipamentosForm = :equipamento WHERE idRespostaForm = :idResposta";
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":idRespostas", $idResposta);
         $stmt->bindParam(":semestre", $semestre);
         $stmt->bindParam(":disciplina", $disciplina);
         $stmt->bindParam(":motivacao", $motivacao);
         $stmt->bindParam(":atividade", $atividade);
         $stmt->bindParam(":idLaboratorio", $idLaboratorio);
-    
+        $stmt->bindParam(":equipamentos", $equipamentos);
+
         return $stmt->execute();
     }
     
     public function deleteLaboratorio($idLaboratorio) {
-        $query = "DELETE FROM laboratorios WHERE idLaboratorio = :idLaboratorio";
+        $query = "DELETE FROM $this->table WHERE idRespostasForm = :idRespostas";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idLaboratorio", $idLaboratorio, PDO::PARAM_INT);
+        $stmt->bindParam(":idRespostas", $idLaboratorio, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }
