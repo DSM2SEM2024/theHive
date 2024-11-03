@@ -23,7 +23,7 @@ class Formulario {
         $disciplina = $formulario->getDisciplina();
         $motivacao = $formulario->getMotivacao();
         $atividade = $formulario->getatividade();
-        $equipamentos = $formulario->getatividade();
+        $equipamentos = $formulario->getEquipamentos();
         $query = "INSERT INTO $this->table (idRespostasForm, semestresForm, disciplinasForm, motivacoesForm, atividadesForm, equipamentosForm) VALUES (:semestre, :disciplina, :motivacoes, :atividades, :equipamentos)";
 
         $stmt = $this->conn->prepare($query);
@@ -75,7 +75,7 @@ class Formulario {
         return $this;
     }
 
-    public function getAtividade() {
+    public function getatividade() {
         return $this->atividade;
     }
     
@@ -120,11 +120,12 @@ class Formulario {
     }
 
     public function updateFormulario() {
-        $idLaboratorio = $this->getIdResposta();
-        $semestre = $this->getSemestre();
-        $disciplina = $this->getDisciplina();
-        $motivacao = $this->getMotivacao();
-        $atividade = $this->getatividade();
+        $idResposta = $formulario->getIdResposta();
+        $semestre = $formulario->getSemestre();
+        $disciplina = $formulario->getDisciplina();
+        $motivacao = $formulario->getMotivacao();
+        $atividade = $formulario->getatividade();
+        $equipamentos = $formulario->getEquipamentos();
         $query = "UPDATE $this->table SET idRespostasForm = idRespostas, semestreForm = :semestre, disciplinaForm = :disciplina, motivacaoForm = :motivacao, atividadeForm = :atividade, equipamentosForm = :equipamento WHERE idRespostaForm = :idResposta";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":idRespostas", $idResposta);
