@@ -140,7 +140,7 @@ class Formulario {
         return $stmt->execute();
     }
     
-    public function deleteLaboratorio($idLaboratorio) {
+    public function deleteRespostaFormulario($idLaboratorio) {
         $query = "DELETE FROM $this->table WHERE idRespostasForm = :idRespostas";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":idRespostas", $idLaboratorio, PDO::PARAM_INT);

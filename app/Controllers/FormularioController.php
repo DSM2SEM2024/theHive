@@ -12,21 +12,20 @@ class FormularioController {
     public function create($data) {
         if (!isset($data->idResposta, $data->semestre, $data->disciplina, $data->motivacao, $data->atividade, $data->equipamentos)) {
             http_response_code(400);
-            echo json_encode(["error" => "Dados incompletos para a criação do laboratório."]);
+            echo json_encode(["error" => "Dados incompletos para a criação da resposta ao formulário."]);
             return;
         }
 
         $this->form->setIdResposta($data->idResposta)->setSemestre($data->semestre)->setdisciplina($data->disciplina)->setMotivacao($data->motivacao)->setAtividade($data->atividade)->setEquipamentos($data->equipamentos);
         if ($this->form->insertFormulario($this->form)) {
             http_response_code(201);
-            echo json_encode(["success"=> true,"message" => "Laboratório criado com sucesso."]);
+            echo json_encode(["success"=> true,"message" => "Resposta ao formulario criada com sucesso."]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Erro ao criar laboratório."]);
+            echo json_encode(["error" => "Erro ao criar resposta ao formulário."]);
         }
     }
 
-    // ajustar daqui pra baixo
     public function read($id = null) {
         if ($id) {
             $result = $this->form->getRespostaById($id);
@@ -35,20 +34,20 @@ class FormularioController {
             }else{
                 $status = 404;
             }
-            } else {
+        } else {
             $result = $this->form->getAllRespostas();
-            unset($laboratorio);
+            unset($formulario);
             $status = !empty($result) ? 200 : 404;
         }
-
+        
         http_response_code($status);
-        echo json_encode($result ?: ["message" => "Nenhum laboratório encontrado."]);
+        echo json_encode($result ?: ["message" => "Nenhuma resposta ao formulário encontrada."]);
     }
-
+    
     public function update($id, $data) {
-        if (!isset($id, $data->nome, $data->andar, $data->equipamento, $data->capacidade)) {
+        if (!isset($data->idResposta, $data->semestre, $data->disciplina, $data->motivacao, $data->atividade, $data->equipamentos)) {
             http_response_code(400);
-            echo json_encode(["error" => "Dados incompletos para atualização do laboratório."]);
+            echo json_encode(["error" => "Dados incompletos para atualização da resposta ao formulário."]);
             return;
         }
 
@@ -56,20 +55,20 @@ class FormularioController {
 
         if ($this->form->updateFormulario($this->form)) {
             http_response_code(200);
-            echo json_encode(["message" => "Laboratório atualizado com sucesso."]);
+            echo json_encode(["message" => "Resposta ao formulário atualizada com sucesso."]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Erro ao atualizar laboratório."]);
+            echo json_encode(["error" => "Erro ao atualizar respostas do formulário."]);
         }
     }
 
     public function delete($id) {
-        if ($this->form->deleteLaboratorio($id)) {
+        if ($this->form->deleteRespostaFormulario($id)) {
             http_response_code(200);
-            echo json_encode(["message" => "Laboratório excluído com sucesso."]);
+            echo json_encode(["message" => "Resposta do formulario excluída com sucesso."]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Erro ao excluir laboratório."]);
+            echo json_encode(["error" => `Erro ao excluir resposta do formulario $idResposta`]);
         }
     }
 }
