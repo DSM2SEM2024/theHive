@@ -35,31 +35,20 @@ main {
   padding-left: 2rem;
   padding-right: 2rem;
   min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /*=============== CARD ===============*/
 .andares {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  overflow-x: none;
-  overflow-y: auto;
   min-height: calc(100vh - 150px);
-}
-
-.andares::-webkit-scrollbar {
-  background-color: var(--white-color);
-  width: 5px;
-}
-
-.andares::-webkit-scrollbar-thumb {
-  background-color: var(--gray-color);
-  border-radius: 5px
-}
-
-.andares::-webkit-scrollbar-button {
-  display: none;
+  max-width: 95%;
 }
 
 .container-andar {
@@ -68,24 +57,21 @@ main {
   align-items: center;
   justify-content: center;
   gap: 5rem;
-}
-
-.container-andar {
-  display: flex;
-  flex-direction: row;
   margin-bottom: 2rem;
+  max-width: 100%;
+  min-width: 99%
 }
 
 .container-andar #nome-andar {
   color: var(--white-color);
   background-color: var(--blue-color);
   text-align: center;
-  width: 15rem;
+  width: 12rem;
   height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 20px;
   border-radius: 10px;
 }
 
@@ -93,7 +79,28 @@ main {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
+  padding-bottom: 1rem;
+  gap: 2rem;
+  overflow-x: auto;
+  min-width: 79%;
+  max-width: 80%;
+}
+
+.andar::-webkit-scrollbar {
+  background-color: var(--white-color);
+  height: 12px;
+  
+}
+
+.andar::-webkit-scrollbar-thumb {
+  background-color: var(--blue-color);
+  border-radius: 5px;
+  cursor: grab;
+}
+
+.andar::-webkit-scrollbar-button {
+  display: none;
 }
 
 .card__content {
@@ -102,10 +109,10 @@ main {
 
 
 .card-lab {
-  width: 10rem;
-  min-height: 20rem;
+  min-width: 13rem;
+  min-height: 18rem;
   background-color: var(--gray-color);
-  border-radius: 20px;
+  border-radius: 15px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -119,7 +126,7 @@ main {
 
 .card-lab #barra-card {
   width: 100%;
-  height: 2rem;
+  height: 1.5rem;
   background-color: var(--blue-color);
   border-radius: 20px 20px 0 0;
   position: absolute;
@@ -130,14 +137,14 @@ main {
   color: var(--blue-color);
   text-align: center;
   font-size: 16px;
-  margin-top: 0.5rem;
+  font-weight: bold;
 }
 
 .lab-content {
   background-color: var(--white-color);
-  width: 80%;
-  height: 80%;
-  border-radius: 15px;
+  width: 83%;
+  height: 12rem;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -176,8 +183,8 @@ main {
 }
 
 .descricao-lab ul {
-  padding-left: 1.1rem;
-  font-size: 13px;
+  line-height: 1.5;
+  font-size: 12px;
   width: 96%;
   max-height: 100%;
   line-break: anywhere;
@@ -202,234 +209,6 @@ main {
   background-color: var(--dark-blue-color);
 }
 
-.container-andar #nome-andar-2 {
-  color: var(--white-color);
-  background-color: var(--green-color);
-  text-align: center;
-  width: 15rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  border-radius: 10px;
-}
-
-.card-lab #barra-card-2 {
-  width: 100%;
-  height: 2rem;
-  background-color: var(--green-color);
-  border-radius: 20px 20px 0 0;
-  position: absolute;
-  top: 0;
-}
-
-.card-lab #nome-lab-2 {
-  color: var(--green-color);
-  text-align: center;
-  font-size: 16px;
-  margin-top: 0.5rem;
-}
-
-.btn-calendario-2 {
-  border: none;
-  font-size: 14px;
-  color: var(--white-color);
-  width: 7rem;
-  height: 2rem;
-  background-color: var(--green-color);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-calendario-2:hover {
-  background-color: var(--dark-green-color);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.card__content {
-  margin-inline: 1.75rem;
-  overflow: hidden;
-}
-
-.card__article {
-  width: 300px;
-  /* Remove after adding swiper js */
-  border-radius: 1.25rem;
-  overflow: hidden;
-}
-
-.card {
-  border-radius: 25px;
-  background-color: var(--gray-color);
-}
-
-.image-content,
-.card-content {
-  padding: 10px 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 20rem;
-}
-
-.image-content {
-  row-gap: 5px;
-  height: 13rem;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.image-content #nome-lab {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--black-gray-color);
-  position: relative;
-  z-index: 2;
-}
-
-.overlay {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: var(--blue-color);
-  border-radius: 25px 25px 0 25px;
-}
-
-.overlay::before,
-.overlay::after {
-  position: absolute;
-  right: 0;
-  bottom: -40px;
-  content: '';
-  height: 40px;
-  width: 40px;
-  background-color: var(--blue-color);
-}
-
-.overlay::after {
-  border-radius: 0 25px 0 0;
-  background-color: var(--gray-color);
-}
-
-.card-image {
-  position: relative;
-  top: 0;
-  left: 0;
-  height: 150px;
-  width: 90%;
-  border-radius: 10px;
-  background-color: var(--gray-color);
-  padding: 3px;
-}
-
-.card-image .img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 4px solid var(--blue-color);
-}
-
-
-.description {
-  font-size: 14px;
-  color: var(--text-color);
-  text-align: center;
-}
-
-
-
-.swiper-button-prev:after,
-.swiper-button-next:after {
-  content: "";
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  width: initial;
-  height: initial;
-  font-size: 3rem;
-  color: var(--blue-color);
+.nav-mobile {
   display: none;
-}
-
-.swiper-button-prev {
-  left: 0;
-}
-
-.swiper-button-next {
-  right: 0;
-}
-
-.swiper-pagination-bullet {
-  background-color: var(--text-color);
-  opacity: 1;
-}
-
-.swiper-pagination-bullet-active {
-  background-color: var(--blue-color);
-}
-
-/*=============== RESPONSIVIDADE ===============*/
-
-@media screen and (max-width: 320px) {
-  .card__data {
-    padding: 1rem;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .card__content {
-    margin-inline: 3rem;
-  }
-
-  .swiper-button-next,
-  .swiper-button-prev {
-    display: block;
-  }
-}
-
-@media screen and (min-width: 1120px) {
-  .andar {
-    max-width: 1120px;
-  }
-
-  .swiper-button-prev {
-    left: -1rem;
-  }
-
-  .swiper-button-next {
-    right: -1rem;
-  }
 }
