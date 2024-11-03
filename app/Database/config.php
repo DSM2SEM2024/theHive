@@ -7,7 +7,7 @@ return [
             'port' => '3306',
             'db_name' => 'reservas', 
             'username' => 'root', 
-            'password' => 'root123', 
+            'password' => 'root', 
             'charset' => 'utf8'
         ],
         'sqlite' => [

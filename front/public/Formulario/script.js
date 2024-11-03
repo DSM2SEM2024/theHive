@@ -25,29 +25,29 @@ textareas.forEach(textarea => {
 });
 
 // Validação do formulário
-form.addEventListener('submit', (event) => {
-    let isValid = true;
+// form.addEventListener('submit', (event) => {
+//     let isValid = true;
 
-    requiredFields.forEach(field => {
-        const boxInputText = field.parentElement; // Seleciona o contêiner do campo obrigatório
-        const errorMessage = boxInputText.querySelector('.error-message'); // Seleciona a mensagem de erro
+//     requiredFields.forEach(field => {
+//         const boxInputText = field.parentElement; // Seleciona o contêiner do campo obrigatório
+//         const errorMessage = boxInputText.querySelector('.error-message'); // Seleciona a mensagem de erro
 
-        // Verifica se o campo é o texto do motivo "Outro"
-        if (field.id === 'outroMotivo' && !outroMotivoInput.value.trim() && document.querySelector('input[name="motivo"]:checked').id === 'optionMotivo4') {
-            isValid = false;
-            errorMessage.textContent = 'Por favor, informe o motivo se selecionar "Outro".';
-        } else if (field.tagName === 'TEXTAREA' && !field.value.trim()) {
-            isValid = false;
-            errorMessage.textContent = 'Este campo é obrigatório.';
-        } else {
-            errorMessage.textContent = ''; // Limpa mensagem de erro se válido
-        }
-    });
+//         // Verifica se o campo é o texto do motivo "Outro"
+//         if (field.id === 'outroMotivo' && !outroMotivoInput.value.trim() && document.querySelector('input[name="motivo"]:checked').id === 'optionMotivo4') {
+//             isValid = false;
+//             errorMessage.textContent = 'Por favor, informe o motivo se selecionar "Outro".';
+//         } else if (field.tagName === 'TEXTAREA' && !field.value.trim()) {
+//             isValid = false;
+//             errorMessage.textContent = 'Este campo é obrigatório.';
+//         } else {
+//             errorMessage.textContent = ''; // Limpa mensagem de erro se válido
+//         }
+//     });
 
-    if (!isValid) {
-        event.preventDefault(); // Impede o envio do formulário se houver erro
-    }
-});
+//     if (!isValid) {
+//         event.preventDefault(); // Impede o envio do formulário se houver erro
+//     }
+// });
 
 // Lógica para ativar/desativar o campo "Outro"
 const motivoRadios = document.querySelectorAll('input[name="motivo"]');
