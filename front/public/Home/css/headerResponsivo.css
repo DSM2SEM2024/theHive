@@ -8,8 +8,40 @@
     font-family: "Inter", sans-serif;
 }
 
+@media (max-width: 1700px) {
+    #icons {
+        width: 8rem;
+    }
+}
+
 @media (max-width: 1170px) {
-    
+    header {
+        font-size: 21px;
+    }
+
+    .busca {
+        width: 28rem;
+        height: 2rem;
+    }
+
+    .busca img {
+        width: 18px;
+        height: 18px;
+    }
+
+    #pesquisa {
+        height: 1.7rem;
+    }
+
+    #icons {
+        gap: 4rem;
+        height: 30px;
+    }
+
+    #icons i {
+        font-size: 30px;
+    }
+
     .notificacoes {
         width: 28rem;
     }
@@ -100,34 +132,42 @@
     #titulo-ola {
         font-size: 20px;
     }
-
-    main h2 {
-        font-size: 28px;
-        margin-top: 1rem;
-    }
-
-    .card-reservas p {
-        font-size: 22px;
-    }
-
-    .busca-2 {
-        width: 55rem;
-        height: 2.5rem;
-    }
-
-    .busca-2 img {
-        width: 20px;
-        height: 20px;
-    }
-
-    .card-reservas #btn-reserva {
-        width: 14rem;
-        height: 3.5rem;
-        font-size: 22px;
-    }
 }
 
-@media (max-width: 970px) {
+@media (max-width: 987px) {
+    header {
+        font-size: 18px;
+    }
+
+    header h1 {
+        white-space: nowrap;
+    }
+
+    .busca {
+        width: 26rem;
+        height: 1.7rem;
+        border-radius: 6px;
+    }
+
+    .busca img {
+        width: 16px;
+        height: 16px;
+    }
+
+    #pesquisa {
+        height: 1.1rem;
+        border-radius: 5px;
+    }
+
+    #icons {
+        width: 6rem;
+        gap: 3rem;
+        height: 28px;
+    }
+
+    #icons i {
+        font-size: 28px;
+    }
 
     .notificacoes {
         width: 24rem;
@@ -186,7 +226,6 @@
         font-size: 18px;
     }
 
-
     .info-perfil {
         margin-top: 1.1rem;
     }
@@ -210,69 +249,50 @@
     .info-perfil a {
         font-size: 13px;
     }
+}
 
-    #titulo-ola {
-        font-size: 18px;
+@media (max-width: 880px) {
+    header {
+        font-size: 14px;
+        height: 80px;
     }
 
-    main h2 {
+    .busca {
+        width: 24rem;
+        height: 1.6rem;
+    }
+
+    .busca img {
+        width: 15px;
+        height: 15px;
+    }
+
+    #pesquisa {
+        height: 1rem;
+    }
+
+    #icons {
+        width: 5rem;
+        gap: 2.5rem;
+        height: 26px;
+    }
+
+    #icons i {
         font-size: 26px;
-        margin-top: 1rem;
-    }
-
-    .card-reservas {
-        padding: 1rem;
-        gap: 1.5rem;
-    }
-
-    .card-reservas p {
-        font-size: 20px;
-    }
-
-    .busca-2 {
-        width: 50rem;
-        height: 2.5rem;
-    }
-
-    .busca-2 img {
-        width: 20px;
-        height: 20px;
-    }
-
-    .card-reservas #btn-reserva {
-        width: 13rem;
-        height: 3rem;
-        font-size: 20px;
     }
 }
 
-@media (max-width: 510px) {
+@media (max-width: 768px) {
+
+    header {
+        height: 80px;
+    }
 
     main {
         padding-top: 2rem;
         padding-left: 1.5rem;
         padding-right: 1.5rem;
         min-height: calc(100vh - 160px);
-    }
-
-    #titulo-ola {
-        font-size: 17px;
-        text-align: center;
-    }
-
-    main h2 {
-        font-size: 24px;
-        margin-top: 3rem;
-    }
-
-    .card-reservas p {
-        font-size: 18px;
-    }
-
-    .card-reservas #btn-reserva {
-        width: 11rem;
-        height: 3rem;
-        font-size: 18px;
     }
 
     ::-webkit-scrollbar {
@@ -282,38 +302,11 @@
     ::-webkit-scrollbar-thumb {
         display: none;
     }
+
     .busca {
         display: none;
     }
 
-    .card-pesquisa {
-        padding: 0;
-        margin-top: 2rem;
-    }
-    
-    .busca-2 {
-        width: 25rem;
-        height: 2rem;
-        border-radius: 8px;
-    }
-    
-    .busca-2 img {
-        width: 16px;
-        height: 16px;
-    }
-    
-    #pesquisa-2 {
-        margin-left: 1rem;
-        height: 1.5rem;
-        width: 22rem;
-        font-size: 16px;
-    }
-
-    .btn-limpar2 {
-        height: 2rem;
-        width: 2rem;
-        font-size: 20px;
-    }
     
     #icons {
         display: none;
@@ -435,6 +428,7 @@
         background-color: var(--main-color);
         padding: 1rem;
         transition: 0.3s;
+        position: absolute;
         z-index: 1;
         bottom: 0;
     }
@@ -512,4 +506,5 @@
         height: 2.5rem;
         font-size: 18px;
     }
+
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/homestyle.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/homereset.css">
+    <link rel="stylesheet" href="css/headerResponsivo.css">
     <link rel="stylesheet" href="css/homeResponsivo.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
@@ -168,18 +169,18 @@
 
             <div class="perfil">
                 <div class="usuario">
-                    <p id="avatar"><span id="letra">L</span></p>
-                    <h3 id="name">Lucas</h3>
+                   <p id="avatar"><span id="letra">-</span></p>
+                   <h3 id="name">Indefinido</h3>
                 </div>
                 <div class="info-perfil">
-                    <p id="label">Curso(s):</p>
-                    <p id="courses">Desenvolvimento de software Multiplataforma, Manutenção Iindustrial</p>
-                    <p id="label">E-mail:</p>
-                    <p id="email">lucas@gmail.com</p>
-                    <a href="#" onclick="logout()">Sair</a>
+                   <p id="label">Curso(s):</p>
+                   <p id="courses">Indefinido</p>
+                   <p id="label">E-mail:</p>
+                   <p id="email">Indefinido</p>
+                   <a href="#" onclick="logout()">Sair</a>
                 </div>
-            </div>
-            
+             </div>
+
         </nav>
 
         <script>
@@ -239,7 +240,7 @@
 
         <div class="card-reservas">
             <p>Você não possui reservas no momento.</p>
-            <button>Fazer reserva</button>
+            <button id="btn-reserva" onclick="window.location.href='../Laboratorios/index.html'">Fazer reserva</button>
         </div>
 
         
@@ -267,10 +268,6 @@
             </li>
         </ul>
     </footer>
-    
-    
-    
-    
     
     <script src="js/home.js"></script>
 
