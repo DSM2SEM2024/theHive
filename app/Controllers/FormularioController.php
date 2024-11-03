@@ -64,7 +64,7 @@ class FormularioController {
     }
 
     public function delete($id) {
-        if ($this->lab->deleteLaboratorio($id)) {
+        if ($this->form->deleteLaboratorio($id)) {
             http_response_code(200);
             echo json_encode(["message" => "Laboratório excluído com sucesso."]);
         } else {
