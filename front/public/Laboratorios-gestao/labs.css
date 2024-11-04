@@ -106,10 +106,47 @@
 }
 
 #formulario-laboratorio {
-    width: 100%;
-    align-items: start;
-    gap: 100px;
+    width: 96%;
     margin-top: 26px;
+}
+
+#agrupamento1{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 50px;
+    margin-bottom: 70px;
+}
+
+#titulo-nome-laboratorio {
+    align-items: start;
+    color: var(--black-gray-color);
+}
+
+#titulo-nome-laboratorio h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#titulo-cor-laboratorio {
+    align-items: start;
+    color: var(--black-gray-color);
+    margin-bottom: 10px;
+}
+
+#titulo-cor-laboratorio h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#titulo-anexar-imagem{
+    align-items: start;
+    color: var(--black-gray-color);
+    margin-bottom: -30px;
+}
+
+#titulo-anexar-imagem h2 {
+    font-size: 14px;
+    font-weight: bold;
 }
 
 #box-input-nome-laboratorio {
@@ -127,11 +164,83 @@
     border-radius: 10px;
     border: none; 
     background-color: var(--white-color); 
-    color: var(--black-gray-color); 
+    color: gray; 
     padding-left: 10px;
     text-align: left; 
     display: flex;
     align-items: center; 
+}
+
+#input-nome-laboratorio:focus {
+    outline: none;
+}
+
+#input-nome-laboratorio::placeholder {
+    color: gray;
+    text-align: left;
+}
+
+#box-input-cor-laboratorio {
+    background-color: var(--white-color);
+    align-items: start;
+    width: 180px;
+    height: 40px;
+    border-radius: 10px;  
+    overflow: hidden;
+}
+
+#input-cor-laboratorio {
+    width: 100%; 
+    height: 100%; 
+    border-radius: 10px;
+    border: none; 
+    background-color: var(--white-color); 
+    color: gray;
+    padding-left: 10px;
+    text-align: left; 
+    display: flex;
+    align-items: center; 
+}
+
+#box-input-anexar-imagem {
+    background-color: var(--white-color);
+    align-items: start;
+    width: 180px;
+    height: 40px;
+    border-radius: 10px;  
+    overflow: hidden;
+}
+
+#input-anexar-imagem {
+    width: 100%; 
+    height: 100%; 
+    border-radius: 10px;
+    border: none; 
+    background-color: var(--white-color); 
+    color: gray; 
+    padding-left: 10px;
+    text-align: left; 
+    display: flex;
+    align-items: center; 
+}
+
+#input-anexar-imagem:focus {
+    outline: none;
+}
+
+#input-anexar-imagem::placeholder {
+    color: gray;
+    text-align: left;
+}
+
+#titulo-materiais {
+    align-items: start;
+    color: var(--black-gray-color);
+}
+
+#titulo-materiais h2 {
+    font-size: 16px;
+    font-weight: bold;
 }
 
 #section-button-laboratorio {
@@ -139,7 +248,7 @@
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    margin-top: 50px;
+    margin-top: 30%;
 }
 
 #section-button-laboratorio .cancelar, #section-button-laboratorio .criar {
