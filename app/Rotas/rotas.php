@@ -4,6 +4,7 @@ namespace App\Rotas;
 use App\Controllers\LaboratorioController;
 use App\Controllers\UsuarioController;
 use App\Controllers\FormularioController;
+use App\Controllers\ReservaController;
 
 class Rotas {
     public static function fastRotas(){
@@ -18,6 +19,9 @@ class Rotas {
                 //forms
                 '/forms' => [FormularioController::class, 'read'],
                 '/forms/{id}' => [FormularioController::class, 'read'],
+                //reserva
+                '/reserve' => [ReservaController::class, 'read'],
+                '/reserve/{id}' => [ReservaController::class, 'read'],
             ],
             'POST' => [
                 //users
@@ -27,6 +31,8 @@ class Rotas {
                 '/labs' => [LaboratorioController::class, 'create'],
                 //forms
                 '/forms' => [FormularioController::class, 'create'],
+                //reserva
+                '/reserve' => [ReservaController::class, 'create'],
             ],
             'PUT' => [
                 //users
@@ -35,6 +41,8 @@ class Rotas {
                 '/labs/{id}' => [LaboratorioController::class, 'update'],
                 //forms
                 '/forms' => [FormularioController::class, 'update'],
+                //reserva
+                '/reserva' => [FormularioController::class, 'update'],
                 
             ],
             'DELETE' => [
@@ -43,6 +51,8 @@ class Rotas {
                 '/labs/{id}' => [LaboratorioController::class, 'delete'],
                 //forms
                 '/forms' => [FormularioController::class, 'delete'],
+                //reserva
+                '/reserva' => [FormularioController::class, 'delete'],
             ],
         ];
     }

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = 'home/HomeProfessor.html';
                 break;
             case 'administrador':
-                window.location.href = '/painel-admin';
+                window.location.href = 'home/HomeProfessor.html';
                 break;
             default:
                 console.error("Tipo de usuário inválido.");

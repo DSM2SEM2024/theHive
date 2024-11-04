@@ -1,3 +1,8 @@
+window.onload = function() {
+    localStorage.removeItem('laboratorioId');
+    localStorage.removeItem('formId');
+};
+
 // Função para alternar a exibição do texto do item clicado
 function alternarTextoDoItemClicado(texto) {
     if (texto.style.display === 'block') {
