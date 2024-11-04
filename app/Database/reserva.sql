@@ -125,5 +125,5 @@ CREATE TABLE reservas (
   laboratorio_id INT REFERENCES laboratorio(idLaboratorio),
   respostas_id INT REFERENCES formulario(idRespostasForm),
   data_reserva TIMESTAMP,
-  estado VARCHAR(20)
+  estado VARCHAR(100)
 );
