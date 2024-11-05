@@ -8,8 +8,9 @@ class Usuario {
     private $nome;
     private $email;
     private $senha;
-    private $curso;
-    private $tipo;
+    private $perfil;
+    private $estado;
+    private $dataCad;
     private $conn;
     private $table = "Usuarios";
 
@@ -20,16 +21,18 @@ class Usuario {
         $nome = $usuario->getNome();
         $email = $usuario->getEmail();
         $senha = $usuario->getSenha();
-        $curso = $usuario->getCurso();
-        $tipo = $usuario->getTipo();
-        $query = "INSERT INTO $this->table (nome, email, senha, curso, tipo) VALUES (:nome, :email, :senha, :curso, :tipo)";
+        $perfil = $usuario->getPerfil();
+        $estado = $usuario->getEstado();
+        $dataCad = $usuario->getDataCad();
+        $query = "INSERT INTO $this->table (nome, email, senha, perfil, estado, dataCad) VALUES (:nome, :email, :senha, :perfil, :estado, :dataCad)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
         $stmt->bindParam(":senha", $senha);
-        $stmt->bindParam(":curso", $curso);
-        $stmt->bindParam(":tipo", $tipo);
+        $stmt->bindParam(":perfil", $perfil);
+        $stmt->bindParam(":estado", $estado);
+        $stmt->bindParam(":dataCad", $dataCad);
 
         return $stmt->execute();
     }
@@ -71,22 +74,26 @@ class Usuario {
         return $this;
     }
 
-    public function getCurso() {
-        return $this->curso;
-    }
-
-    public function setCurso($curso): self {
-        $this->curso = $curso;
-        return $this;
-    }
-
-    public function getTipo() {
-        return $this->tipo;
+    public function getPerfil() {
+        return $this->perfil;
     }
     
-    public function setTipo($tipo): self {
-        $this->tipo = $tipo;
+    public function setPerfil($perfil): self {
+        $this->perfil = $perfil;
         return $this;
+    }
+
+    public function getEstado() {
+        return $this->estado;
+    }
+
+    public function setEstado($estado): self {
+        $this->estado = $estado;
+        return $this;
+    }
+
+    public function getDataCad() {
+        return $this->dataCad;
     }
 
     public function getUsuarioByEmail($email) {
@@ -97,8 +104,6 @@ class Usuario {
     
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
-    
 
     public function getAllUsuarios() {
         $query = "SELECT * FROM $this->table";
@@ -122,13 +127,15 @@ class Usuario {
         $nome = $this->getNome();
         $email = $this->getEmail();
         $senha = $this->getSenha();
-        $tipo = $this->getTipo();
-        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, curso = :curso, tipo = :tipo WHERE idUsuario = :idUsuario";
+        $perfil = $this->getPerfil();
+        $estado = $this->getEstado();
+        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, perfil = :perfil, estado = :estado WHERE idUsuario = :idUsuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
         $stmt->bindParam(":senha", $senha);
-        $stmt->bindParam(":tipo", $tipo);
+        $stmt->bindParam(":perfil", $perfil);
+        $stmt->bindParam(":estado", $estado);
         $stmt->bindParam(":idUsuario", $idUsuario);
     
         return $stmt->execute();
