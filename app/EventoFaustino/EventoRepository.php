@@ -66,6 +66,22 @@ class EventoRepository {
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":cor", $cor);
     
+        /*
+reserva
+idReserva
+idusuario
+idlaboratorio
+iddisciplina
+data inicial
+data final
+hora inicial
+hora final
+recorrencia
+descricao
+datacad
+status
+    */
+
         return $stmt->execute();
     }
     

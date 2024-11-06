@@ -17,6 +17,7 @@ class Usuario {
     public function __construct() {
         $this->conn = Database::getInstance();
     }
+
     public function insertUsuario($usuario) {
         $nome = $usuario->getNome();
         $email = $usuario->getEmail();
@@ -36,6 +37,7 @@ class Usuario {
 
         return $stmt->execute();
     }
+    // 
     public function getUsuarioId(){
         return $this->idUsuario;
     }
