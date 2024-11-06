@@ -212,4 +212,23 @@ class Reserva {
         return $stmt->execute();
     }
 
+    public function aprovarReserva($id) {
+        $query = "UPDATE $this->table SET status_reserva = :status_reserva WHERE id_reserva = :id_reserva";
+        $stmt = $this->conn->prepare($query);
+        $status = 'aprovada'; 
+        $stmt->bindParam(':status_reserva', $status);
+        $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+    
+    public function negarReserva($id) {
+        $query = "UPDATE $this->table SET status_reserva = :status_reserva WHERE id_reserva = :id_reserva";
+        $stmt = $this->conn->prepare($query);
+        $status = 'negada'; 
+        $stmt->bindParam(':status_reserva', $status);
+        $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+    
+
 }

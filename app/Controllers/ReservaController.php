@@ -122,7 +122,7 @@ class ReservaController {
                 $reservaRecorrente->setDataFinal($dataRecorrenteFormatada);
                 $reservaRecorrente->setReservaId($reservaId);
 
-                if (!$this->reservaRepository->criarReserva($reservaRecorrente)) {
+                if (!$this->reserva->criarReserva($reservaRecorrente)) {
                     return false;
                 }
             }
@@ -187,6 +187,57 @@ class ReservaController {
             echo json_encode(['status' => false, 'message' => 'Reserva não encontrada.']);
         }
     }
-}
+//
+//
+//criar funções novas que aprova e nega reservas. Muda o estado da reserva: -->
+//
+//
 
-//criar funções novas que aprova e nega reservas. Muda o estado da reserva.
+
+//#[Router('/reserve/{id}/approve', methods: ['PUT'])]
+    public function aprovarReserva($id)
+    {
+        $reservaExistente = $this->reserva->obterReservaPorId($id);
+        if ($reservaExistente) {
+            $ReservaAtual = new Reserva();
+            $ReservaAtual->setReservaId($id);
+            $ReservaAtual->setStatus('aprovada'); 
+
+        $reservaAtualizada = $this->reserva->atualizarReserva($ReservaAtual);
+        if ($reservaAtualizada) {
+            http_response_code(200);
+            echo json_encode(['status' => true, 'mensagem' => 'Reserva aprovada com sucesso']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['status' => false, 'mensagem' => 'Erro ao aprovar a reserva']);
+        }
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'mensagem' => 'Reserva não encontrada']);
+        }
+    }
+
+//#[Router('/reserve/{id}/deny', methods: ['PUT'])]
+    public function negarReserva($id)
+{
+        $reservaExistente = $this->reserva->obterReservaPorId($id);
+        if ($reservaExistente) {
+            $ReservaAtual = new Reserva();
+            $ReservaAtual->setReservaId($id);
+            $ReservaAtual->setStatus('negada'); 
+
+        $reservaAtualizada = $this->reserva->atualizarReserva($ReservaAtual);
+        if ($reservaAtualizada) {
+            http_response_code(200);
+            echo json_encode(['status' => true, 'mensagem' => 'Reserva negada com sucesso']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['status' => false, 'mensagem' => 'Erro ao negar a reserva']);
+        }
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'mensagem' => 'Reserva não encontrada']);
+        }
+    }
+
+}
