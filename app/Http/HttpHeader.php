@@ -26,7 +26,7 @@ class HttpHeader {
 
     public static function metodosNaoPermitidos() {
         http_response_code(405);
-        echo json_encode(["error" => "Método não permitido."]);
+        echo json_encode(["error" => "Metodo não permitido."]);
         exit;
     }
 }
