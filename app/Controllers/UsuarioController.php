@@ -47,7 +47,7 @@ class UsuarioController {
             http_response_code(200);
             echo json_encode(["message" => "Login bem-sucedido.",
              "usuario" => [
-                "idUsuario" => $usuario['idUsuario'],
+                "id_usuario" => $usuario['id_usuario'],
                 "nome" => $usuario['nome'],
                 "email" => $usuario['email'],
                 "curso" => $usuario['curso'],
@@ -55,7 +55,7 @@ class UsuarioController {
                 "paginas" => $telas
             ]]);
         } else {
-            http_response_code(401); 
+            http_response_code(401);
             echo json_encode(["error" => "Email ou senha inválidos."]);
         }
     }
