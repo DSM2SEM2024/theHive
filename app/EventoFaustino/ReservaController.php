@@ -61,7 +61,7 @@ class ReservaController
             echo json_encode($reserva);
         } else {
             http_response_code(404);
-            echo json_encode(['status' => false, 'message' => 'Reserva não encontrado']);
+            echo json_encode(['status' => false, 'message' => 'Reserva não encontrada']);
         }
     }
 
@@ -199,11 +199,11 @@ class ReservaController
             $reservaAtualizada = $this->reservaRepository->atualizarReserva($reserva);
             if ($reservaAtualizada) {
                 http_response_code(200);
-                echo json_encode(['status' => true, 'mensagem' => 'Reserva atualizado com sucesso']);
+                echo json_encode(['status' => true, 'mensagem' => 'Reserva atualizada com sucesso']);
             }
         } else {
             http_response_code(404);
-            echo json_encode(['status' => false, 'mensagem' => 'Reserva não encontrado']);
+            echo json_encode(['status' => false, 'mensagem' => 'Reserva não encontrada']);
         }
     }
 
@@ -213,10 +213,12 @@ class ReservaController
         $reservasExcluidos = $this->reservaRepository->excluirReservaPorID($id);
         if ($reservasExcluidos) {
             http_response_code(200);
-            echo json_encode(['status' => true, 'message' => 'Evento(s) excluído(s) com sucesso.']);
+            echo json_encode(['status' => true, 'message' => 'Reserva(s) excluído(s) com sucesso.']);
         } else {
             http_response_code(404);
-            echo json_encode(['status' => false, 'message' => 'Evento não encontrado.']);
+            echo json_encode(['status' => false, 'message' => 'Reserva não encontrada.']);
         }
     }
 }
+
+//criar funções novas que aprova e nega reservas. Muda o estado da reserva.
