@@ -20,8 +20,9 @@ class Rotas {
                 '/forms' => [FormularioController::class, 'read'],
                 '/forms/{id}' => [FormularioController::class, 'read'],
                 //reserva
-                '/reserve' => [ReservaController::class, 'read'],
-                '/reserve/{id}' => [ReservaController::class, 'read'],
+                '/reserve' => [ReservaController::class, 'obterTodasReservas'],
+                '/reserve/{id}' => [ReservaController::class, 'obterReservaPorId'],
+                '/reserve/data/{dataini}/{datafim}' => [ReservaController::class, 'obterReservaPorIntervaloDeData'],
             ],
             'POST' => [
                 //users
@@ -32,7 +33,7 @@ class Rotas {
                 //forms
                 '/forms' => [FormularioController::class, 'create'],
                 //reserva
-                '/reserve' => [ReservaController::class, 'create'],
+                '/reserve' => [ReservaController::class, 'criarReserva'],
             ],
             'PUT' => [
                 //users
@@ -40,9 +41,9 @@ class Rotas {
                 //labs
                 '/labs/{id}' => [LaboratorioController::class, 'update'],
                 //forms
-                '/forms' => [FormularioController::class, 'update'],
+                '/forms{id}' => [FormularioController::class, 'update'],
                 //reserva
-                '/reserve' => [FormularioController::class, 'update'],
+                '/reserve/{id}' => [FormularioController::class, 'atualizarReserva'],
                 
             ],
             'DELETE' => [
@@ -52,7 +53,7 @@ class Rotas {
                 //forms
                 '/forms' => [FormularioController::class, 'delete'],
                 //reserva
-                '/reserve' => [FormularioController::class, 'delete'],
+                '/reserve/{id}' => [FormularioController::class, 'excluirReservaPorID'],
             ],
         ];
     }

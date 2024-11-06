@@ -2,76 +2,191 @@
 namespace App\Controllers;
 
 use App\Model\Reserva;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class ReservaController {
-    private $reservaModel;
+    private $reserva;
 
     public function __construct() {
-        $this->reservaModel = new Reserva();
+        $this->reserva = new Reserva();
     }
 
-    public function create($data) {
+    //#[Router('/reserve', methods: ['GET'])]
+    public function obterTodasReservas() {
+        $ReservaAtual = $this->reserva->obterTodasReservas();
+        http_response_code(200);
+        echo json_encode($ReservaAtual);
+    }
 
-        if (!isset($data['usuario_id'], $data['laboratorio_id'], $data['respostas_id'], $data['data_reserva'])) {
+    //#[Router('/reserve/{id}', methods: ['GET'])]
+    public function obterReservaPorId($id)
+    {
+        $ReservaAtual = $this->reserva->obterReservaPorId($id);
+        if ($ReservaAtual) {
+            http_response_code(200);
+            echo json_encode($ReservaAtual);
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Reserva não encontrada']);
+        }
+    }
+
+    //#[Router('/reserve/data/{dataini}/{datafim}', methods: ['GET'])]
+    public function obterReservaPorIntervaloDeData($dataini, $datafim)
+    {
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dataini) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $datafim)) {
             http_response_code(400);
-            echo json_encode(["error" => "Todos os campos são obrigatórios."]);
+            echo json_encode(['status' => false, 'message' => 'Formato de data inválido']);
             return;
         }
 
-        $usuarioId = $data['usuario_id'];
-        $laboratorioId = $data['laboratorio_id'];
-        $respostasFormulario = $data['respostas_id'];
-        $dataReserva = $data['data_reserva'];
-        $estado = "pendente";
-        
-        $resultado = $this->reservaModel->criarReserva($usuarioId, $laboratorioId, $respostasFormulario, $dataReserva, $estado);
-        
-        if (isset($resultado['error'])) {
-            http_response_code(500);
-        } else {
-            http_response_code(201);
-        }
-        
-        echo json_encode($resultado);
-    }
-
-    public function read($id = null) {
-        if ($id) {
-            $result = $this->reservaModel->getReservaById($id);
-            $status = $result ? 200 : 404;
-        } else {
-            $result = $this->reservaModel->getAllReservas();
-            $status = !empty($result) ? 200 : 404;
-        }
-
-        http_response_code($status);
-        echo json_encode($result ?: ["message" => "Nenhuma reserva encontrada."]);
-    }
-
-    public function update($id, $data) {
-        if (!isset($id, $data->estado)) {
-            http_response_code(400);
-            echo json_encode(["error" => "Dados incompletos para atualização da reserva."]);
-            return;
-        }
-
-        if ($this->reservaModel->updateReserva($id, $data->estado)) {
+        $ReservaAtual = $this->reserva->obterReservaPorIntervaloDeData($dataini, $datafim);
+        if ($ReservaAtual) {
             http_response_code(200);
-            echo json_encode(["message" => "Reserva atualizada com sucesso."]);
+            echo json_encode($ReservaAtual);
         } else {
-            http_response_code(500);
-            echo json_encode(["error" => "Erro ao atualizar reserva."]);
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Nenhuma reserva encontrada para o intervalo de datas especificado']);
         }
     }
 
-    public function delete($id) {
-        if ($this->reservaModel->deleteReserva($id)) {
-            http_response_code(200);
-            echo json_encode(["message" => "Reserva excluída com sucesso."]);
+    //#[Router('/reserve', methods: ['POST'])]
+    public function criarReserva($data)
+    {
+        $numerox = $this->gerarStringAlfanumerica(8);
+
+        if ($data->recorrencia === 'nenhuma') {
+            $ReservaAtual = new Reserva();
+            $ReservaAtual->setUsuarioId($data->usuarioId);
+            $ReservaAtual->setLaboratorioId($data->labortorioId);
+            $ReservaAtual->setDisciplinaId($data->disciplinaId);
+            $ReservaAtual->setDataInicial($data->datainicial);
+            $ReservaAtual->setDescricao($data->descricao);
+            $ReservaAtual->setHorarioInicial($data->horarioinicial);
+            $ReservaAtual->setHorarioFinal($data->horariofinal);
+            $ReservaAtual->setRecorrencia($data->recorrencia);
+            $ReservaAtual->setDescricao($data->descricao);
+            $ReservaAtual->setDataCad($data->datacad);
+            $ReservaAtual->setStatus($data->status);
+            $ReservaAtual->setReservaId($numerox);
+
+            $reservaCriada = $this->reserva->criarReserva($ReservaAtual);
         } else {
-            http_response_code(500);
-            echo json_encode(["error" => "Erro ao excluir reserva."]);
+            $ReservaAtual = new Reserva();
+            $ReservaAtual->setUsuarioId($data->usuarioId);
+            $ReservaAtual->setLaboratorioId($data->labortorioId);
+            $ReservaAtual->setDisciplinaId($data->disciplinaId);
+            $ReservaAtual->setDataInicial($data->datainicial);
+            $ReservaAtual->setDescricao($data->descricao);
+            $ReservaAtual->setHorarioInicial($data->horarioinicial);
+            $ReservaAtual->setHorarioFinal($data->horariofinal);
+            $ReservaAtual->setRecorrencia($data->recorrencia);
+            $ReservaAtual->setDescricao($data->descricao);
+            $ReservaAtual->setDataCad($data->datacad);
+            $ReservaAtual->setStatus($data->status);
+            $ReservaAtual->setReservaId($numerox);
+
+            $reservaCriada = $this->criarReservasRecorrentes($ReservaAtual, $numerox);
+        }
+
+        http_response_code(201);
+        echo json_encode(['status' => $reservaCriada]);
+    }
+
+    private function criarReservasRecorrentes(Reserva $reserva, $reservaId)
+    {
+        $recorrencia = $reserva->getRecorrencia();
+        $dataInicial = new DateTime($reserva->getDataInicial());
+        $dataFinalOriginal = new DateTime($reservaId->getDataFinal());
+
+        $intervalo = match ($recorrencia) {
+            'diaria' => new DateInterval('P1D'),
+            'semanal' => new DateInterval('P1W'),
+            'mensal' => new DateInterval('P1M'),
+            default => null,
+        };
+
+        if ($intervalo) {
+            $periodo = new DatePeriod($dataInicial, $intervalo, $dataFinalOriginal);
+
+            foreach ($periodo as $dataRecorrente) {
+                if ($recorrencia === 'semanal' && $dataRecorrente->format('N') !== $dataInicial->format('N')) {
+                    continue;
+                }
+
+                $reservaRecorrente = clone $reserva;
+                $dataRecorrenteFormatada = $dataRecorrente->format('Y-m-d');
+                $reservaRecorrente->setDataInicial($dataRecorrenteFormatada);
+                $reservaRecorrente->setDataFinal($dataRecorrenteFormatada);
+                $reservaRecorrente->setReservaId($reservaId);
+
+                if (!$this->reservaRepository->criarReserva($reservaRecorrente)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function gerarStringAlfanumerica($tamanho)
+    {
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $stringAleatoria = '';
+        for ($i = 0; $i < $tamanho; $i++) {
+            $index = rand(0, strlen($caracteres) - 1);
+            $stringAleatoria .= $caracteres[$index];
+        }
+        return $stringAleatoria;
+    }
+
+
+    //#[Router('/reserve/{id}', methods: ['PUT'])]
+    public function atualizarReserva($id, $data)
+    {
+        $reservaExistente = $this->reserva->obterReservaPorId($id);
+        if ($reservaExistente) {
+            $ReservaAtual = new Reserva();
+            $ReservaAtual->setReservaId($id);
+            $ReservaAtual->setUsuarioId($data->usuarioId ?? $reservaExistente['usuarioId']);
+            $ReservaAtual->setLaboratorioId($data->labortorioId ?? $reservaExistente['labortorioId']);
+            $ReservaAtual->setDisciplinaId($data->disciplinaId ?? $reservaExistente['disciplinaId']);
+            $ReservaAtual->setDataInicial($data->datainicial ?? $reservaExistente['datainicial']);
+            $ReservaAtual->setDataFinal($data->datafinal ?? $reservaExistente['datafinal']);
+            $ReservaAtual->setHorarioInicial($data->horarioinicial  ?? $reservaExistente['horarioinicial']);
+            $ReservaAtual->setHorarioFinal($data->horariofinal  ?? $reservaExistente['horariofinal']);
+            $ReservaAtual->setRecorrencia($data->recorrencia ?? $reservaExistente['recorrencia']);
+            $ReservaAtual->setDescricao($data->descricao ?? $reservaExistente['descricao']);
+            $ReservaAtual->setDataCad($data->datacad ?? $reservaExistente['datacad']);
+            $ReservaAtual->setStatus($data->status ?? $reservaExistente['status']);
+
+            $reservaAtualizada = $this->reserva->atualizarReserva($ReservaAtual);
+            if ($reservaAtualizada) {
+                http_response_code(200);
+                echo json_encode(['status' => true, 'mensagem' => 'Reserva atualizada com sucesso']);
+            }
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'mensagem' => 'Reserva não encontrada']);
+        }
+    }
+
+    //#[Router('/reserve/forenkey/{id}', methods: ['DELETE'])]
+    public function excluirReservaPorID($id)
+    {
+        $reservasExcluidos = $this->reserva->excluirReservaPorID($id);
+        if ($reservasExcluidos) {
+            http_response_code(200);
+            echo json_encode(['status' => true, 'message' => 'Reserva(s) excluído(s) com sucesso.']);
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Reserva não encontrada.']);
         }
     }
 }
-?>
+
+//criar funções novas que aprova e nega reservas. Muda o estado da reserva.
