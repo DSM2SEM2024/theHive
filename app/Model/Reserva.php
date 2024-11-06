@@ -19,8 +19,8 @@ class Reserva {
 
     // Método para criar uma nova reserva
     public function criarReserva($usuarioId, $laboratorioId, $respostasFormulario, $dataReserva, $estado) {
-        $query = "INSERT INTO $this->table (usuario_id, laboratorio_id, respostas_id, data_reserva, estado) 
-                  VALUES (:usuario_id, :laboratorio_id, :respostas_id, :data_reserva, :estado)";    
+        $query = "INSERT INTO $this->table (usuario_id, laboratorio_id, respostas_id, data_reserva, estado)
+                  VALUES (:usuario_id, :laboratorio_id, :respostas_id, :data_reserva, :estado)";
         
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":usuario_id", $usuarioId);

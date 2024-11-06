@@ -4,13 +4,13 @@ use App\Database\Database;
 use PDO;
 
 class Usuario {
-    private $idUsuario;
+    private $id_usuario;
     private $nome;
     private $email;
     private $senha;
     private $perfil;
     private $estado;
-    private $dataCad;
+    private $data_cad;
     private $conn;
     private $table = "Usuarios";
 
@@ -24,8 +24,8 @@ class Usuario {
         $senha = $usuario->getSenha();
         $perfil = $usuario->getPerfil();
         $estado = $usuario->getEstado();
-        $dataCad = $usuario->getDataCad();
-        $query = "INSERT INTO $this->table (nome, email, senha, perfil, estado, dataCad) VALUES (:nome, :email, :senha, :perfil, :estado, :dataCad)";
+        $data_cad = $usuario->getData_cad();
+        $query = "INSERT INTO $this->table (nome, email, senha, perfil, estado, data_cad) VALUES (:nome, :email, :senha, :perfil, :estado, :data_cad)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
@@ -33,17 +33,17 @@ class Usuario {
         $stmt->bindParam(":senha", $senha);
         $stmt->bindParam(":perfil", $perfil);
         $stmt->bindParam(":estado", $estado);
-        $stmt->bindParam(":dataCad", $dataCad);
+        $stmt->bindParam(":data_cad", $data_cad);
 
         return $stmt->execute();
     }
-    // 
+
     public function getUsuarioId(){
-        return $this->idUsuario;
+        return $this->id_usuario;
     }
 
-    public function setUsuarioId($idUsuario): self{
-        $this->idUsuario = $idUsuario;
+    public function setUsuarioId($id_usuario): self{
+        $this->id_usuario = $id_usuario;
 
         return $this;
     }
@@ -94,8 +94,8 @@ class Usuario {
         return $this;
     }
 
-    public function getDataCad() {
-        return $this->dataCad;
+    public function getData_cad() {
+        return $this->data_cad;
     }
 
     public function getUsuarioByEmail($email) {
@@ -115,38 +115,38 @@ class Usuario {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getUsuarioById($idUsuario) {
-        $query = "SELECT * FROM $this->table WHERE idUsuario = :idUsuario";
+    public function getUsuarioById($id_usuario) {
+        $query = "SELECT * FROM $this->table WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function updateUsuario() {
-        $idUsuario = $this->getUsuarioId();
+        $id_usuario = $this->getUsuarioId();
         $nome = $this->getNome();
         $email = $this->getEmail();
         $senha = $this->getSenha();
         $perfil = $this->getPerfil();
         $estado = $this->getEstado();
-        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, perfil = :perfil, estado = :estado WHERE idUsuario = :idUsuario";
+        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, perfil = :perfil, estado = :estado WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
         $stmt->bindParam(":senha", $senha);
         $stmt->bindParam(":perfil", $perfil);
         $stmt->bindParam(":estado", $estado);
-        $stmt->bindParam(":idUsuario", $idUsuario);
+        $stmt->bindParam(":id_usuario", $id_usuario);
     
         return $stmt->execute();
     }
     
-    public function deleteUsuario($idUsuario) {
-        $query = "DELETE FROM usuarios WHERE idUsuario = :idUsuario";
+    public function deleteUsuario($id_usuario) {
+        $query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }
