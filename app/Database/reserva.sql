@@ -118,3 +118,12 @@ motivacoesForm varchar(150),
 atividadesForm varchar(200),
 equipamentosForm varchar(200)
 );
+
+CREATE TABLE reservas (
+  idReservas SERIAL PRIMARY KEY,
+  usuario_id INT REFERENCES usuarios(idUsuario),
+  laboratorio_id INT REFERENCES laboratorio(idLaboratorio),
+  respostas_id INT REFERENCES formulario(idRespostasForm),
+  data_reserva TIMESTAMP,
+  estado VARCHAR(100)
+);

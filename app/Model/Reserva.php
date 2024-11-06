@@ -1,0 +1,215 @@
+<?php
+namespace App\Model;
+use app\Database\Database;
+use PDO;
+
+class Reserva {
+    private $idReserva;
+    private $idUsuario;
+    private $idLaboratorio;
+    private $idDisciplina;
+    private $dataInicial;
+    private $dataFinal;
+    private $horarioInicial;
+    private $horarioFinal;
+    private $recorrencia;
+    private $descricao;
+    private $dataCad;
+    private $status;
+    private $conn;
+    private $table = "reservas";
+
+    public function __construct() {
+        $this->conn = Database::getInstance();
+    }
+    public function criarReserva(Reserva $reserva) {
+        $query = "INSERT INTO $this->table (id_reserva, id_usuario, id_laboratorio, id_disciplina, data_inicial, data_final, horario_inicial, horario_final, recorrencia, descricao, data_cad, status_reserva)
+                  VALUES (:id_reserva, :id_usuario, :id_laboratorio, :id_disciplina, :data_inicial, :data_final, :horario_inicial, :horario_final, :recorrencia, :descricao, :data_cad, :status_reserva)";
+        $stmt = $this->conn->prepare($query);
+    
+        $idReserva = $reserva->getReservaId();
+        $idUsuario = $reserva->getUsuarioId();
+        $idLaboratorio = $reserva->getLaboratorioId();
+        $idDisciplina = $reserva->getDisciplinaId();
+        $dataInicial = $reserva->getDataInicial();
+        $dataFinal = $reserva->getDataFinal();
+        $horarioInicial = $reserva->getHorarioInicial();
+        $horarioFinal = $reserva->getHorarioFinal();
+        $recorrencia = $reserva->getRecorrencia();
+        $descricao = $reserva->getDescricao();
+        $dataCad = $reserva->getDataCad();
+        $status = $reserva->getStatus();
+    
+        $stmt->bindParam(":id_reserva", $idReserva);
+        $stmt->bindParam(":id_usuario", $idUsuario);
+        $stmt->bindParam(":id_laboratorio", $idLaboratorio);
+        $stmt->bindParam(":id_disciplina", $idDisciplina);
+        $stmt->bindParam(":data_inicial", $dataInicial);
+        $stmt->bindParam(":data_final", $dataFinal);
+        $stmt->bindParam(":horario_inicial", $horarioInicial);
+        $stmt->bindParam(":horario_final", $horarioFinal);
+        $stmt->bindParam(":recorrencia", $recorrencia);
+        $stmt->bindParam(":descricao", $descricao);
+        $stmt->bindParam(":data_cad", $dataCad);
+        $stmt->bindParam(":status_reserva", $status);
+
+        return $stmt->execute();
+    }
+
+    public function getReservaId() {
+        return $this->idReserva;
+    }
+    public function setReservaId($idReserva) {
+        $this->idReserva = $idReserva;
+    }
+
+    public function getUsuarioId() {
+        return $this->idUsuario;
+    }
+    
+    public function setUsuarioId($idUsuario) {
+        $this->idUsuario = $idUsuario;
+    }
+
+    public function getLaboratorioId() {
+        return $this->idLaboratorio;
+    }
+    
+    public function setLaboratorioId($idLaboratorio) {
+        $this->idLaboratorio = $idLaboratorio;
+    }
+
+    public function getDisciplinaId() {
+        return $this->idDisciplina;
+    }
+
+    public function setDisciplinaId($idDisciplina) {
+        $this->idDisciplina = $idDisciplina;
+    }
+
+    public function getDataInicial() {
+        return $this->dataInicial;
+    }
+    
+    public function setDataInicial($dataInicial) {
+        $this->dataInicial = $dataInicial;
+    }
+
+    public function getDataFinal() {
+        return $this->dataFinal;
+    }
+
+    public function setDataFinal($dataFinal) {
+        $this->dataFinal = $dataFinal;
+    }
+
+    public function getHorarioInicial() {
+        return $this->horarioInicial;
+    }
+    
+    public function setHorarioInicial($horarioInicial) {
+        $this->horarioInicial = $horarioInicial;
+    }
+
+    public function getHorarioFinal() {
+        return $this->horarioFinal;
+    }
+
+    public function setHorarioFinal($horarioFinal) {
+        $this->horarioFinal = $horarioFinal;
+    }
+
+    public function getDescricao() {
+        return $this->descricao;
+    }
+
+    public function setDescricao($descricao) {
+        $this->descricao = $descricao;
+    }
+
+    public function getRecorrencia() {
+        return $this->recorrencia;
+    }
+    public function setRecorrencia($recorrencia) {
+        $this->recorrencia = $recorrencia;
+    }
+
+    public function getDataCad() {
+        return $this->dataCad;
+    }
+    public function setDataCad($dataCad) {
+        $this->dataCad = $dataCad;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+    public function setStatus($status) {
+        $this->status = $status;
+    } 
+    
+    public function obterTodasReservas() {
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obterReservaPorId($id) {
+        $query = "SELECT * FROM $this->table WHERE id_reserva = :id_reserva";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_reserva", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function atualizarReserva(Reserva $Reserva) {
+        $query = "UPDATE $this->table SET  id_usuario = :id_usuario, id_laboratorio = :id_laboratorio, id_disciplina = :id_disciplina, data_inicial = :data_inicial, data_final = :data_final, horario_inicial = :horario_inicial, horario_final = :horario_final, recorrencia = :recorrencia, descricao = :descricao, data_cad = :data_cad, status_reserva = :status_reserva WHERE id_reserva = :id_reserva";
+        $stmt = $this->conn->prepare($query);
+
+        $idReserva = $Reserva->getReservaId();
+        $idUsuario = $Reserva->getUsuarioId();
+        $idLaboratorio = $Reserva->getLaboratorioId();
+        $idDisciplina = $Reserva->getDisciplinaId();
+        $dataInicial = $Reserva->getDataInicial();
+        $dataFinal = $Reserva->getDataFinal();
+        $horarioInicial = $Reserva->getHorarioInicial();
+        $horarioFinal = $Reserva->getHorarioFinal();
+        $recorrencia = $Reserva->getRecorrencia();
+        $descricao = $Reserva->getDescricao();
+        $dataCad = $Reserva->getDataCad();
+        $status = $Reserva->getStatus();
+
+        $stmt->bindParam(":id_usuario", $idUsuario);
+        $stmt->bindParam(":id_laboratorio", $idLaboratorio);
+        $stmt->bindParam(":id_disciplina", $idDisciplina);
+        $stmt->bindParam(":data_inicial", $dataInicial);
+        $stmt->bindParam(":data_final", $dataFinal);
+        $stmt->bindParam(":horario_inicial", $horarioInicial);
+        $stmt->bindParam(":horario_final", $horarioFinal);
+        $stmt->bindParam(":recorrencia", $recorrencia);
+        $stmt->bindParam(":descricao", $descricao);
+        $stmt->bindParam(":data_cad", $dataCad);
+        $stmt->bindParam(":status_reserva", $status);
+        $stmt->bindParam(":id_reserva", $idReserva, PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public function obterReservaPorIntervaloDeData($dataini, $datafim) {
+        $query = "SELECT * FROM $this->table WHERE data_inicial >= :data_inicial AND data_final <= :data_final";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":data_inicial", $dataini);
+        $stmt->bindParam(":data_final", $datafim);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function excluirReservaPorID($id,) {
+        $query = "DELETE FROM $this->table WHERE id_reserva = :id_reserva";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_reserva", $id, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
+}

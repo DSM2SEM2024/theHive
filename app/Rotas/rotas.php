@@ -4,6 +4,7 @@ namespace App\Rotas;
 use App\Controllers\LaboratorioController;
 use App\Controllers\UsuarioController;
 use App\Controllers\FormularioController;
+use App\Controllers\ReservaController;
 
 class Rotas {
     public static function fastRotas(){
@@ -18,6 +19,10 @@ class Rotas {
                 //forms
                 '/forms' => [FormularioController::class, 'read'],
                 '/forms/{id}' => [FormularioController::class, 'read'],
+                //reserva
+                '/reserve' => [ReservaController::class, 'obterTodasReservas'],
+                '/reserve/{id}' => [ReservaController::class, 'obterReservaPorId'],
+                '/reserve/data/{dataini}/{datafim}' => [ReservaController::class, 'obterReservaPorIntervaloDeData'],
             ],
             'POST' => [
                 //users
@@ -27,6 +32,8 @@ class Rotas {
                 '/labs' => [LaboratorioController::class, 'create'],
                 //forms
                 '/forms' => [FormularioController::class, 'create'],
+                //reserva
+                '/reserve' => [ReservaController::class, 'criarReserva'],
             ],
             'PUT' => [
                 //users
@@ -34,7 +41,9 @@ class Rotas {
                 //labs
                 '/labs/{id}' => [LaboratorioController::class, 'update'],
                 //forms
-                '/forms' => [FormularioController::class, 'update'],
+                '/forms{id}' => [FormularioController::class, 'update'],
+                //reserva
+                '/reserve/{id}' => [FormularioController::class, 'atualizarReserva'],
                 
             ],
             'DELETE' => [
@@ -43,6 +52,8 @@ class Rotas {
                 '/labs/{id}' => [LaboratorioController::class, 'delete'],
                 //forms
                 '/forms' => [FormularioController::class, 'delete'],
+                //reserva
+                '/reserve/{id}' => [FormularioController::class, 'excluirReservaPorID'],
             ],
         ];
     }

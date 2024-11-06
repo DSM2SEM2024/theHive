@@ -1,3 +1,7 @@
+window.onload = function() {
+  localStorage.removeItem('laboratorioId');
+  localStorage.removeItem('formId');
+};
 // Faz a requisição para obter os laboratórios
 fetch('http://localhost:3000/labs', {
   method: 'GET',
@@ -25,8 +29,7 @@ fetch('http://localhost:3000/labs', {
             <li id="equipamento"><strong>Equipamentos:</strong><br> ${laboratorio.equipamento}</li>
           </ul>
         </div>
-      </div>
-      <button class="btn-calendario">Ver calendário</button>
+        <button class="btn-calendario" data-laboratorio-id="${laboratorio.idLaboratorio}" onclick="verCalendario(this)">Ver calendário</button>
     `;
 
     // Adiciona o card ao container
@@ -34,3 +37,9 @@ fetch('http://localhost:3000/labs', {
   });
 })
 .catch(error => console.error('Erro ao buscar laboratórios:', error));
+
+function verCalendario(button) {
+  const laboratorioId = button.getAttribute('data-laboratorio-id'); // Obtém o ID do laboratório
+  localStorage.setItem('laboratorioId', laboratorioId); // Armazena no localStorage
+  window.location.href = '../Formulario/index.html'; // Redireciona para a página de formulário
+}
