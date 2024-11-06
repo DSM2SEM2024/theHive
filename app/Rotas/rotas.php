@@ -42,7 +42,7 @@ class Rotas {
                 //forms
                 '/forms' => [FormularioController::class, 'update'],
                 //reserva
-                '/reserva' => [FormularioController::class, 'update'],
+                '/reserve' => [FormularioController::class, 'update'],
                 
             ],
             'DELETE' => [
@@ -52,7 +52,7 @@ class Rotas {
                 //forms
                 '/forms' => [FormularioController::class, 'delete'],
                 //reserva
-                '/reserva' => [FormularioController::class, 'delete'],
+                '/reserve' => [FormularioController::class, 'delete'],
             ],
         ];
     }
