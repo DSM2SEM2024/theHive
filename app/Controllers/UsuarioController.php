@@ -10,7 +10,7 @@ class UsuarioController {
         $this->user = new Usuario();
     }
     public function create($data) {
-        if (!isset($data->nome, $data->email, $data->senha, $data->perfil, $data->estado)) {
+        if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do usuário."]);
             return;
@@ -22,7 +22,7 @@ class UsuarioController {
             return;
         }
 
-        $this->user->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setPerfil($data->perfil)->setEstado($data->estado);
+        $this->user->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setPerfil($data->perfil);
         if ($this->user->insertUsuario($this->user)) {
             http_response_code(201);
             echo json_encode(["success"=> true,"message" => "Usuário criado com sucesso."]);

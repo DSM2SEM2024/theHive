@@ -17,14 +17,14 @@ nome varchar(50) not null,
 senha varchar(500) not null,
 email varchar(50) not null,
 perfil varchar(50) not null,
-estado boolean not null,
+estado boolean not null default 1,
 data_cad timestamp default current_timestamp
 );
 
 CREATE TABLE CURSO ( 
-	id_curso int primary key,
+	id_curso int primary key auto_increment,
     nome varchar(50) not null,
-    estado boolean not null,
+    estado boolean not null default 1,
     data_cad timestamp default current_timestamp
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE DISCIPLINA (
 	id_disciplina int primary key auto_increment,
     id_curso int,
     nome varchar(50) not null,
-    estado boolean not null,
+    estado boolean not null default 1,
     data_cad timestamp default current_timestamp,
     FOREIGN KEY (id_curso) REFERENCES CURSO(id_curso)
 );
@@ -42,14 +42,14 @@ CREATE TABLE EQUIPAMENTO (
     nome varchar(50) not null,
     numero int(3) not null,
     sofware varchar(50) not null,
-    estado boolean not null,
+    estado boolean not null default 1,
     data_cad timestamp default current_timestamp
 );    
 
 CREATE TABLE SOFTWARE (
 	id_software int primary key auto_increment,
     nome varchar(50) not null,
-    estado boolean not null,
+    estado boolean not null default 1,
     data_cad timestamp default current_timestamp
 );
 
@@ -65,13 +65,12 @@ CREATE TABLE EQUIPAMENTO_SOFTWARE (
 CREATE TABLE LABORATORIO (
 	id_laboratorio int primary key auto_increment,
     nome varchar(50) not null,
-    numero int(3) not null,
     andar int(1) not null,
-    id_equipamento int,
+    equipamento int,
     capacidade int(2) not null,
-    estado boolean not null,
+    estado boolean not null default 1,
     data_cad timestamp default current_timestamp,
-    FOREIGN KEY (id_equipamento) REFERENCES EQUIPAMENTO(id_equipamento)
+    FOREIGN KEY (equipamento) REFERENCES EQUIPAMENTO(id_equipamento)
 );
 
 CREATE TABLE RESERVA(
@@ -86,7 +85,7 @@ CREATE TABLE RESERVA(
 	recorrencia varchar(50) not null,
 	descricao varchar(100),
 	data_cad timestamp default current_timestamp,
-	status_reserva varchar(10),
+	status_reserva varchar(10) not null default 'pendente',
 	FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario),
     FOREIGN KEY (id_laboratorio) REFERENCES LABORATORIO(id_laboratorio),
     FOREIGN KEY (id_disciplina) REFERENCES DISCIPLINA(id_disciplina)

@@ -10,7 +10,7 @@ class LaboratorioController {
         $this->lab = new Laboratorio();
     }
     public function create($data) {
-        if (!isset($data->nome, $data->andar, $data->equipamento, $data->capacidade)) {
+        if (!isset($data->nome, $data->andar, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do laboratório."]);
             return;
@@ -53,7 +53,7 @@ class LaboratorioController {
 
         $this->lab->setLaboratorioId($id)->setNome($data->nome)->setAndar($data->andar)->setEquipamento($data->equipamento)->setCapacidade($data->capacidade);
 
-        if ($this->lab->updateLaboratorio($this->lab)) {
+        if ($this->lab->updateLaboratorio()) {
             http_response_code(200);
             echo json_encode(["message" => "Laboratório atualizado com sucesso."]);
         } else {
