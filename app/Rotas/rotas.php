@@ -6,7 +6,7 @@ use App\Controllers\UsuarioController;
 use App\Controllers\FormularioController;
 use App\Controllers\ReservaController;
 
-class Rotas {
+class rotas {
     public static function fastRotas(){
         return [
             'GET' => [
