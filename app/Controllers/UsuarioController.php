@@ -91,7 +91,7 @@ class UsuarioController {
 
         $this->user->setUsuarioId($id)->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setPerfil($data->perfil)->setEstado($data->estado);
 
-        if ($this->user->updateUsuario($this->user)) {
+        if ($this->user->updateUsuario()) {
             http_response_code(200);
             echo json_encode(["message" => "Usuário atualizado com sucesso."]);
         } else {
