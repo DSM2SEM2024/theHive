@@ -25,7 +25,7 @@ class Usuario {
         $perfil = $usuario->getPerfil();
         $estado = $usuario->getEstado();
         $data_cad = $usuario->getData_cad();
-        $query = "INSERT INTO $this->table (nome, email, senha, perfil, estado, data_cad) VALUES (:nome, :email, :senha, :perfil, :estado, :data_cad)";
+        $query = "INSERT INTO $this->table (nome, email, senha, perfil, estado) VALUES (:nome, :email, :senha, :perfil, :estado)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
@@ -33,7 +33,6 @@ class Usuario {
         $stmt->bindParam(":senha", $senha);
         $stmt->bindParam(":perfil", $perfil);
         $stmt->bindParam(":estado", $estado);
-        $stmt->bindParam(":data_cad", $data_cad);
 
         return $stmt->execute();
     }

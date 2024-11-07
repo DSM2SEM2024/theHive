@@ -3,11 +3,11 @@ return [
     'database' => [
         'driver' => 'mysql', // 'pgsql', 'mysql', 'sqlite', 'sqlsrv' , 
         'mysql' => [
-            'host' => 'localhost',
+            'host' => '127.0.0.1',
             'port' => '3306',
-            'db_name' => 'reservas', 
-            'username' => 'root', 
-            'password' => 'root123', 
+            'db_name' => 'reserva', 
+            'username' => 'teste', 
+            'password' => 'teste', 
             'charset' => 'utf8'
         ],
         'sqlite' => [
