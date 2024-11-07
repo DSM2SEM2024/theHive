@@ -42,17 +42,12 @@ class UsuarioController {
         $usuario = $this->user->getUsuarioByEmail($data->email);
         if ($usuario && password_verify($data->senha, $usuario['senha'])) {
             unset($usuario['senha']);
-            $controller = new PageController();
-            $telas = $controller->getUserPages($usuario['tipo']);
             http_response_code(200);
             echo json_encode(["message" => "Login bem-sucedido.",
              "usuario" => [
                 "id_usuario" => $usuario['id_usuario'],
                 "nome" => $usuario['nome'],
                 "email" => $usuario['email'],
-                "curso" => $usuario['curso'],
-                "tipo" => $usuario['tipo'],
-                "paginas" => $telas
             ]]);
         } else {
             http_response_code(401);
