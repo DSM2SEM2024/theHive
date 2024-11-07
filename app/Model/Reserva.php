@@ -1,6 +1,6 @@
 <?php
 namespace App\Model;
-use app\Database\Database;
+use App\Database\Database;
 use PDO;
 
 class Reserva {
@@ -17,7 +17,7 @@ class Reserva {
     private $dataCad;
     private $status;
     private $conn;
-    private $table = "reservas";
+    private $table = "reserva";
 
     public function __construct() {
         $this->conn = Database::getInstance();
