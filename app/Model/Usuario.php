@@ -10,7 +10,7 @@ class Usuario {
     private $senha;
     private $perfil;
     private $estado;
-    private $data_cad;
+    private $dataCad;
     private $conn;
     private $table = "Usuarios";
 
@@ -24,7 +24,7 @@ class Usuario {
         $senha = $usuario->getSenha();
         $perfil = $usuario->getPerfil();
         $estado = $usuario->getEstado();
-        $data_cad = $usuario->getData_cad();
+        $dataCad = $usuario->getData_cad();
         $query = "INSERT INTO $this->table (nome, email, senha, perfil) VALUES (:nome, :email, :senha, :perfil)";
 
         $stmt = $this->conn->prepare($query);
@@ -92,7 +92,7 @@ class Usuario {
         return $this;
     }
 
-    public function getData_cad() {
+    public function getDataCad() {
         return $this->data_cad;
     }
 

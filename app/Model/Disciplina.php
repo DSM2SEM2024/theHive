@@ -42,3 +42,8 @@ class Disciplina {
         $this->estado = $estado;
         return $this;
     }
+
+    public function getDataCad() {
+        return $this->dataCad;
+    }
+}
