@@ -21,21 +21,48 @@ estado boolean not null default 1,
 data_cad timestamp default current_timestamp
 );
 
-CREATE TABLE CURSO ( 
-	id_curso int primary key auto_increment,
-    nome varchar(50) not null,
-    estado boolean not null default 1,
-    data_cad timestamp default current_timestamp
+-- Tabela USUARIOS
+CREATE TABLE USUARIOS (
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    senha VARCHAR(500) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    perfil VARCHAR(50) NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT 1,
+    data_cad TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE CURSO (
+    id_curso INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL UNIQUE,
+    estado BOOLEAN NOT NULL DEFAULT 1,
+    data_cad TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE DISCIPLINA (
-	id_disciplina int primary key auto_increment,
-    id_curso int,
-    nome varchar(50) not null,
-    estado boolean not null default 1,
-    data_cad timestamp default current_timestamp,
+    id_disciplina INT PRIMARY KEY AUTO_INCREMENT,
+    id_curso INT,
+    nome VARCHAR(50) NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT 1,
+    data_cad TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_curso) REFERENCES CURSO(id_curso)
+        ON DELETE SET NULL 
+        ON UPDATE CASCADE
 );
+
+-- Trigger para desativar disciplinas ao desativar um curso
+DELIMITER //
+
+CREATE TRIGGER desativar_disciplinas_ao_desativar_curso
+AFTER UPDATE ON CURSO
+FOR EACH ROW
+BEGIN
+    IF NEW.estado = 0 THEN
+        UPDATE DISCIPLINA SET estado = 0 WHERE id_curso = NEW.id_curso;
+    END IF;
+END//
+
+DELIMITER ;
 
 CREATE TABLE EQUIPAMENTO (
 	id_equipamento int primary key auto_increment,

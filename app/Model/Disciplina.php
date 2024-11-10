@@ -95,6 +95,13 @@ class Disciplina {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function desativarDisciplinasPorCurso($idCurso) {
+        $query = "UPDATE DISCIPLINA SET estado = 0 WHERE id_curso = :id_curso";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
     public function getDisciplinaId() {
         return $this->idDisciplina;
     }
