@@ -93,7 +93,7 @@ class Usuario {
     }
 
     public function getDataCad() {
-        return $this->data_cad;
+        return $this->dataCad;
     }
 
     public function getUsuarioByEmail($email) {
