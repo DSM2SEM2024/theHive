@@ -39,7 +39,7 @@ class rotas {
                 '/equipamento' => [EquipamentoController::class, 'read'],
             ],
             'POST' => [
-                //users
+                //usuario
                 '/users' => [UsuarioController::class, 'create'],
                 '/login' => [UsuarioController::class, 'login'],
                 //labs
@@ -60,29 +60,30 @@ class rotas {
             'PUT' => [
                 //users
                '/users/{id}' => [UsuarioController::class, 'update'],
-                //labs
-                '/labs/{id}' => [LaboratorioController::class, 'update'],
-                //forms
-                '/forms{id}' => [FormularioController::class, 'update'],
-                //reserva
-                '/reserve/{id}' => [FormularioController::class, 'atualizarReserva'],
-                //disciplina
-                '/disciplina/{id}' => [DisciplinaController::class, 'update'],
-                //curso
-                '/curso/{id}' => [CursoController::class, 'update'],
+               //labs
+               '/labs/{id}' => [LaboratorioController::class, 'update'],
+               //forms
+               '/forms{id}' => [FormularioController::class, 'update'],
+               //reserva
+               '/reserve/{id}' => [FormularioController::class, 'atualizarReserva'],
+               //disciplina
+               '/disciplina/{id}' => [DisciplinaController::class, 'update'],
+               //curso
+               '/curso/{id}' => [CursoController::class, 'update'],
                 //software
                 '/software' => [SoftwareController::class, 'update'],
                 //equipamento
                 '/equipamento' => [EquipamentoController::class, 'update'],
             ],
             'DELETE' => [
+                //users
                 '/users/{id}' => [UsuarioController::class, 'delete'],
                 //labs
                 '/labs/{id}' => [LaboratorioController::class, 'delete'],
                 //forms
                 '/forms' => [FormularioController::class, 'delete'],
                 //reserva
-                '/reserve/{id}' => [FormularioController::class, 'excluirReservaPorID'],
+                '/reserve/{id}' => [ReservaController::class, 'excluirReservaPorID'],
                 //disciplina
                 '/disciplina/{id}' => [DisciplinaController::class, 'delete'],
                 //curso
@@ -95,4 +96,3 @@ class rotas {
         ];
     }
 }
-

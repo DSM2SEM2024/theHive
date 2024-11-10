@@ -16,12 +16,9 @@ class Curso {
     }
 
     public function create(){
-        $query = "INSERT INTO $this->table (id_curso, nome, estado, data_cad) VALUES (:id_curso, :nome, :estado, :data_cad)";
+        $query = "INSERT INTO $this->table (nome) VALUES (:nome)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id_curso", $this->idCurso, PDO::PARAM_INT);
         $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
-        $stmt->bindParam(":estado", $this->estado, PDO::PARAM_INT);
-        $stmt->bindParam(":data_cad", $this->dataCad, PDO::PARAM_STR);
         return $stmt->execute();
     }
         

@@ -17,8 +17,8 @@ class Disciplina {
     }
 
     public function criarDisciplina(Disciplina $disciplina) {
-        $query = "INSERT INTO $this->table (id_disciplina, id_curso, nome, estado, data_cad)
-                  VALUES (:id_disciplina, :id_curso, :nome, :estado, :data_cad)";
+        $query = "INSERT INTO $this->table (id_curso, nome)
+                  VALUES (:id_curso, :nome)";
         $stmt = $this->conn->prepare($query);
     
         $idDisciplina = $disciplina->getdisciplinaId();
@@ -26,14 +26,11 @@ class Disciplina {
         $nome = $disciplina->getNome();
         $estado = $disciplina->getEstado();
         $dataCad = $disciplina->getDataCad();
-        
     
-        $stmt->bindParam(":id_disciplina", $idDisciplina);
         $stmt->bindParam(":id_curso", $idCurso);
         $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":estado", $estado);
-        $stmt->bindParam(":data_cad", $dataCad);
-        
+
+        return $stmt->execute();
     }
 
     public function getAllDisciplina() {

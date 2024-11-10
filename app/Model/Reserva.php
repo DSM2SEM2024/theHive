@@ -22,9 +22,9 @@ class Reserva {
     public function __construct() {
         $this->conn = Database::getInstance();
     }
-    public function criarReserva(Reserva $reserva) {
-        $query = "INSERT INTO $this->table (id_reserva, id_usuario, id_laboratorio, id_disciplina, data_inicial, data_final, horario_inicial, horario_final, recorrencia, descricao, data_cad, status_reserva)
-                  VALUES (:id_reserva, :id_usuario, :id_laboratorio, :id_disciplina, :data_inicial, :data_final, :horario_inicial, :horario_final, :recorrencia, :descricao, :data_cad, :status_reserva)";
+    public function create(Reserva $reserva) {
+        $query = "INSERT INTO $this->table (id_usuario, id_laboratorio, id_disciplina, data_inicial, data_final, horario_inicial, horario_final, recorrencia, descricao)
+                  VALUES (:id_usuario, :id_laboratorio, :id_disciplina, :data_inicial, :data_final, :horario_inicial, :horario_final, :recorrencia, :descricao)";
         $stmt = $this->conn->prepare($query);
     
         $idReserva = $reserva->getReservaId();
@@ -40,27 +40,21 @@ class Reserva {
         $dataCad = $reserva->getDataCad();
         $status = $reserva->getStatus();
     
-        $stmt->bindParam(":id_reserva", $idReserva);
-        $stmt->bindParam(":id_usuario", $idUsuario);
-        $stmt->bindParam(":id_laboratorio", $idLaboratorio);
-        $stmt->bindParam(":id_disciplina", $idDisciplina);
+        $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
+        $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
         $stmt->bindParam(":data_inicial", $dataInicial);
         $stmt->bindParam(":data_final", $dataFinal);
         $stmt->bindParam(":horario_inicial", $horarioInicial);
         $stmt->bindParam(":horario_final", $horarioFinal);
         $stmt->bindParam(":recorrencia", $recorrencia);
         $stmt->bindParam(":descricao", $descricao);
-        $stmt->bindParam(":data_cad", $dataCad);
-        $stmt->bindParam(":status_reserva", $status);
 
         return $stmt->execute();
     }
 
     public function getReservaId() {
         return $this->idReserva;
-    }
-    public function setReservaId($idReserva) {
-        $this->idReserva = $idReserva;
     }
 
     public function getUsuarioId() {
@@ -205,7 +199,7 @@ class Reserva {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function excluirReservaPorID($id,) {
+    public function excluirReservaPorID($id) {
         $query = "DELETE FROM $this->table WHERE id_reserva = :id_reserva";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_reserva", $id, PDO::PARAM_STR);

@@ -13,15 +13,14 @@ class DisciplinaController {
 
     // Função para criar uma nova disciplina
     public function create($data) {
-        if (!isset($data->id_curso, $data->nome, $data->estado)) {
+        if (!isset($data->id_curso, $data->nome)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação da disciplina."]);
             return;
         }
 
         $this->disciplina->setCursoId($data->id_curso)
-                         ->setNome($data->nome)
-                         ->setEstado($data->estado);
+                         ->setNome($data->nome);
 
         if ($this->disciplina->criarDisciplina($this->disciplina)) {
             http_response_code(201);

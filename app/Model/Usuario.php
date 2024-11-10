@@ -24,7 +24,7 @@ class Usuario {
         $senha = $usuario->getSenha();
         $perfil = $usuario->getPerfil();
         $estado = $usuario->getEstado();
-        $dataCad = $usuario->getData_cad();
+        $dataCad = $usuario->getDataCad();
         $query = "INSERT INTO $this->table (nome, email, senha, perfil) VALUES (:nome, :email, :senha, :perfil)";
 
         $stmt = $this->conn->prepare($query);
