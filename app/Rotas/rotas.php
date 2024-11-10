@@ -5,6 +5,8 @@ use App\Controllers\LaboratorioController;
 use App\Controllers\UsuarioController;
 use App\Controllers\FormularioController;
 use App\Controllers\ReservaController;
+use App\Controllers\DisciplinaController;
+use App\Controllers\CursoController;
 
 class rotas {
     public static function fastRotas(){
@@ -23,6 +25,12 @@ class rotas {
                 '/reserve' => [ReservaController::class, 'obterTodasReservas'],
                 '/reserve/{id}' => [ReservaController::class, 'obterReservaPorId'],
                 '/reserve/data/{dataini}/{datafim}' => [ReservaController::class, 'obterReservaPorIntervaloDeData'],
+                //disciplina
+                '/disciplina' => [DisciplinaController::class, 'readAll'],
+                '/disciplina/{id}' => [DisciplinaController::class, 'read'],
+                //curso
+                '/curso' => [CursoController::class, 'readAll'],
+                '/curso/{id}' => [CursoController::class, 'read'],
             ],
             'POST' => [
                 //users
@@ -34,6 +42,10 @@ class rotas {
                 '/forms' => [FormularioController::class, 'create'],
                 //reserva
                 '/reserve' => [ReservaController::class, 'criarReserva'],
+                //disciplina
+                '/disciplina' => [DisciplinaController::class, 'create'],
+                //curso
+                '/curso' => [CursoController::class, 'create'],
             ],
             'PUT' => [
                 //users
@@ -44,6 +56,10 @@ class rotas {
                 '/forms{id}' => [FormularioController::class, 'update'],
                 //reserva
                 '/reserve/{id}' => [FormularioController::class, 'atualizarReserva'],
+                //disciplina
+                '/disciplina/{id}' => [DisciplinaController::class, 'update'],
+                //curso
+                '/curso/{id}' => [CursoController::class, 'update'],
                 
             ],
             'DELETE' => [
@@ -54,6 +70,10 @@ class rotas {
                 '/forms' => [FormularioController::class, 'delete'],
                 //reserva
                 '/reserve/{id}' => [FormularioController::class, 'excluirReservaPorID'],
+                //disciplina
+                '/disciplina/{id}' => [DisciplinaController::class, 'delete'],
+                //curso
+                '/curso/{id}' => [CursoController::class, 'delete'],
             ],
         ];
     }

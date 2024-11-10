@@ -6,7 +6,6 @@ use App\Model\Disciplina;
 
 class CursoController {
     private $curso;
-    private $disciplina;
 
     public function __construct() {
         $this->curso = new Curso();
@@ -45,7 +44,7 @@ class CursoController {
     }
 
     // Função para listar curso por ID
-    public function readId($idCurso) {
+    public function read($idCurso) {
         $curso = $this->curso->getById($idCurso);
         if ($curso) {
             http_response_code(200);
