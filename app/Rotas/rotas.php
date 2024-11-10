@@ -8,6 +8,7 @@ use App\Controllers\ReservaController;
 use App\Controllers\DisciplinaController;
 use App\Controllers\CursoController;
 use App\Controllers\SoftwareController; 
+use App\Controllers\EquipamentoController;
 
 class rotas {
     public static function fastRotas(){
@@ -33,7 +34,9 @@ class rotas {
                 '/curso' => [CursoController::class, 'readAll'],
                 '/curso/{id}' => [CursoController::class, 'read'],
                 //software
-                '/software' => [SoftwareController::class, 'read'], 
+                '/software' => [SoftwareController::class, 'read'],
+                //equipamento
+                '/equipamento' => [EquipamentoController::class, 'read'],
             ],
             'POST' => [
                 //users
@@ -50,7 +53,9 @@ class rotas {
                 //curso
                 '/curso' => [CursoController::class, 'create'],
                 //software
-                '/software' => [SoftwareController::class, 'create'], 
+                '/software' => [SoftwareController::class, 'create'],
+                //equipamento
+                '/equipamento' => [EquipamentoController::class, 'create'], 
             ],
             'PUT' => [
                 //users
@@ -66,7 +71,9 @@ class rotas {
                 //curso
                 '/curso/{id}' => [CursoController::class, 'update'],
                 //software
-                '/software' => [SoftwareController::class, 'update'], 
+                '/software' => [SoftwareController::class, 'update'],
+                //equipamento
+                '/equipamento' => [EquipamentoController::class, 'update'],
             ],
             'DELETE' => [
                 '/users/{id}' => [UsuarioController::class, 'delete'],
@@ -82,6 +89,8 @@ class rotas {
                 '/curso/{id}' => [CursoController::class, 'delete'],
                 //software
                 '/software' => [SoftwareController::class, 'delete'], 
+                //equipamento
+                '/equipamento' => [EquipamentoController::class, 'delete'],
             ],
         ];
     }

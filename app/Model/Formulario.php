@@ -132,7 +132,7 @@ class Formulario {
         $stmt->bindParam(":motivacao", $motivacao);
         $stmt->bindParam(":atividade", $atividade);
         $stmt->bindParam(":idLaboratorio", $idLaboratorio);
-        $stmt->bindParam(":equipamentos", $equipamentos);
+        $stmt->bindParam(":equipamentos", $equipamento);
 
         return $stmt->execute();
     }
