@@ -45,7 +45,7 @@ class DisciplinaController {
     }
 
     // Função para listar disciplina por ID
-    public function read($idDisciplina) {
+    public function readId($idDisciplina) {
         $disciplina = $this->disciplina->getByIdDisciplina($idDisciplina);
         if ($disciplina) {
             http_response_code(200);

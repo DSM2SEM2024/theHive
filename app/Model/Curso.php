@@ -25,16 +25,37 @@ class Curso {
         return $stmt->execute();
     }
         
-    // Metodo para obter(gets) os cursos
-    public function read() {
-        // escreva aqui lucas retranqueiro
-        }
+    public function getById($idCurso) {
+        $query = "SELECT * FROM $this->table WHERE id_curso = :id_curso";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
+    public function getAll() {
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    //AQUI Lucas
     public function atualizarEstadoCurso($idCurso, $novoEstado) {
         $query = "UPDATE $this->table SET estado = :estado WHERE id_curso = :id_curso";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":estado", $novoEstado, PDO::PARAM_INT);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function update($idCurso) {
+        $query = "UPDATE $this->table SET nome = :nome, estado = :estado, data_cad = :data_cad WHERE id_curso = :id_curso";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
+        $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $this->estado, PDO::PARAM_INT);
+        $stmt->bindParam(":data_cad", $this->dataCad, PDO::PARAM_STR);
         return $stmt->execute();
     }
 
@@ -72,6 +93,11 @@ class Curso {
 
     public function getDataCad() {
         return $this->dataCad;
+    }
+
+    public function setDataCad($dataCad): self {
+        $this->dataCad = $dataCad;
+        return $this;
     }
 }
 
