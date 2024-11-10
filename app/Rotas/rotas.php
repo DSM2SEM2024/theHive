@@ -7,6 +7,7 @@ use App\Controllers\FormularioController;
 use App\Controllers\ReservaController;
 use App\Controllers\DisciplinaController;
 use App\Controllers\CursoController;
+use App\Controllers\SoftwareController; 
 
 class rotas {
     public static function fastRotas(){
@@ -31,6 +32,8 @@ class rotas {
                 //curso
                 '/curso' => [CursoController::class, 'readAll'],
                 '/curso/{id}' => [CursoController::class, 'read'],
+                //software
+                '/software' => [SoftwareController::class, 'read'], 
             ],
             'POST' => [
                 //users
@@ -46,6 +49,8 @@ class rotas {
                 '/disciplina' => [DisciplinaController::class, 'create'],
                 //curso
                 '/curso' => [CursoController::class, 'create'],
+                //software
+                '/software' => [SoftwareController::class, 'create'], 
             ],
             'PUT' => [
                 //users
@@ -60,7 +65,8 @@ class rotas {
                 '/disciplina/{id}' => [DisciplinaController::class, 'update'],
                 //curso
                 '/curso/{id}' => [CursoController::class, 'update'],
-                
+                //software
+                '/software' => [SoftwareController::class, 'update'], 
             ],
             'DELETE' => [
                 '/users/{id}' => [UsuarioController::class, 'delete'],
@@ -74,6 +80,8 @@ class rotas {
                 '/disciplina/{id}' => [DisciplinaController::class, 'delete'],
                 //curso
                 '/curso/{id}' => [CursoController::class, 'delete'],
+                //software
+                '/software' => [SoftwareController::class, 'delete'], 
             ],
         ];
     }
