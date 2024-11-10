@@ -36,6 +36,65 @@ class Disciplina {
         
     }
 
+    public function getAllDisciplina() {
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getByIdDisciplina($idDisciplina) {
+        $query = "SELECT * FROM $this->table WHERE id_disciplina = :id_disciplina";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function updateDisciplina() {
+        $query = "UPDATE $this->table SET id_curso = :id_curso, nome = :nome, estado = :estado, data_cad = :data_cad
+                  WHERE id_disciplina = :id_disciplina";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":id_disciplina", $this->idDisciplina, PDO::PARAM_INT);
+        $stmt->bindParam(":id_curso", $this->idCurso);
+        $stmt->bindParam(":nome", $this->nome);
+        $stmt->bindParam(":estado", $this->estado);
+        $stmt->bindParam(":data_cad", $this->dataCad);
+
+        return $stmt->execute();
+    }
+
+    public function deleteDisciplina($idDisciplina) {
+        $query = "DELETE FROM $this->table WHERE id_disciplina = :id_disciplina";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    // Método para listar disciplinas com base em seu estado
+    public function findByEstado($estado) {
+        $query = "SELECT * FROM $this->table WHERE estado = :estado";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Método para listar disciplinas associadas a um curso específico
+    public function getByIdCurso($idCurso) {
+        $query = "SELECT * FROM $this->table WHERE id_curso = :id_curso";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getDisciplinaId() {
         return $this->idDisciplina;
     }
@@ -84,10 +143,9 @@ class Disciplina {
 
 // métodos para disciplina
 
-// findAll() - para listar todas as disciplinas.
-// findById($idDisciplina) - para encontrar uma disciplina por seu ID.
-// create() - para criar uma nova disciplina no banco de dados.
-// update() - para atualizar os dados de uma disciplina existente.
-// delete($idDisciplina) - para remover uma disciplina do banco de dados.
-// findByCursoId($idCurso) - para listar disciplinas associadas a um curso específico.
+// getAllDisciplina() - para listar todas as disciplinas.
+// getByIdDisciplina($idDisciplina) - para encontrar uma disciplina por seu ID.
+// updateDisciplina() - para atualizar os dados de uma disciplina existente.
+// deleteDisciplina($idDisciplina) - para remover uma disciplina do banco de dados.
+// getByIdCurso($idCurso) - para listar disciplinas associadas a um curso específico.
 // findByEstado($estado) - para listar disciplinas com base em seu estado (ativo/inativo, por exemplo).
