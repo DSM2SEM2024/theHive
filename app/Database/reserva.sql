@@ -21,17 +21,6 @@ estado boolean not null default 1,
 data_cad timestamp default current_timestamp
 );
 
--- Tabela USUARIOS
-CREATE TABLE USUARIOS (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50) NOT NULL,
-    senha VARCHAR(500) NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE,
-    perfil VARCHAR(50) NOT NULL,
-    estado BOOLEAN NOT NULL DEFAULT 1,
-    data_cad TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 CREATE TABLE CURSO (
     id_curso INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL UNIQUE,
@@ -80,7 +69,6 @@ CREATE TABLE SOFTWARE (
     data_cad timestamp default current_timestamp
 );
 
-
 CREATE TABLE EQUIPAMENTO_SOFTWARE (
 	id_equipamento_software int primary key auto_increment,
     id_software int,
@@ -92,7 +80,7 @@ CREATE TABLE EQUIPAMENTO_SOFTWARE (
 CREATE TABLE LABORATORIO (
 	id_laboratorio int primary key auto_increment,
     nome varchar(50) not null,
-    andar int(1) not null,
+    andar varchar(50) not null,
     equipamento int,
     capacidade int(2) not null,
     estado boolean not null default 1,
@@ -116,7 +104,4 @@ CREATE TABLE RESERVA(
 	FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario),
     FOREIGN KEY (id_laboratorio) REFERENCES LABORATORIO(id_laboratorio),
     FOREIGN KEY (id_disciplina) REFERENCES DISCIPLINA(id_disciplina)
-);
-
-
-    
+);   
