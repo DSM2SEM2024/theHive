@@ -1,0 +1,56 @@
+//post/users
+/*{
+    "nome":"Kevyn",
+    "email":"kevyn@gmail.com",
+    "senha":"Senha",
+    "perfil":"Professor"
+}*/
+
+//post/login
+{
+    "email":"kevyn@gmail.com",
+    "senha":"Senha"
+}
+//post/software
+/*{
+    "nome":"Photoshop"
+}*/
+
+//post/equipamento
+/*{
+    "nome":"Computadores",
+    "numero":30,
+    "sofware":1
+}*/
+
+//post/labs
+/*{
+    "nome":"CAD II",
+    "andar":1,
+    "equipamento":1,
+    "capacidade":32
+}*/
+
+//post/curso
+/*{
+    "nome":"DSM"
+}*/
+
+//post/disciplina
+/*{
+    "id_curso":1,
+    "nome":"Desenvolvimento Web II"
+}*/
+
+//post/reserve
+/*{
+  "usuarioId": 1,
+  "laboratorioId": 1,
+  "disciplinaId": 1,
+  "datainicial": "2024-11-15",
+  "datafinal": "2024-11-15",
+  "horarioinicial": "08:00",
+  "horariofinal": "12:00",
+  "recorrencia": "nenhuma",
+  "descricao": "Reserva de laboratório para aula de física"
+}*/
