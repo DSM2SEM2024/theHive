@@ -5,9 +5,9 @@ return [
         'mysql' => [
             'host' => 'localhost',
             'port' => '3306',
-            'db_name' => 'reservas', 
-            'username' => 'root', 
-            'password' => 'root123', 
+            'db_name' => 'reserva', 
+            'username' => 'teste', 
+            'password' => 'teste', 
             'charset' => 'utf8'
         ],
         'sqlite' => [
