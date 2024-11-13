@@ -99,15 +99,15 @@ class UsuarioController {
     }
 
     public function update($id, $data) {
-        if (!isset($id, $data->nome, $data->email, $data->senha, $data->perfil, $data->estado)) {
+        if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do usuário."]);
             return;
         }
 
-        $this->user->setUsuarioId($id)->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setPerfil($data->perfil)->setEstado($data->estado);
+        $this->user->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setPerfil($data->perfil);
 
-        if ($this->user->updateUsuario()) {
+        if ($this->user->updateUsuario($id)) {
             http_response_code(200);
             echo json_encode(["message" => "Usuário atualizado com sucesso."]);
         } else {

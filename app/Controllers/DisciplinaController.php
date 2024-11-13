@@ -81,15 +81,13 @@ class DisciplinaController {
 
     // Função para atualizar uma disciplina
     public function update($idDisciplina, $data) {
-        if (!isset($data->id_curso, $data->nome, $data->estado)) {
+        if (!isset($data->id_curso, $data->nome)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a atualização da disciplina."]);
             return;
         }
 
-        $this->disciplina->setCursoId($data->id_curso)
-                         ->setNome($data->nome)
-                         ->setEstado($data->estado);
+        $this->disciplina->setCursoId($data->id_curso)->setNome($data->nome);
 
         if ($this->disciplina->updateDisciplina($idDisciplina)) {
             http_response_code(200);

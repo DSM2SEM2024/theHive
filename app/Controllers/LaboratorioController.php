@@ -34,6 +34,7 @@ class LaboratorioController {
             }else{
                 $status = 404;
             }
+            
             } else {
             $result = $this->lab->getAllLaboratorios();
             unset($laboratorio);
@@ -45,15 +46,15 @@ class LaboratorioController {
     }
 
     public function update($id, $data) {
-        if (!isset($id, $data->nome, $data->andar, $data->equipamento, $data->capacidade)) {
+        if (!isset($data->nome, $data->andar, $data->equipamento, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do laboratório."]);
             return;
         }
 
-        $this->lab->setLaboratorioId($id)->setNome($data->nome)->setAndar($data->andar)->setEquipamento($data->equipamento)->setCapacidade($data->capacidade);
+        $this->lab->setNome($data->nome)->setAndar($data->andar)->setEquipamento($data->equipamento)->setCapacidade($data->capacidade);
 
-        if ($this->lab->updateLaboratorio()) {
+        if ($this->lab->updateLaboratorio($id)) {
             http_response_code(200);
             echo json_encode(["message" => "Laboratório atualizado com sucesso."]);
         } else {

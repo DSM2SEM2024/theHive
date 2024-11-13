@@ -35,12 +35,6 @@ class Laboratorio {
         return $this->idLaboratorio;
     }
 
-    public function setLaboratorioId($idLaboratorio): self{
-        $this->idLaboratorio = $idLaboratorio;
-
-        return $this;
-    }
-
     public function getNome(){
         return $this->nome;
     }
@@ -98,35 +92,34 @@ class Laboratorio {
     }
 
     public function getLaboratorioById($idLaboratorio) {
-        $query = "SELECT * FROM $this->table WHERE idLaboratorio = :idLaboratorio";
+        $query = "SELECT * FROM $this->table WHERE id_laboratorio = :id_laboratorio";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idLaboratorio", $idLaboratorio, PDO::PARAM_INT);
+        $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateLaboratorio() {
-        $idLaboratorio = $this->getLaboratorioId();
+    public function updateLaboratorio($idLaboratorio) {
         $nome = $this->getNome();
         $andar = $this->getAndar();
         $equipamento = $this->getEquipamento();
         $capacidade = $this->getCapacidade();
-        $query = "UPDATE $this->table SET nome = :nome, andar = :andar, equipamento = :equipamento, capacidade = :capacidade WHERE idLaboratorio = :idLaboratorio";
+        $query = "UPDATE $this->table SET nome = :nome, andar = :andar, equipamento = :equipamento, capacidade = :capacidade WHERE id_laboratorio = :id_laboratorio";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":andar", $andar);
         $stmt->bindParam(":equipamento", $equipamento);
         $stmt->bindParam(":capacidade", $capacidade);
-        $stmt->bindParam(":idLaboratorio", $idLaboratorio);
+        $stmt->bindParam(":id_laboratorio", $idLaboratorio);
     
         return $stmt->execute();
     }
     
     public function deleteLaboratorio($idLaboratorio) {
-        $query = "DELETE FROM $this->table WHERE idLaboratorio = :idLaboratorio";
+        $query = "DELETE FROM $this->table WHERE id_laboratorio = :id_laboratorio";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idLaboratorio", $idLaboratorio, PDO::PARAM_INT);
+        $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }

@@ -125,28 +125,35 @@ class ReservaController {
 
     public function atualizarReserva($id, $data)
     {
+        // Verificar se a reserva existe
         $reservaExistente = $this->reserva->obterReservaPorId($id);
         if ($reservaExistente) {
+            // Criar uma instância da reserva atualizada
             $ReservaAtual = new Reserva();
-            $ReservaAtual->setReservaId($id);
             $ReservaAtual->setUsuarioId($data->usuarioId ?? $reservaExistente['usuarioId']);
-            $ReservaAtual->setLaboratorioId($data->laboratorioId ?? $reservaExistente['labortorioId']);
+            $ReservaAtual->setLaboratorioId($data->laboratorioId ?? $reservaExistente['laboratorioId']);
             $ReservaAtual->setDisciplinaId($data->disciplinaId ?? $reservaExistente['disciplinaId']);
             $ReservaAtual->setDataInicial($data->datainicial ?? $reservaExistente['datainicial']);
             $ReservaAtual->setDataFinal($data->datafinal ?? $reservaExistente['datafinal']);
-            $ReservaAtual->setHorarioInicial($data->horarioinicial  ?? $reservaExistente['horarioinicial']);
-            $ReservaAtual->setHorarioFinal($data->horariofinal  ?? $reservaExistente['horariofinal']);
+            $ReservaAtual->setHorarioInicial($data->horarioinicial ?? $reservaExistente['horarioinicial']);
+            $ReservaAtual->setHorarioFinal($data->horariofinal ?? $reservaExistente['horariofinal']);
             $ReservaAtual->setRecorrencia($data->recorrencia ?? $reservaExistente['recorrencia']);
             $ReservaAtual->setDescricao($data->descricao ?? $reservaExistente['descricao']);
-            $ReservaAtual->setDataCad($data->datacad ?? $reservaExistente['datacad']);
             $ReservaAtual->setStatus($data->status ?? $reservaExistente['status']);
 
-            $reservaAtualizada = $this->reserva->atualizarReserva($ReservaAtual);
+            // Tentar atualizar a reserva no banco de dados
+            $reservaAtualizada = $this->reserva->atualizarReserva($ReservaAtual, $id);
+
+            // Verificar se a atualização foi bem-sucedida
             if ($reservaAtualizada) {
                 http_response_code(200);
                 echo json_encode(['status' => true, 'mensagem' => 'Reserva atualizada com sucesso']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => false, 'mensagem' => 'Erro ao atualizar a reserva']);
             }
         } else {
+            // Caso a reserva não exista
             http_response_code(404);
             echo json_encode(['status' => false, 'mensagem' => 'Reserva não encontrada']);
         }

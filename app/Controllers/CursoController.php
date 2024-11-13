@@ -68,15 +68,13 @@ class CursoController {
     }
 
     public function update($idCurso, $data) {
-        if (!isset($data->nome, $data->estado, $data->data_cad)) {
+        if (!isset($data->nome)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a atualização do curso."]);
             return;
         }
 
-        $this->curso->setNome($data->nome)
-                    ->setEstado($data->estado)
-                    ->setDataCad($data->data_cad);
+        $this->curso->setNome($data->nome);
 
         if ($this->curso->update($idCurso)) {
             http_response_code(200);

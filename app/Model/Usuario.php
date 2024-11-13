@@ -40,12 +40,6 @@ class Usuario {
         return $this->id_usuario;
     }
 
-    public function setUsuarioId($id_usuario): self{
-        $this->id_usuario = $id_usuario;
-
-        return $this;
-    }
-
     public function getNome(){
         return $this->nome;
     }
@@ -122,20 +116,17 @@ class Usuario {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateUsuario() {
-        $id_usuario = $this->getUsuarioId();
+    public function updateUsuario($id_usuario) {
         $nome = $this->getNome();
         $email = $this->getEmail();
         $senha = $this->getSenha();
         $perfil = $this->getPerfil();
-        $estado = $this->getEstado();
-        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, perfil = :perfil, estado = :estado WHERE id_usuario = :id_usuario";
+        $query = "UPDATE $this->table SET nome = :nome, email = :email, senha = :senha, perfil = :perfil WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
         $stmt->bindParam(":senha", $senha);
         $stmt->bindParam(":perfil", $perfil);
-        $stmt->bindParam(":estado", $estado);
         $stmt->bindParam(":id_usuario", $id_usuario);
     
         return $stmt->execute();

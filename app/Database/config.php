@@ -5,7 +5,7 @@ return [
         'mysql' => [
             'host' => 'localhost',
             'port' => '3306',
-            'db_name' => 'reserva', 
+            'db_name' => 'reservas', 
             'username' => 'teste', 
             'password' => 'teste', 
             'charset' => 'utf8'

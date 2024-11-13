@@ -20,16 +20,13 @@ class rotas {
                 //labs
                 '/labs' => [LaboratorioController::class, 'read'],
                 '/labs/{id}' => [LaboratorioController::class, 'read'],
-                //forms
-                '/forms' => [FormularioController::class, 'read'],
-                '/forms/{id}' => [FormularioController::class, 'read'],
                 //reserva
                 '/reserve' => [ReservaController::class, 'obterTodasReservas'],
                 '/reserve/{id}' => [ReservaController::class, 'obterReservaPorId'],
                 '/reserve/data/{dataini}/{datafim}' => [ReservaController::class, 'obterReservaPorIntervaloDeData'],
                 //disciplina
                 '/disciplina' => [DisciplinaController::class, 'readAll'],
-                '/disciplina/{id}' => [DisciplinaController::class, 'read'],
+                '/disciplina/{id}' => [DisciplinaController::class, 'readId'],
                 //curso
                 '/curso' => [CursoController::class, 'readAll'],
                 '/curso/{id}' => [CursoController::class, 'read'],
@@ -65,23 +62,21 @@ class rotas {
                //forms
                '/forms{id}' => [FormularioController::class, 'update'],
                //reserva
-               '/reserve/{id}' => [FormularioController::class, 'atualizarReserva'],
+               '/reserve/{id}' => [ReservaController::class, 'atualizarReserva'],
                //disciplina
                '/disciplina/{id}' => [DisciplinaController::class, 'update'],
                //curso
                '/curso/{id}' => [CursoController::class, 'update'],
                 //software
-                '/software' => [SoftwareController::class, 'update'],
+                '/software/{id}' => [SoftwareController::class, 'update'],
                 //equipamento
-                '/equipamento' => [EquipamentoController::class, 'update'],
+                '/equipamento/{id}' => [EquipamentoController::class, 'update'],
             ],
             'DELETE' => [
                 //users
                 '/users/{id}' => [UsuarioController::class, 'delete'],
                 //labs
                 '/labs/{id}' => [LaboratorioController::class, 'delete'],
-                //forms
-                '/forms' => [FormularioController::class, 'delete'],
                 //reserva
                 '/reserve/{id}' => [ReservaController::class, 'excluirReservaPorID'],
                 //disciplina
@@ -89,9 +84,9 @@ class rotas {
                 //curso
                 '/curso/{id}' => [CursoController::class, 'delete'],
                 //software
-                '/software' => [SoftwareController::class, 'delete'], 
+                '/software/{id}' => [SoftwareController::class, 'delete'], 
                 //equipamento
-                '/equipamento' => [EquipamentoController::class, 'delete'],
+                '/equipamento/{id}' => [EquipamentoController::class, 'delete'],
             ],
         ];
     }

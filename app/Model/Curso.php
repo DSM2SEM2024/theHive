@@ -47,12 +47,10 @@ class Curso {
     }
 
     public function update($idCurso) {
-        $query = "UPDATE $this->table SET nome = :nome, estado = :estado, data_cad = :data_cad WHERE id_curso = :id_curso";
+        $query = "UPDATE $this->table SET nome = :nome WHERE id_curso = :id_curso";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
         $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
-        $stmt->bindParam(":estado", $this->estado, PDO::PARAM_INT);
-        $stmt->bindParam(":data_cad", $this->dataCad, PDO::PARAM_STR);
         return $stmt->execute();
     }
 

@@ -157,11 +157,9 @@ class Reserva {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function atualizarReserva(Reserva $Reserva) {
-        $query = "UPDATE $this->table SET  id_usuario = :id_usuario, id_laboratorio = :id_laboratorio, id_disciplina = :id_disciplina, data_inicial = :data_inicial, data_final = :data_final, horario_inicial = :horario_inicial, horario_final = :horario_final, recorrencia = :recorrencia, descricao = :descricao, data_cad = :data_cad, status_reserva = :status_reserva WHERE id_reserva = :id_reserva";
+    public function atualizarReserva(Reserva $Reserva, $idReserva) {
+        $query = "UPDATE $this->table SET  id_usuario = :id_usuario, id_laboratorio = :id_laboratorio, id_disciplina = :id_disciplina, data_inicial = :data_inicial, data_final = :data_final, horario_inicial = :horario_inicial, horario_final = :horario_final, recorrencia = :recorrencia, descricao = :descricao, status_reserva = :status_reserva WHERE id_reserva = :id_reserva";
         $stmt = $this->conn->prepare($query);
-
-        $idReserva = $Reserva->getReservaId();
         $idUsuario = $Reserva->getUsuarioId();
         $idLaboratorio = $Reserva->getLaboratorioId();
         $idDisciplina = $Reserva->getDisciplinaId();
@@ -183,7 +181,6 @@ class Reserva {
         $stmt->bindParam(":horario_final", $horarioFinal);
         $stmt->bindParam(":recorrencia", $recorrencia);
         $stmt->bindParam(":descricao", $descricao);
-        $stmt->bindParam(":data_cad", $dataCad);
         $stmt->bindParam(":status_reserva", $status);
         $stmt->bindParam(":id_reserva", $idReserva, PDO::PARAM_INT);
         

@@ -50,17 +50,13 @@ class Disciplina {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
-    public function updateDisciplina() {
-        $query = "UPDATE $this->table SET id_curso = :id_curso, nome = :nome, estado = :estado, data_cad = :data_cad
-                  WHERE id_disciplina = :id_disciplina";
+    public function updateDisciplina($idDisciplina) {
+        $query = "UPDATE $this->table SET id_curso = :id_curso, nome = :nome WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":id_disciplina", $this->idDisciplina, PDO::PARAM_INT);
         $stmt->bindParam(":id_curso", $this->idCurso);
         $stmt->bindParam(":nome", $this->nome);
-        $stmt->bindParam(":estado", $this->estado);
-        $stmt->bindParam(":data_cad", $this->dataCad);
-
         return $stmt->execute();
     }
 
