@@ -45,6 +45,39 @@ class LaboratorioController {
         echo json_encode($result ?: ["message" => "Nenhum laboratório encontrado."]);
     }
 
+    //função para listar/filtrar labroratorio por nome
+    public function filterByNome($nomeLaboratorio) {
+        $result = $this->lab->getLaboratorioByName($nomeLaboratorio);
+    
+        if ($result) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Nenhum laboratório encontrado com o nome: $nomeLaboratorio"]);
+        }
+    }
+    
+
+    //função para listar/filtrar labroratorio por andar
+    public function filterLaboratorioByAndar($andar) {
+        if (empty($andar)) {
+            http_response_code(400);
+            echo json_encode(["error" => "O valor do andar não pode estar vazio."]);
+            return;
+        }
+
+        $result = $this->lab->getLaboratorioByAndar($andar);
+
+        if ($result) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Nenhum laboratório encontrado para o andar especificado."]);
+        }
+    }
+
     public function update($id, $data) {
         if (!isset($data->nome, $data->andar, $data->equipamento, $data->capacidade)) {
             http_response_code(400);
@@ -72,4 +105,7 @@ class LaboratorioController {
             echo json_encode(["error" => "Erro ao excluir laboratório."]);
         }
     }
+
+    //adicionando a função de buscar laboratório por nome
+   
 }

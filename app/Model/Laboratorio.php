@@ -80,9 +80,16 @@ class Laboratorio {
     
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
-    
 
+    //método para buscar laboratórios por andar
+    public function getLaboratorioByAndar($andar) {
+        $query = "SELECT * FROM $this->table WHERE andar = :andar";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":andar", $andar, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public function getAllLaboratorios() {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
