@@ -116,6 +116,15 @@ class Usuario {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUsuarioByName($nome) {
+        $query = "SELECT * FROM $this->table WHERE nome = :nome";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":nome", $nome, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function updateUsuario($id_usuario) {
         $nome = $this->getNome();
         $email = $this->getEmail();

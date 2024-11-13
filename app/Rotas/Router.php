@@ -4,7 +4,7 @@ namespace App\Rotas;
 class Router {
     public static function resolve(array $arrayRotas, $method, $uri) {
         foreach ($arrayRotas[$method] as $route => $controller) {
-            $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([a-zA-Z0-9_]+)', $route);
+            $pattern = preg_replace('/\{([a-zA-Z0-9_]*)\}/', '([a-zA-Z0-9_]+)', $route);
             if (preg_match("#^$pattern$#", $uri, $recurso)) {
                 array_shift($recurso);
                 $controllerInstance = new $controller[0]();

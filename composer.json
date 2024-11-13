@@ -2,13 +2,7 @@
     "name": "conta/app",
     "autoload": {
         "psr-4": {
-            "App\\": "app/src/",
-            "App\\Rotas\\": "app/Rotas/",
-            "App\\Http\\": "app/Http/",
-            "App\\Controllers\\": "app/Controllers/",
-            "App\\Model\\": "app/Model/",
-            "App\\Factories\\": "app/Factories/",
-            "App\\Database\\": "app/Database/"
+            "App\\": "app/"
 
         }
     },

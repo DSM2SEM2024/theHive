@@ -13,12 +13,6 @@ class ComposerStaticInit0590a54b91db0f43e75a95fc5984dba5
         ),
         'A' => 
         array (
-            'App\\Rotas\\' => 10,
-            'App\\Model\\' => 10,
-            'App\\Http\\' => 9,
-            'App\\Factories\\' => 14,
-            'App\\Database\\' => 13,
-            'App\\Controllers\\' => 16,
             'App\\' => 4,
         ),
     );
@@ -28,33 +22,9 @@ class ComposerStaticInit0590a54b91db0f43e75a95fc5984dba5
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
-        'App\\Rotas\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Rotas',
-        ),
-        'App\\Model\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Model',
-        ),
-        'App\\Http\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Http',
-        ),
-        'App\\Factories\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Factories',
-        ),
-        'App\\Database\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Database',
-        ),
-        'App\\Controllers\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Controllers',
-        ),
         'App\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/app/src',
+            0 => __DIR__ . '/../..' . '/app',
         ),
     );
 

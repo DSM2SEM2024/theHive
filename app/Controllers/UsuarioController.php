@@ -6,17 +6,19 @@ use App\utils;
 use App\Views;
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
+use App\utils\AuthHelpers;
 
 class UsuarioController {
     private $user;
+    private $helper;
     private $jwtSecret = 'chave123';
 
     public function __construct() {
         $this->user = new Usuario();
+        $this->helper = new AuthHelpers();
     }
     public function create($data) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('Admin');
+        //$this->helper->registrar();
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do usuário."]);
@@ -88,8 +90,8 @@ class UsuarioController {
     }
     
     public function read($id = null) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('Professor');
+       //$token = $this->helper->selecionar();
+        
         if ($id) {
             $result = $this->user->getUsuarioById($id);
             if($result){
@@ -97,9 +99,18 @@ class UsuarioController {
                 $status = 200 ;
             }else{
                 $status = 404;
+            }  
+        } elseif ($nome) {
+            $result = $this->user->getUsuarioByName($nome);
+            if($result){
+                unset($result['senha']);
+                $status = 200 ;
+            }else{
+                $status = 404;
             }
-            
-        } else {
+        } 
+        
+        else {
             $result = $this->user->getAllUsuarios();
             foreach ($result as &$usuario) {
                 unset($usuario['senha']);
@@ -113,8 +124,7 @@ class UsuarioController {
     }
 
     public function update($id, $data) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('Admin');
+        
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do usuário."]);
@@ -133,8 +143,7 @@ class UsuarioController {
     }
 
     public function delete($id) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('AdminMaster');
+        
     
         if ($this->user->deleteUsuario($id)) {
             http_response_code(200);

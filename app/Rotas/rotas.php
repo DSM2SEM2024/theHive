@@ -17,6 +17,7 @@ class rotas {
                 //users
                 '/users' => [UsuarioController::class, 'read'],
                 '/users/{id}' => [UsuarioController::class, 'read'],
+                '/users/{nome}' => [UsuarioController::class, 'read'],
                 //labs
                 '/labs' => [LaboratorioController::class, 'read'],
                 '/labs/{id}' => [LaboratorioController::class, 'read'],
