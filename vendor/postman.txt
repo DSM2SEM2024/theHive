@@ -1,16 +1,17 @@
 //post/users
 /*{
-    "nome":"Kevyn",
+    "nome":"Kevyn C",
     "email":"kevyn@gmail.com",
     "senha":"Senha",
     "perfil":"Professor"
 }*/
 
 //post/login
-{
+/*{
     "email":"kevyn@gmail.com",
     "senha":"Senha"
-}
+}*/
+
 //post/software
 /*{
     "nome":"Photoshop"
@@ -26,31 +27,32 @@
 //post/labs
 /*{
     "nome":"CAD II",
-    "andar":1,
-    "equipamento":1,
+    "andar":2,
+    "equipamento":4,
     "capacidade":32
 }*/
 
 //post/curso
 /*{
-    "nome":"DSM"
+    "nome":"D.S.M"
 }*/
 
 //post/disciplina
 /*{
-    "id_curso":1,
-    "nome":"Desenvolvimento Web II"
+    "id_curso":5,
+    "nome":"Desenvolvimento Web I"
 }*/
 
 //post/reserve
 /*{
-  "usuarioId": 1,
-  "laboratorioId": 1,
-  "disciplinaId": 1,
+  "usuarioId": 5,
+  "laboratorioId": 5,
+  "disciplinaId": 5,
   "datainicial": "2024-11-15",
   "datafinal": "2024-11-15",
   "horarioinicial": "08:00",
-  "horariofinal": "12:00",
+  "horariofinal": "11:00",
   "recorrencia": "nenhuma",
-  "descricao": "Reserva de laboratório para aula de física"
+  "descricao": "Reserva de laboratório para aula de física",
+  //"status":"aprovada"
 }*/
