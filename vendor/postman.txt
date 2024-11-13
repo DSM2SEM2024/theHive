@@ -1,16 +1,16 @@
 //post/users
 /*{
-    "nome":"Kevyn C",
-    "email":"kevyn@gmail.com",
+    "nome":"TheHive",
+    "email":"TheHive@gmail.com",
     "senha":"Senha",
-    "perfil":"Professor"
+    "perfil":"AdminMaster"
 }*/
 
 //post/login
-/*{
-    "email":"kevyn@gmail.com",
+{
+    "email":"TheHive@gmail.com",
     "senha":"Senha"
-}*/
+}
 
 //post/software
 /*{

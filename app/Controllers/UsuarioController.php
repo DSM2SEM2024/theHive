@@ -4,14 +4,19 @@ namespace App\Controllers;
 use App\Model\Usuario;
 use App\utils;
 use App\Views;
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 class UsuarioController {
     private $user;
+    private $jwtSecret = 'chave123';
 
     public function __construct() {
         $this->user = new Usuario();
     }
     public function create($data) {
+    require_once '../utils/AuthHelpers.php';
+    \App\utils\verificarTokenComPermissao('Admin');
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do usuário."]);
@@ -45,14 +50,21 @@ class UsuarioController {
         $usuario = $this->user->getUsuarioByEmail($data->email);
         if ($usuario && password_verify($data->senha, $usuario['senha'])) {
             unset($usuario['senha']);
-            http_response_code(200);
-            echo json_encode(["message" => "Login bem-sucedido.",
-             "usuario" => [
+            $payload = [
                 "id_usuario" => $usuario['id_usuario'],
                 "nome" => $usuario['nome'],
                 "email" => $usuario['email'],
                 "perfil" => $usuario['perfil'],
-             ]]);
+                "iat" => time(),
+                "exp" => time() + 3600
+            ];
+
+            $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
+            
+            http_response_code(200);
+            echo json_encode(["message" => "Login bem-sucedido.",
+            "token" => $token
+            ]);
 
                 if ($usuario['perfil'] == 'Admin') {
                     include __DIR__ . '/../Views/Admin.php';
@@ -76,6 +88,8 @@ class UsuarioController {
     }
     
     public function read($id = null) {
+    require_once '../utils/AuthHelpers.php';
+    \App\utils\verificarTokenComPermissao('Professor');
         if ($id) {
             $result = $this->user->getUsuarioById($id);
             if($result){
@@ -99,6 +113,8 @@ class UsuarioController {
     }
 
     public function update($id, $data) {
+    require_once '../utils/AuthHelpers.php';
+    \App\utils\verificarTokenComPermissao('Admin');
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do usuário."]);
@@ -117,6 +133,9 @@ class UsuarioController {
     }
 
     public function delete($id) {
+    require_once '../utils/AuthHelpers.php';
+    \App\utils\verificarTokenComPermissao('AdminMaster');
+    
         if ($this->user->deleteUsuario($id)) {
             http_response_code(200);
             echo json_encode(["message" => "Usuário excluído com sucesso."]);

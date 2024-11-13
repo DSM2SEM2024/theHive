@@ -3,6 +3,13 @@ namespace App\Views;
 
 require_once '../utils/AuthHelpers.php';
 
-\App\utils\verificarPermissao('AdminMaster');  // Aqui usamos o namespace completo
+$headers = apache_request_headers();
+if (!isset($headers['Authorization'])) {
+    http_response_code(401);
+    echo json_encode(["error" => "Token não fornecido."]);
+    exit();
+}
 
-echo "Bem-vindo, administrador mestre! Aqui está o conteúdo exclusivo para administradores mestres.";
+$usuario = \App\utils\verificarTokenComPermissao('AdminMaster');
+
+echo "Bem-vindo, diretor " . $usuario['nome'] . "! Seu perfil tem acesso a todas as funções do software.";

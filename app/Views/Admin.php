@@ -3,6 +3,13 @@ namespace App\Views;
 
 require_once '../utils/AuthHelpers.php';
 
-\App\utils\verificarPermissao('Admin');  // Aqui usamos o namespace completo
+$headers = apache_request_headers();
+if (!isset($headers['Authorization'])) {
+    http_response_code(401);
+    echo json_encode(["error" => "Token não fornecido."]);
+    exit();
+}
 
-echo "Bem-vindo, administrador! Aqui está o conteúdo exclusivo para administradores.";
+$usuario = \App\utils\verificarTokenComPermissao('Admin');
+
+echo "Bem-vindo, gestor " . $usuario['nome'] . "! Seu perfil tem acesso ao conteúdo exclusivo para administradores.";
