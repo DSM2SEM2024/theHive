@@ -5,16 +5,20 @@ namespace App\Controllers;
 
 use App\Model\Software;
 
+
 class SoftwareController {
     private $software;
+    private $helper;
 
     // Construtor: inicializa a instância da Model de Software
     public function __construct() {
+        $this->helper = new AuthHelpers();
         $this->software = new Software();
     }
 
     // Método para criar um novo software
     public function create() {
+        $this->helper->criar();
         // Lê o corpo da requisição e decodifica o JSON
         $data = json_decode(file_get_contents("php://input"), true);
         $nome = $data['nome'] ?? '';
@@ -26,6 +30,7 @@ class SoftwareController {
 
     // Método para listar todos os softwares
     public function read() {
+        $this->helper->visualizar();
         // Chama o método getAll na Model e retorna o resultado como JSON
         $result = $this->software->getAll();
         echo json_encode($result);
@@ -33,6 +38,7 @@ class SoftwareController {
 
     // Método para atualizar um software
     public function update($id) {
+        $this->helper->atualizar();
         // Lê o corpo da requisição e decodifica o JSON
         $data = json_decode(file_get_contents("php://input"), true);
         $nome = $data['nome'] ?? '';
@@ -44,6 +50,7 @@ class SoftwareController {
 
     // Método para deletar (soft delete) um software
     public function delete($id) {
+        $this->helper->deletar();
         // Chama o método delete na Model e retorna uma mensagem de sucesso
         $this->software->delete($id);
         echo json_encode(["message" => "Software deletado com sucesso!"]);

@@ -2,14 +2,18 @@
 namespace App\Controllers;
 
 use App\Model\Laboratorio;
+use App\utils\AuthHelpers;
 
 class LaboratorioController {
     private $lab;
+    private $helper;
 
     public function __construct() {
         $this->lab = new Laboratorio();
+        $this->helper = new AuthHelpers();
     }
     public function create($data) {
+        $this->helper->criar();
         if (!isset($data->nome, $data->andar, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do laboratório."]);
@@ -27,6 +31,7 @@ class LaboratorioController {
     }
 
     public function read($id = null) {
+        $this->helper->visualizar();
         if ($id) {
             $result = $this->lab->getLaboratorioById($id);
             if($result){
@@ -47,6 +52,7 @@ class LaboratorioController {
 
     //função para listar/filtrar labroratorio por nome
     public function filterByNome($nomeLaboratorio) {
+        $this->helper->visualizar();
         $result = $this->lab->getLaboratorioByName($nomeLaboratorio);
     
         if ($result) {
@@ -61,6 +67,7 @@ class LaboratorioController {
 
     //função para listar/filtrar labroratorio por andar
     public function filterLaboratorioByAndar($andar) {
+        $this->helper->visualizar();
         if (empty($andar)) {
             http_response_code(400);
             echo json_encode(["error" => "O valor do andar não pode estar vazio."]);
@@ -79,6 +86,7 @@ class LaboratorioController {
     }
 
     public function update($id, $data) {
+        $this->helper->atualizar();
         if (!isset($data->nome, $data->andar, $data->equipamento, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do laboratório."]);
@@ -97,6 +105,7 @@ class LaboratorioController {
     }
 
     public function delete($id) {
+        $this->helper->deletar();
         if ($this->lab->deleteLaboratorio($id)) {
             http_response_code(200);
             echo json_encode(["message" => "Laboratório excluído com sucesso."]);

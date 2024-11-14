@@ -17,7 +17,6 @@ class rotas {
                 //users
                 '/users' => [UsuarioController::class, 'read'],
                 '/users/{id}' => [UsuarioController::class, 'read'],
-                '/users/{nome}' => [UsuarioController::class, 'read'],
                 //labs
                 '/labs' => [LaboratorioController::class, 'read'],
                 '/labs/{id}' => [LaboratorioController::class, 'read'],
@@ -42,8 +41,6 @@ class rotas {
                 '/login' => [UsuarioController::class, 'login'],
                 //labs
                 '/labs' => [LaboratorioController::class, 'create'],
-                //forms
-                '/forms' => [FormularioController::class, 'create'],
                 //reserva
                 '/reserve' => [ReservaController::class, 'criarReserva'],
                 //disciplina
@@ -60,8 +57,6 @@ class rotas {
                '/users/{id}' => [UsuarioController::class, 'update'],
                //labs
                '/labs/{id}' => [LaboratorioController::class, 'update'],
-               //forms
-               '/forms{id}' => [FormularioController::class, 'update'],
                //reserva
                '/reserve/{id}' => [ReservaController::class, 'atualizarReserva'],
                //disciplina
