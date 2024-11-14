@@ -5,19 +5,28 @@
 namespace App\Model;
 use PDO;
 use App\Database\Database;
+use App\Model\Log;
 
 class Software {
     private $conn;
+    private $log;
 
     // Construtor: inicializa a conexão com o banco de dados
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->log = new Log();
     }
     // Método para criar um novo software
     public function create($nome) {
         // Prepara a consulta SQL para inserir um novo software
         $stmt = $this->conn->prepare("INSERT INTO SOFTWARE (nome) VALUES (?)");
         // Executa a consulta com o nome do software passado como parâmetro
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "INSERT"); 
+        }
+
         return $stmt->execute([$nome]);
     }
 
@@ -34,6 +43,12 @@ class Software {
         // Prepara a consulta SQL para atualizar o nome de um software com base no ID
         $stmt = $this->conn->prepare("UPDATE SOFTWARE SET nome = ? WHERE id_software = ?");
         // Executa a consulta com o novo nome e o ID do software como parâmetros
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "UPDATE"); 
+        }
+
         return $stmt->execute([$nome, $id]);
     }
 
@@ -42,6 +57,12 @@ class Software {
         // Prepara a consulta SQL para definir o estado do software como inativo (0)
         $stmt = $this->conn->prepare("UPDATE SOFTWARE SET estado = 0 WHERE id_software = ?");
         // Executa a consulta com o ID do software como parâmetro
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "DELETE"); 
+        }
+
         return $stmt->execute([$id]);
     }
 }

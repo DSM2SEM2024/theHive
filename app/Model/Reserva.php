@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
+use App\Model\Log;
 use PDO;
 
 class Reserva {
@@ -18,9 +19,11 @@ class Reserva {
     private $status;
     private $conn;
     private $table = "reserva";
+    private $log;
 
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->log = new Log();
     }
     public function create(Reserva $reserva) {
         $query = "INSERT INTO $this->table (id_usuario, id_laboratorio, id_disciplina, data_inicial, data_final, horario_inicial, horario_final, recorrencia, descricao)
@@ -49,6 +52,11 @@ class Reserva {
         $stmt->bindParam(":horario_final", $horarioFinal);
         $stmt->bindParam(":recorrencia", $recorrencia);
         $stmt->bindParam(":descricao", $descricao);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "INSERT"); 
+        }
 
         return $stmt->execute();
     }
@@ -184,6 +192,11 @@ class Reserva {
         $stmt->bindParam(":status_reserva", $status);
         $stmt->bindParam(":id_reserva", $idReserva, PDO::PARAM_INT);
         
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "UPDATE"); 
+        }
+
         return $stmt->execute();
     }
 
@@ -200,6 +213,12 @@ class Reserva {
         $query = "DELETE FROM $this->table WHERE id_reserva = :id_reserva";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_reserva", $id, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "DELETE"); 
+        }
+
         return $stmt->execute();
     }
 
@@ -209,6 +228,12 @@ class Reserva {
         $status = 'aprovada'; 
         $stmt->bindParam(':status_reserva', $status);
         $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "UPDATE"); 
+        }
+
         return $stmt->execute();
     }
     
@@ -218,6 +243,12 @@ class Reserva {
         $status = 'negada'; 
         $stmt->bindParam(':status_reserva', $status);
         $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "UPDATE"); 
+        }
+
         return $stmt->execute();
     }
     

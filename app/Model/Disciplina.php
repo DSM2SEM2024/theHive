@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
+use App\Model\Log;
 use PDO;
 
 class Disciplina {
@@ -11,9 +12,11 @@ class Disciplina {
     private $dataCad;
     private $conn;
     private $table = "disciplina";
+    private $log;
 
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->log = new Log();
     }
 
     public function criarDisciplina(Disciplina $disciplina) {
@@ -29,6 +32,11 @@ class Disciplina {
     
         $stmt->bindParam(":id_curso", $idCurso);
         $stmt->bindParam(":nome", $nome);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "INSERT"); 
+        }
 
         return $stmt->execute();
     }
@@ -57,6 +65,12 @@ class Disciplina {
         $stmt->bindParam(":id_disciplina", $this->idDisciplina, PDO::PARAM_INT);
         $stmt->bindParam(":id_curso", $this->idCurso);
         $stmt->bindParam(":nome", $this->nome);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "UPDATE "); 
+        }
+
         return $stmt->execute();
     }
 
@@ -64,6 +78,11 @@ class Disciplina {
         $query = "DELETE FROM $this->table WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "DELETE"); 
+        }
 
         return $stmt->execute();
     }
@@ -92,6 +111,12 @@ class Disciplina {
         $query = "UPDATE DISCIPLINA SET estado = 0 WHERE id_curso = :id_curso";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "UPDATE"); 
+        }
+
         return $stmt->execute();
     }
 

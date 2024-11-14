@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
+use App\Model\Log; 
 use PDO;
 
 class Laboratorio {
@@ -11,9 +12,11 @@ class Laboratorio {
     private $capacidade;
     private $conn;
     private $table = "Laboratorio";
+    private $log;
 
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->log = new Log(); 
     }
     public function insertLaboratorio($laboratorio) {
         $nome = $laboratorio->getNome();
@@ -27,6 +30,11 @@ class Laboratorio {
         $stmt->bindParam(":andar", $andar);
         $stmt->bindParam(":equipamento", $equipamento);
         $stmt->bindParam(":capacidade", $capacidade);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "INSERT"); 
+        }
 
         return $stmt->execute();
     }
@@ -120,6 +128,11 @@ class Laboratorio {
         $stmt->bindParam(":capacidade", $capacidade);
         $stmt->bindParam(":id_laboratorio", $idLaboratorio);
     
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "UPDATE"); 
+        }
+
         return $stmt->execute();
     }
     
@@ -127,6 +140,12 @@ class Laboratorio {
         $query = "DELETE FROM $this->table WHERE id_laboratorio = :id_laboratorio";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $usuario_id = $_SESSION['usuario_id'];
+            $this->log->registrar($usuario_id, "DELETE"); 
+        }
+
         return $stmt->execute();
     }
 }
