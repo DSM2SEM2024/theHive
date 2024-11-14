@@ -37,7 +37,7 @@ class Database {
                     $dsn = "pgsql:host={$pgsqlConfig['host']};port={$pgsqlConfig['port']};dbname={$pgsqlConfig['db_name']};user={$pgsqlConfig['username']};password={$pgsqlConfig['password']}";
                     $this->conn = new PDO($dsn);
                     break;
-                // case 'mongodb':
+                // case 'mongodb'
                 //     $mongodbConfig = $dbConfig['mongodb'];
                 //     $dsn = "mongodb://{$mongodbConfig['host']}:{$mongodbConfig['port']}";
                 //     $this->conn = new MongoClient($dsn, [
