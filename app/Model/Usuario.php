@@ -127,6 +127,16 @@ class Usuario {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUsuarioByName($nomeUsuario) {
+        $query = "SELECT id_usuario, nome, email, perfil, estado, data_cad FROM $this->table WHERE LOWER(nome) LIKE :nome";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":nome", $nomeUsuario);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
     public function updateUsuario($id_usuario) {
         $nome = $this->getNome();
         $email = $this->getEmail();

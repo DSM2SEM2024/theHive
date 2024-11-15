@@ -115,6 +115,25 @@ class UsuarioController {
         echo json_encode($result ?: ["message" => "Nenhum usuário encontrado."]);
     }
 
+    public function filterByNome($nomeUsuario) {
+        $nomeUsuario = urldecode($nomeUsuario);
+        $nomeUsuario = $this->prepareLikeParameter($nomeUsuario);
+        $this->helper->visualizar();
+        $result = $this->user->getUsuarioByName($nomeUsuario);
+        if ($result) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Nenhum usuário encontrado com o nome: $nomeUsuario"]);
+        }
+    }
+
+    private function prepareLikeParameter($param) {
+        return '%' . trim($param) . '%';
+    }
+    
+
     public function update($id, $data) {
         $this->helper->atualizar();
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {

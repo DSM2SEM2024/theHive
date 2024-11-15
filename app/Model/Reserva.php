@@ -33,36 +33,26 @@ class Reserva {
                   VALUES (:id_usuario, :id_laboratorio, :id_disciplina, :data_inicial, :data_final, :horario_inicial, :horario_final, :recorrencia, :descricao)";
         $stmt = $this->conn->prepare($query);
     
-        $idReserva = $reserva->getReservaId();
-        $idUsuario = $reserva->getUsuarioId();
-        $idLaboratorio = $reserva->getLaboratorioId();
-        $idDisciplina = $reserva->getDisciplinaId();
-        $dataInicial = $reserva->getDataInicial();
-        $dataFinal = $reserva->getDataFinal();
-        $horarioInicial = $reserva->getHorarioInicial();
-        $horarioFinal = $reserva->getHorarioFinal();
-        $recorrencia = $reserva->getRecorrencia();
-        $descricao = $reserva->getDescricao();
-        $dataCad = $reserva->getDataCad();
-        $status = $reserva->getStatus();
+        $stmt->bindParam(":id_usuario", $reserva->getUsuarioId(), PDO::PARAM_INT);
+        $stmt->bindParam(":id_laboratorio", $reserva->getLaboratorioId(), PDO::PARAM_INT);
+        $stmt->bindParam(":id_disciplina", $reserva->getDisciplinaId(), PDO::PARAM_INT);
+        $stmt->bindParam(":data_inicial", $reserva->getDataInicial());
+        $stmt->bindParam(":data_final", $reserva->getDataFinal());
+        $stmt->bindParam(":horario_inicial", $reserva->getHorarioInicial());
+        $stmt->bindParam(":horario_final", $reserva->getHorarioFinal());
+        $stmt->bindParam(":recorrencia", $reserva->getRecorrencia());
+        $stmt->bindParam(":descricao", $reserva->getDescricao());
     
-        $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
-        $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
-        $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
-        $stmt->bindParam(":data_inicial", $dataInicial);
-        $stmt->bindParam(":data_final", $dataFinal);
-        $stmt->bindParam(":horario_inicial", $horarioInicial);
-        $stmt->bindParam(":horario_final", $horarioFinal);
-        $stmt->bindParam(":recorrencia", $recorrencia);
-        $stmt->bindParam(":descricao", $descricao);
-
-        if ($stmt->execute()) {
+        $executado = $stmt->execute();
+        
+        if ($executado) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
-            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Software"); 
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Software");
         }
-
-        return $stmt->execute();
+    
+        return $executado;
     }
+    
 
     public function getReservaId() {
         return $this->idReserva;
@@ -164,6 +154,30 @@ class Reserva {
         $query = "SELECT * FROM $this->table WHERE id_reserva = :id_reserva";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_reserva", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function obterReservaPorEstado($estado) {
+        $query = "SELECT * FROM $this->table WHERE status_reserva = :status_reserva";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":status_reserva", $estado);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function obterReservaPorLab($lab) {
+        $query = "SELECT * FROM $this->table WHERE id_laboratorio = :id_laboratorio";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_laboratorio", $lab);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function obterReservaPorProf($prof) {
+        $query = "SELECT * FROM $this->table WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_usuario", $prof);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

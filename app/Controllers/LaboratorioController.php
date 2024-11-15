@@ -50,8 +50,9 @@ class LaboratorioController {
         echo json_encode($result ?: ["message" => "Nenhum laboratório encontrado."]);
     }
 
-    //função para listar/filtrar labroratorio por nome
     public function filterByNome($nomeLaboratorio) {
+        $nomeLaboratorio = urldecode($nomeLaboratorio);
+        $nomeUsuario = $this->prepareLikeParameter($nomeLaboratorio);
         $this->helper->visualizar();
         $result = $this->lab->getLaboratorioByName($nomeLaboratorio);
     
@@ -64,8 +65,10 @@ class LaboratorioController {
         }
     }
     
+    private function prepareLikeParameter($param) {
+        return '%' . trim($param) . '%';
+    }    
 
-    //função para listar/filtrar labroratorio por andar
     public function filterLaboratorioByAndar($andar) {
         $this->helper->visualizar();
         if (empty($andar)) {

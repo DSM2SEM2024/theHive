@@ -18,13 +18,19 @@ class rotas {
                 //users
                 '/users' => [UsuarioController::class, 'read'],
                 '/users/{id}' => [UsuarioController::class, 'read'],
+                '/users/nome/{nomeUsuario}' => [UsuarioController::class, 'filterByNome'],
                 //labs
                 '/labs' => [LaboratorioController::class, 'read'],
                 '/labs/{id}' => [LaboratorioController::class, 'read'],
+                '/labs/nome/{nomeLaboratorio}' => [LaboratorioController::class, 'filterByNome'],
+                '/labs/andar/{andar}' => [LaboratorioController::class, 'filterLaboratorioByAndar'],
                 //reserva
                 '/reserve' => [ReservaController::class, 'obterTodasReservas'],
                 '/reserve/{id}' => [ReservaController::class, 'obterReservaPorId'],
                 '/reserve/data/{dataini}/{datafim}' => [ReservaController::class, 'obterReservaPorIntervaloDeData'],
+                '/reserve/estado/{estado}' => [ReservaController::class, 'obterReservaPorEstado'],
+                '/reserve/lab/{lab}' => [ReservaController::class, 'obterReservaPorLab'],
+                '/reserve/prof/{prof}' => [ReservaController::class, 'obterReservaPorProf'],
                 //disciplina
                 '/disciplina' => [DisciplinaController::class, 'readAll'],
                 '/disciplina/{id}' => [DisciplinaController::class, 'readId'],
