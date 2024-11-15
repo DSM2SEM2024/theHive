@@ -9,6 +9,7 @@ use App\Controllers\DisciplinaController;
 use App\Controllers\CursoController;
 use App\Controllers\SoftwareController; 
 use App\Controllers\EquipamentoController;
+use App\Model\Log;
 
 class rotas {
     public static function fastRotas(){
@@ -34,6 +35,8 @@ class rotas {
                 '/software' => [SoftwareController::class, 'read'],
                 //equipamento
                 '/equipamento' => [EquipamentoController::class, 'read'],
+                //logs
+                '/logs' => [Log::class, 'read'],
             ],
             'POST' => [
                 //usuario

@@ -49,7 +49,7 @@ class AuthHelpers {
 
     public function criar(){
         $usuario = $this->verificarTokenComPermissao();
-        if ($usuario['perfil'] !== 'Admin' || $usuario['perfil'] !== 'AdminMaster') {
+        if ($usuario['perfil'] !== 'Admin' && $usuario['perfil'] !== 'AdminMaster') {
             http_response_code(403);
             echo json_encode(["error" => "Você não tem permissão para essa ação."]);
             exit();
@@ -61,7 +61,7 @@ class AuthHelpers {
 
     public function visualizar(){ 
         $usuario = $this->verificarTokenComPermissao();
-        if ($usuario['perfil'] !== 'Professor' || $usuario['perfil'] !== 'Admin' || $usuario['perfil'] !== 'AdminMaster') {
+        if ($usuario['perfil'] !== 'Professor' && $usuario['perfil'] !== 'Admin' && $usuario['perfil'] !== 'AdminMaster') {
             http_response_code(403);
             echo json_encode(["error" => "Você não tem permissão para essa ação."]);
             exit();
@@ -73,7 +73,7 @@ class AuthHelpers {
 
     public function atualizar(){ 
         $usuario = $this->verificarTokenComPermissao();
-        if ($usuario['perfil'] !== 'Admin' || $usuario['perfil'] !== 'AdminMaster') {
+        if ($usuario['perfil'] !== 'Admin' && $usuario['perfil'] !== 'AdminMaster') {
             http_response_code(403);
             echo json_encode(["error" => "Você não tem permissão para essa ação."]);
             exit();
@@ -85,7 +85,7 @@ class AuthHelpers {
 
     public function desativar(){ 
         $usuario = $this->verificarTokenComPermissao();
-        if ($usuario['perfil'] !== 'Admin' || $usuario['perfil'] !== 'AdminMaster') {
+        if ($usuario['perfil'] !== 'Admin' && $usuario['perfil'] !== 'AdminMaster') {
             http_response_code(403);
             echo json_encode(["error" => "Você não tem permissão para essa ação."]);
             exit();

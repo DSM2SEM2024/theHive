@@ -10,20 +10,22 @@ class Log {
         $this->conn = Database::getInstance();
     }
 
-    public function registrar($usuario_id, $acao) {
-        $query = "INSERT INTO log (usuario_id, acao, data_hora) VALUES (:usuario_id, :acao, NOW())";
+    public function registrar($idusuario, $acao, $tabela) {
+        $query = "INSERT INTO log (id_usuario, acao, tabela, data_hora) VALUES (:id_usuario, :acao, :tabela, NOW())";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":usuario_id", $usuario_id);
+        $stmt->bindParam(":id_usuario", $idusuario);
         $stmt->bindParam(":acao", $acao);
+        $stmt->bindParam(":tabela", $tabela);
         return $stmt->execute();
     }
 
-    public function getAllLogs() {
+    public function read() {
         $query = "SELECT * FROM log";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($result ?: ["message" => "Nenhum log encontrado."]);
     }
-}
+} 
 

@@ -6,15 +6,18 @@ namespace App\Model;
 use PDO;
 use App\Database\Database;
 use App\Model\Log;
+use App\utils\AuthHelpers;
 
 class Software {
     private $conn;
     private $log;
+    private $helper;
 
     // Construtor: inicializa a conexão com o banco de dados
     public function __construct() {
         $this->conn = Database::getInstance();
         $this->log = new Log();
+        $this->helper = new AuthHelpers();
     }
     // Método para criar um novo software
     public function create($nome) {
@@ -23,8 +26,8 @@ class Software {
         // Executa a consulta com o nome do software passado como parâmetro
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "INSERT"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Software"); 
         }
 
         return $stmt->execute([$nome]);
@@ -45,8 +48,8 @@ class Software {
         // Executa a consulta com o novo nome e o ID do software como parâmetros
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Software"); 
         }
 
         return $stmt->execute([$nome, $id]);
@@ -59,8 +62,8 @@ class Software {
         // Executa a consulta com o ID do software como parâmetro
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "DELETE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Software"); 
         }
 
         return $stmt->execute([$id]);

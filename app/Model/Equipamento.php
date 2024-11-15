@@ -5,16 +5,19 @@
 namespace App\Model;
 use PDO;
 use App\Database\Database;
+use App\utils\AuthHelpers;
 use App\Model\Log;
 
 class Equipamento {
     private $conn;
     private $log;
+    private $helper;
 
     // Construtor: inicializa a conexão com o banco de dados
     public function __construct() {
         $this->conn = Database::getInstance();
         $this->log = new Log();
+        $this->helper = new AuthHelpers();
     }
     // Método para criar um novo equipamento
     public function create($nome, $numero, $software) {
@@ -23,8 +26,8 @@ class Equipamento {
         // Executa a consulta com os valores de nome, número e software passados como parâmetros
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "INSERT");
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Equipamento"); 
         }
 
         return $stmt->execute([$nome, $numero, $software]);
@@ -45,8 +48,8 @@ class Equipamento {
         // Executa a consulta com os valores de nome, número, software e ID como parâmetros
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE");
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Equipamento"); 
         }
 
         return $stmt->execute([$nome, $numero, $software, $id]);
@@ -59,8 +62,8 @@ class Equipamento {
         // Executa a consulta com o ID do equipamento como parâmetro
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "DELETE");
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Equipamento"); 
         }
 
         return $stmt->execute([$id]);

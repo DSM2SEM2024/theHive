@@ -2,6 +2,7 @@
 namespace App\Model;
 use App\Database\Database;
 use App\Model\Log;
+use App\utils\AuthHelpers;
 use PDO;
 
 class Reserva {
@@ -20,10 +21,12 @@ class Reserva {
     private $conn;
     private $table = "reserva";
     private $log;
+    private $helper;
 
     public function __construct() {
         $this->conn = Database::getInstance();
         $this->log = new Log();
+        $this->helper = new AuthHelpers();
     }
     public function create(Reserva $reserva) {
         $query = "INSERT INTO $this->table (id_usuario, id_laboratorio, id_disciplina, data_inicial, data_final, horario_inicial, horario_final, recorrencia, descricao)
@@ -54,8 +57,8 @@ class Reserva {
         $stmt->bindParam(":descricao", $descricao);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "INSERT"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Software"); 
         }
 
         return $stmt->execute();
@@ -193,8 +196,8 @@ class Reserva {
         $stmt->bindParam(":id_reserva", $idReserva, PDO::PARAM_INT);
         
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
         }
 
         return $stmt->execute();
@@ -215,8 +218,8 @@ class Reserva {
         $stmt->bindParam(":id_reserva", $id, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "DELETE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Reserva"); 
         }
 
         return $stmt->execute();
@@ -230,8 +233,8 @@ class Reserva {
         $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
         }
 
         return $stmt->execute();
@@ -245,8 +248,8 @@ class Reserva {
         $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
         }
 
         return $stmt->execute();

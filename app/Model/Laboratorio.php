@@ -1,7 +1,8 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
-use App\Model\Log; 
+use App\Model\Log;
+use App\utils\AuthHelpers;
 use PDO;
 
 class Laboratorio {
@@ -13,10 +14,12 @@ class Laboratorio {
     private $conn;
     private $table = "Laboratorio";
     private $log;
+    private $helper;
 
     public function __construct() {
         $this->conn = Database::getInstance();
-        $this->log = new Log(); 
+        $this->log = new Log();
+        $this->helper = new AuthHelpers(); 
     }
     public function insertLaboratorio($laboratorio) {
         $nome = $laboratorio->getNome();
@@ -32,8 +35,8 @@ class Laboratorio {
         $stmt->bindParam(":capacidade", $capacidade);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "INSERT"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Laboratório"); 
         }
 
         return $stmt->execute();
@@ -129,8 +132,8 @@ class Laboratorio {
         $stmt->bindParam(":id_laboratorio", $idLaboratorio);
     
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Laboratório"); 
         }
 
         return $stmt->execute();
@@ -142,8 +145,8 @@ class Laboratorio {
         $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "DELETE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Laboratório"); 
         }
 
         return $stmt->execute();

@@ -1,7 +1,8 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
-use App\Model\Log; 
+use App\Model\Log;
+use App\utils\AuthHelpers;
 use PDO;
 
 class Curso {
@@ -12,10 +13,12 @@ class Curso {
     private $conn;
     private $table = "curso";
     private $log;
+    private $helper;
 
     public function __construct() {
         $this->conn = Database::getInstance();
         $this->log = new Log();
+        $this->helper = new AuthHelpers();
     }
 
     public function create(){
@@ -24,8 +27,8 @@ class Curso {
         $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "INSERT"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Curso"); 
         }
 
         return $stmt->execute();
@@ -54,8 +57,8 @@ class Curso {
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Curso"); 
         }
 
         return $stmt->execute();
@@ -68,8 +71,8 @@ class Curso {
         $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Curso"); 
         }
 
         return $stmt->execute();
@@ -81,8 +84,8 @@ class Curso {
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "DELETE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Curso"); 
         }
 
         return $stmt->execute();

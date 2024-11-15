@@ -2,6 +2,7 @@
 namespace App\Model;
 use App\Database\Database;
 use App\Model\Log;
+use App\utils\AuthHelpers;
 use PDO;
 
 class Usuario {
@@ -14,10 +15,12 @@ class Usuario {
     private $dataCad;
     private $conn;
     private $table = "Usuarios";
+    private $helper;
     private $log;
 
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->helper = new AuthHelpers();
         $this->log = new Log();
     }
 
@@ -37,8 +40,8 @@ class Usuario {
         $stmt->bindParam(":perfil", $perfil);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "INSERT"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Usuários"); 
         }
 
         return $stmt->execute();
@@ -138,8 +141,8 @@ class Usuario {
         $stmt->bindParam(":id_usuario", $id_usuario);
     
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "UPDATE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Usuários"); 
         }
 
         return $stmt->execute();
@@ -151,8 +154,8 @@ class Usuario {
         $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $usuario_id = $_SESSION['usuario_id'];
-            $this->log->registrar($usuario_id, "DELETE"); 
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Usuários"); 
         }
 
         return $stmt->execute();
