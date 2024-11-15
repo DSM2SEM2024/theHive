@@ -44,22 +44,8 @@ class UsuarioController {
             echo json_encode(["message" => "Login bem-sucedido.",
             "token" => $token
             ]);
-
-                if ($usuario['perfil'] == 'Admin') {
-                    include __DIR__ . '/../Views/Admin.php';
-                    exit();
-                } elseif ($usuario['perfil'] == 'AdminMaster') {
-                    include __DIR__ . '/../Views/AdminMaster.php';
-                    exit();
-                } else if ($usuario['perfil'] == 'Professor') {
-                    include __DIR__ . '/../Views/Professor.php';
-                    exit();
-                } else {
-                    http_response_code(401);
-                    echo json_encode(["error" => "Perfil de usuário inválido."]);
-                    exit();
-                }
-                exit();
+            
+            exit();
         } else {
             http_response_code(401);
             echo json_encode(["error" => "Email ou senha inválidos."]);
