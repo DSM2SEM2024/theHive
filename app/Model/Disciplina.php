@@ -65,7 +65,7 @@ class Disciplina {
         $query = "UPDATE $this->table SET id_curso = :id_curso, nome = :nome WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id_disciplina", $this->idDisciplina, PDO::PARAM_INT);
+        $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
         $stmt->bindParam(":id_curso", $this->idCurso);
         $stmt->bindParam(":nome", $this->nome);
 

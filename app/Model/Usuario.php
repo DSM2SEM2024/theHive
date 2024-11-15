@@ -42,7 +42,7 @@ class Usuario {
         $executar = $stmt->execute();
         if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
-            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Usuários"); 
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Usuários"); 
         }
 
         return $executar;

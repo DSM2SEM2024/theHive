@@ -9,6 +9,7 @@ use App\Controllers\DisciplinaController;
 use App\Controllers\CursoController;
 use App\Controllers\SoftwareController; 
 use App\Controllers\EquipamentoController;
+use App\Controllers\AndarController;
 use App\Model\Log;
 
 class rotas {
@@ -19,6 +20,9 @@ class rotas {
                 '/users' => [UsuarioController::class, 'read'],
                 '/users/{id}' => [UsuarioController::class, 'read'],
                 '/users/nome/{nomeUsuario}' => [UsuarioController::class, 'filterByNome'],
+                //andar
+                '/andar' => [AndarController::class, 'readAll'],
+                '/andar/{id}' => [AndarController::class, 'readId'],
                 //labs
                 '/labs' => [LaboratorioController::class, 'read'],
                 '/labs/{id}' => [LaboratorioController::class, 'read'],
@@ -49,6 +53,8 @@ class rotas {
                 //usuario
                 '/users' => [UsuarioController::class, 'create'],
                 '/login' => [UsuarioController::class, 'login'],
+                //andar
+                '/andar' => [AndarController::class, 'create'],
                 //labs
                 '/labs' => [LaboratorioController::class, 'create'],
                 //reserva
@@ -64,15 +70,17 @@ class rotas {
             ],
             'PUT' => [
                 //users
-               '/users/{id}' => [UsuarioController::class, 'update'],
-               //labs
-               '/labs/{id}' => [LaboratorioController::class, 'update'],
-               //reserva
-               '/reserve/{id}' => [ReservaController::class, 'atualizarReserva'],
-               //disciplina
-               '/disciplina/{id}' => [DisciplinaController::class, 'update'],
-               //curso
-               '/curso/{id}' => [CursoController::class, 'update'],
+                '/users/{id}' => [UsuarioController::class, 'update'],
+                //andar
+                '/andar/{id}' => [AndarController::class, 'update'],
+                //labs
+                '/labs/{id}' => [LaboratorioController::class, 'update'],
+                //reserva
+                '/reserve/{id}' => [ReservaController::class, 'atualizarReserva'],
+                //disciplina
+                '/disciplina/{id}' => [DisciplinaController::class, 'update'],
+                //curso
+                '/curso/{id}' => [CursoController::class, 'update'],
                 //software
                 '/software/{id}' => [SoftwareController::class, 'update'],
                 //equipamento
@@ -81,6 +89,8 @@ class rotas {
             'DELETE' => [
                 //users
                 '/users/{id}' => [UsuarioController::class, 'delete'],
+                //andar
+                '/andar/{id}' => [AndarController::class, 'delete'],
                 //labs
                 '/labs/{id}' => [LaboratorioController::class, 'delete'],
                 //reserva

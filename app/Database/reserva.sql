@@ -2,15 +2,17 @@
 GRANT ALL PRIVILEGES ON reserva.* TO 'teste'@'localhost'; 
 FLUSH PRIVILEGES;
 
-
 create database reservas;
 drop table reserva;
+drop table laboratorio_equipamento;
 drop table laboratorio;
+drop table andar;
 drop table equipamento_software;
-drop table software;
 drop table equipamento;
+drop table software;
 drop table disciplina;
 drop table curso;
+drop table log;
 drop table usuarios;*/
 
 CREATE TABLE USUARIOS (
@@ -83,7 +85,9 @@ CREATE TABLE EQUIPAMENTO_SOFTWARE (
 CREATE TABLE ANDAR (
 	id_andar int primary key auto_increment,
     nome varchar(50) not null,
-    cor varchar(50) not null
+    cor varchar(50) not null,
+	estado BOOLEAN NOT NULL DEFAULT 1,
+    data_cad TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE LABORATORIO (
