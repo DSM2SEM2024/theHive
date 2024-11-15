@@ -23,14 +23,13 @@ class Equipamento {
     public function create($nome, $numero, $software) {
         // Prepara a consulta SQL para inserir um novo equipamento
         $stmt = $this->conn->prepare("INSERT INTO EQUIPAMENTO (nome, numero, sofware) VALUES (?, ?, ?)");
-        // Executa a consulta com os valores de nome, número e software passados como parâmetros
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Equipamento"); 
         }
-
-        return $stmt->execute([$nome, $numero, $software]);
+        return $executar([$nome, $numero, $software]);
     }
 
     // Método para buscar todos os equipamentos ativos
@@ -47,12 +46,12 @@ class Equipamento {
         $stmt = $this->conn->prepare("UPDATE EQUIPAMENTO SET nome = ?, numero = ?, sofware = ? WHERE id_equipamento = ?");
         // Executa a consulta com os valores de nome, número, software e ID como parâmetros
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Equipamento"); 
         }
-
-        return $stmt->execute([$nome, $numero, $software, $id]);
+        return $executar([$nome, $numero, $software, $id]);
     }
 
     // Método para "deletar" um equipamento (soft delete - apenas altera o estado)
@@ -61,12 +60,12 @@ class Equipamento {
         $stmt = $this->conn->prepare("UPDATE EQUIPAMENTO SET estado = 0 WHERE id_equipamento = ?");
         // Executa a consulta com o ID do equipamento como parâmetro
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Equipamento"); 
         }
-
-        return $stmt->execute([$id]);
+        return $executar([$id]);
     }
 }
 ?>

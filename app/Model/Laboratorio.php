@@ -21,6 +21,7 @@ class Laboratorio {
         $this->log = new Log();
         $this->helper = new AuthHelpers(); 
     }
+
     public function insertLaboratorio($laboratorio) {
         $nome = $laboratorio->getNome();
         $andar = $laboratorio->getAndar();
@@ -34,12 +35,12 @@ class Laboratorio {
         $stmt->bindParam(":equipamento", $equipamento);
         $stmt->bindParam(":capacidade", $capacidade);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Laboratório"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function getLaboratorioId(){
@@ -131,12 +132,12 @@ class Laboratorio {
         $stmt->bindParam(":capacidade", $capacidade);
         $stmt->bindParam(":id_laboratorio", $idLaboratorio);
     
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Laboratório"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
     
     public function deleteLaboratorio($idLaboratorio) {
@@ -144,11 +145,11 @@ class Laboratorio {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Laboratório"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 }

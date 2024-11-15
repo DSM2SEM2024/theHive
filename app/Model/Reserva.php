@@ -43,14 +43,13 @@ class Reserva {
         $stmt->bindParam(":recorrencia", $reserva->getRecorrencia());
         $stmt->bindParam(":descricao", $reserva->getDescricao());
     
-        $executado = $stmt->execute();
-        
-        if ($executado) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Software");
         }
     
-        return $executado;
+        return $executar;
     }
     
 
@@ -209,12 +208,12 @@ class Reserva {
         $stmt->bindParam(":status_reserva", $status);
         $stmt->bindParam(":id_reserva", $idReserva, PDO::PARAM_INT);
         
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function obterReservaPorIntervaloDeData($dataini, $datafim) {
@@ -231,12 +230,12 @@ class Reserva {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_reserva", $id, PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Reserva"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function aprovarReserva($id) {
@@ -246,12 +245,12 @@ class Reserva {
         $stmt->bindParam(':status_reserva', $status);
         $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
     
     public function negarReserva($id) {
@@ -261,12 +260,12 @@ class Reserva {
         $stmt->bindParam(':status_reserva', $status);
         $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
     
 

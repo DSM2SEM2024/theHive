@@ -43,6 +43,7 @@ class rotas {
                 '/equipamento' => [EquipamentoController::class, 'read'],
                 //logs
                 '/logs' => [Log::class, 'read'],
+                '/logs/prof/{prof}' => [Log::class, 'obterLogPorProf'],
             ],
             'POST' => [
                 //usuario

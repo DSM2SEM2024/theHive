@@ -26,12 +26,12 @@ class Curso {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Curso"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
         
     public function getById($idCurso) {
@@ -56,12 +56,12 @@ class Curso {
         $stmt->bindParam(":estado", $novoEstado, PDO::PARAM_INT);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Curso"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function update($idCurso) {
@@ -70,12 +70,12 @@ class Curso {
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
         $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Curso"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function delete($idCurso) {
@@ -83,12 +83,12 @@ class Curso {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Curso"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function getCursoId() {

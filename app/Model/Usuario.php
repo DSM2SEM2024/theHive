@@ -39,12 +39,13 @@ class Usuario {
         $stmt->bindParam(":senha", $senha);
         $stmt->bindParam(":perfil", $perfil);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Usuários"); 
         }
 
-        return $stmt->execute();
+        return $executar;
     }
 
     public function getUsuarioId(){
@@ -133,7 +134,7 @@ class Usuario {
         $stmt->bindParam(":nome", $nomeUsuario);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
@@ -150,12 +151,13 @@ class Usuario {
         $stmt->bindParam(":perfil", $perfil);
         $stmt->bindParam(":id_usuario", $id_usuario);
     
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Usuários"); 
         }
 
-        return $stmt->execute();
+        return $executar;
     }
     
     public function deleteUsuario($id_usuario) {
@@ -163,11 +165,12 @@ class Usuario {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Usuários"); 
         }
 
-        return $stmt->execute();
+        return $executar;
     }
 }

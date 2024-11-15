@@ -25,12 +25,13 @@ class Software {
         $stmt = $this->conn->prepare("INSERT INTO SOFTWARE (nome) VALUES (?)");
         // Executa a consulta com o nome do software passado como parâmetro
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Software"); 
         }
 
-        return $stmt->execute([$nome]);
+        return $executar;
     }
 
     // Método para buscar todos os softwares ativos
@@ -47,12 +48,13 @@ class Software {
         $stmt = $this->conn->prepare("UPDATE SOFTWARE SET nome = ? WHERE id_software = ?");
         // Executa a consulta com o novo nome e o ID do software como parâmetros
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Software"); 
         }
 
-        return $stmt->execute([$nome, $id]);
+        return $executar;
     }
 
     // Método para "deletar" um software (soft delete - apenas altera o estado)
@@ -61,12 +63,13 @@ class Software {
         $stmt = $this->conn->prepare("UPDATE SOFTWARE SET estado = 0 WHERE id_software = ?");
         // Executa a consulta com o ID do software como parâmetro
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Software"); 
         }
 
-        return $stmt->execute([$id]);
+        return $executar;
     }
 }
 ?>

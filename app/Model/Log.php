@@ -27,5 +27,15 @@ class Log {
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($result ?: ["message" => "Nenhum log encontrado."]);
     }
+
+    public function obterLogPorProf($prof) {
+        $query = "SELECT * FROM log WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_usuario", $prof, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode($result ?: ["message" => "Nenhum log encontrado."]);
+    }
 } 
 

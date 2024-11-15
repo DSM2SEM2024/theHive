@@ -36,12 +36,12 @@ class Disciplina {
         $stmt->bindParam(":id_curso", $idCurso);
         $stmt->bindParam(":nome", $nome);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
-            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Disciplina"); 
+            $this->log->registrar($tokenUser['id_usuario'], "CREATE", "Disciplina"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function getAllDisciplina() {
@@ -69,12 +69,12 @@ class Disciplina {
         $stmt->bindParam(":id_curso", $this->idCurso);
         $stmt->bindParam(":nome", $this->nome);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Disciplina"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function deleteDisciplina($idDisciplina) {
@@ -82,12 +82,12 @@ class Disciplina {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Disciplina"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     // Método para listar disciplinas com base em seu estado
@@ -115,12 +115,12 @@ class Disciplina {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+        $executar = $stmt->execute();
+        if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Disciplina"); 
         }
-
-        return $stmt->execute();
+        return $executar;
     }
 
     public function getDisciplinaId() {
