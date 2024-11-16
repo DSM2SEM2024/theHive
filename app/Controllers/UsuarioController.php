@@ -6,37 +6,16 @@ use App\utils;
 use App\Views;
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
+use App\utils\AuthHelpers;
 
 class UsuarioController {
     private $user;
+    private $helper;
     private $jwtSecret = 'chave123';
 
     public function __construct() {
         $this->user = new Usuario();
-    }
-    public function create($data) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('Admin');
-        if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
-            http_response_code(400);
-            echo json_encode(["error" => "Dados incompletos para a criação do usuário."]);
-            return;
-        }
-        $usuarioExistente = $this->user->getUsuarioByEmail($data->email);
-        if ($usuarioExistente) {
-            http_response_code(409);
-            echo json_encode(["error" => "Um usuário com esse e-mail já existe."]);
-            return;
-        }
-
-        $this->user->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setPerfil($data->perfil);
-        if ($this->user->insertUsuario($this->user)) {
-            http_response_code(201);
-            echo json_encode(["success"=> true,"message" => "Usuário criado com sucesso."]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["error" => "Erro ao criar usuário."]);
-        }
+        $this->helper = new AuthHelpers();
     }
 
     public function login($data) {
@@ -65,31 +44,40 @@ class UsuarioController {
             echo json_encode(["message" => "Login bem-sucedido.",
             "token" => $token
             ]);
-
-                if ($usuario['perfil'] == 'Admin') {
-                    include __DIR__ . '/../Views/Admin.php';
-                    exit();
-                } elseif ($usuario['perfil'] == 'AdminMaster') {
-                    include __DIR__ . '/../Views/AdminMaster.php';
-                    exit();
-                } else if ($usuario['perfil'] == 'Professor') {
-                    include __DIR__ . '/../Views/Professor.php';
-                    exit();
-                } else {
-                    http_response_code(401);
-                    echo json_encode(["error" => "Perfil de usuário inválido."]);
-                    exit();
-                }
-                exit();
+            
+            exit();
         } else {
             http_response_code(401);
             echo json_encode(["error" => "Email ou senha inválidos."]);
         }
     }
     
+    public function create($data) {
+        $this->helper->criar();
+        if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
+            http_response_code(400);
+            echo json_encode(["error" => "Dados incompletos para a criação do usuário."]);
+            return;
+        }
+        $usuarioExistente = $this->user->getUsuarioByEmail($data->email);
+        if ($usuarioExistente) {
+            http_response_code(409);
+            echo json_encode(["error" => "Um usuário com esse e-mail já existe."]);
+            return;
+        }
+
+        $this->user->setNome($data->nome)->setEmail($data->email)->setSenha($data->senha)->setPerfil($data->perfil);
+        if ($this->user->insertUsuario($this->user)) {
+            http_response_code(201);
+            echo json_encode(["success"=> true,"message" => "Usuário criado com sucesso."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao criar usuário."]);
+        }
+    }
+    
     public function read($id = null) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('Professor');
+        $this->helper->visualizar();
         if ($id) {
             $result = $this->user->getUsuarioById($id);
             if($result){
@@ -97,8 +85,7 @@ class UsuarioController {
                 $status = 200 ;
             }else{
                 $status = 404;
-            }
-            
+            }  
         } else {
             $result = $this->user->getAllUsuarios();
             foreach ($result as &$usuario) {
@@ -112,9 +99,27 @@ class UsuarioController {
         echo json_encode($result ?: ["message" => "Nenhum usuário encontrado."]);
     }
 
+    public function filterByNome($nomeUsuario) {
+        $nomeUsuario = urldecode($nomeUsuario);
+        $nomeUsuario = $this->prepareLikeParameter($nomeUsuario);
+        $this->helper->visualizar();
+        $result = $this->user->getUsuarioByName($nomeUsuario);
+        if ($result) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Nenhum usuário encontrado com o nome: $nomeUsuario"]);
+        }
+    }
+
+    private function prepareLikeParameter($param) {
+        return '%' . trim($param) . '%';
+    }
+    
+
     public function update($id, $data) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('Admin');
+        $this->helper->atualizar();
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do usuário."]);
@@ -133,9 +138,7 @@ class UsuarioController {
     }
 
     public function delete($id) {
-    require_once '../utils/AuthHelpers.php';
-    \App\utils\verificarTokenComPermissao('AdminMaster');
-    
+        $this->helper->deletar();
         if ($this->user->deleteUsuario($id)) {
             http_response_code(200);
             echo json_encode(["message" => "Usuário excluído com sucesso."]);

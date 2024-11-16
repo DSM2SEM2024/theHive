@@ -1,16 +1,16 @@
 //post/users
 /*{
-    "nome":"TheHive",
-    "email":"TheHive@gmail.com",
+    "nome":"Lucas",
+    "email":"Lucas@gmail.com",
     "senha":"Senha",
     "perfil":"AdminMaster"
 }*/
 
 //post/login
-{
+/*{
     "email":"TheHive@gmail.com",
     "senha":"Senha"
-}
+}*/
 
 //post/software
 /*{
@@ -20,15 +20,21 @@
 //post/equipamento
 /*{
     "nome":"Computadores",
-    "numero":30,
-    "sofware":1
+    //"software":2,
+    "numero":30
+}*/
+
+//post/andar
+/*{
+    "nome":"Térreo",
+    "cor":"Verde"
 }*/
 
 //post/labs
 /*{
     "nome":"CAD II",
-    "andar":2,
-    "equipamento":4,
+    //"andar":2,
+    //"equipamento":2,
     "capacidade":32
 }*/
 
@@ -39,20 +45,20 @@
 
 //post/disciplina
 /*{
-    "id_curso":5,
+    //"id_curso":5,
     "nome":"Desenvolvimento Web I"
 }*/
 
 //post/reserve
 /*{
   "usuarioId": 5,
-  "laboratorioId": 5,
+  "laboratorioId": 6,
   "disciplinaId": 5,
-  "datainicial": "2024-11-15",
-  "datafinal": "2024-11-15",
+  "datainicial": "2024-11-16",
+  "datafinal": "2024-11-16",
   "horarioinicial": "08:00",
   "horariofinal": "11:00",
   "recorrencia": "nenhuma",
-  "descricao": "Reserva de laboratório para aula de física",
+  "descricao": "Reserva de laboratório para aula de física"//,
   //"status":"aprovada"
 }*/

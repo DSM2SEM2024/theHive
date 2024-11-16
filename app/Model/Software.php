@@ -5,44 +5,97 @@
 namespace App\Model;
 use PDO;
 use App\Database\Database;
+use App\Model\Log;
+use App\utils\AuthHelpers;
 
 class Software {
+    private $idSoftware;
+    private $nome;
+    private $estado;
+    private $dataCad;
+    private $table = "software";
     private $conn;
+    private $log;
+    private $helper;
 
-    // Construtor: inicializa a conexão com o banco de dados
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->log = new Log();
+        $this->helper = new AuthHelpers();
     }
-    // Método para criar um novo software
-    public function create($nome) {
-        // Prepara a consulta SQL para inserir um novo software
-        $stmt = $this->conn->prepare("INSERT INTO SOFTWARE (nome) VALUES (?)");
-        // Executa a consulta com o nome do software passado como parâmetro
-        return $stmt->execute([$nome]);
-    }
+    
+    public function getAllSoftwares() {
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
 
-    // Método para buscar todos os softwares ativos
-    public function getAll() {
-        // Executa a consulta SQL para buscar todos os softwares com estado ativo (1)
-        $stmt = $this->conn->query("SELECT * FROM SOFTWARE WHERE estado = 1");
-        // Retorna o resultado como um array associativo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Método para atualizar um software existente
-    public function update($id, $nome) {
-        // Prepara a consulta SQL para atualizar o nome de um software com base no ID
-        $stmt = $this->conn->prepare("UPDATE SOFTWARE SET nome = ? WHERE id_software = ?");
-        // Executa a consulta com o novo nome e o ID do software como parâmetros
-        return $stmt->execute([$nome, $id]);
+    public function getSoftwareById($idSoftware) {
+        $query = "SELECT * FROM $this->table WHERE id_software = :id_software";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_software", $idSoftware, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Método para "deletar" um software (soft delete - apenas altera o estado)
-    public function delete($id) {
-        // Prepara a consulta SQL para definir o estado do software como inativo (0)
-        $stmt = $this->conn->prepare("UPDATE SOFTWARE SET estado = 0 WHERE id_software = ?");
-        // Executa a consulta com o ID do software como parâmetro
-        return $stmt->execute([$id]);
+    public function insertSoftware($software) {
+        $nome = $software->getNome();
+        $query = "INSERT INTO $this->table (nome) VALUES (:nome)";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":nome", $nome);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Software"); 
+        }
+        return $executar;
+    }
+
+    public function updateSoftware($idSoftware) {
+        $nome = $this->getNome();
+        $query = "UPDATE $this->table SET nome = :nome WHERE id_software = :id_software";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":id_software", $idSoftware);
+    
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Software"); 
+        }
+        return $executar;
+    }
+
+    public function deleteSoftware($idSoftware) {
+        $query = "DELETE FROM $this->table WHERE id_software = :id_software";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_software", $idSoftware, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Software"); 
+        }
+        return $executar;
+    }
+
+    public function getSoftwareId(){
+        return $this->idSoftware;
+    }
+
+    public function getNome(){
+        return $this->nome;
+    }
+
+    public function setNome($nome): self{
+        $this->nome = $nome;
+
+        return $this;
     }
 }
 ?>

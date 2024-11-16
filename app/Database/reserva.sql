@@ -1,14 +1,18 @@
-/*CREATE USER 'teste'@'127.0.0.1' IDENTIFIED BY 'teste';
-GRANT ALL PRIVILEGES ON reserva.* TO 'teste'@'127.0.0.1'; 
+/*CREATE USER 'teste'@'localhost' IDENTIFIED BY 'teste';
+GRANT ALL PRIVILEGES ON reserva.* TO 'teste'@'localhost'; 
 FLUSH PRIVILEGES;
 
+create database reservas;
 drop table reserva;
+drop table laboratorio_equipamento;
 drop table laboratorio;
+drop table andar;
 drop table equipamento_software;
-drop table software;
 drop table equipamento;
+drop table software;
 drop table disciplina;
 drop table curso;
+drop table log;
 drop table usuarios;*/
 
 CREATE TABLE USUARIOS (
@@ -53,21 +57,22 @@ END//
 
 DELIMITER ;
 
-CREATE TABLE EQUIPAMENTO (
-	id_equipamento int primary key auto_increment,
-    nome varchar(50) not null,
-    numero int(3) not null,
-    sofware varchar(50) not null,
-    estado boolean not null default 1,
-    data_cad timestamp default current_timestamp
-);    
-
 CREATE TABLE SOFTWARE (
 	id_software int primary key auto_increment,
     nome varchar(50) not null,
     estado boolean not null default 1,
     data_cad timestamp default current_timestamp
 );
+
+CREATE TABLE EQUIPAMENTO (
+	id_equipamento int primary key auto_increment,
+    nome varchar(50) not null,
+    numero int(3) not null,
+    id_software int,
+    estado boolean not null default 1,
+    data_cad timestamp default current_timestamp,
+    FOREIGN KEY (id_software) REFERENCES SOFTWARE(id_software)
+);    
 
 CREATE TABLE EQUIPAMENTO_SOFTWARE (
 	id_equipamento_software int primary key auto_increment,
@@ -77,15 +82,32 @@ CREATE TABLE EQUIPAMENTO_SOFTWARE (
     FOREIGN KEY (id_equipamento) REFERENCES EQUIPAMENTO(id_equipamento)
 );
 
+CREATE TABLE ANDAR (
+	id_andar int primary key auto_increment,
+    nome varchar(50) not null,
+    cor varchar(50) not null,
+	estado BOOLEAN NOT NULL DEFAULT 1,
+    data_cad TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE LABORATORIO (
 	id_laboratorio int primary key auto_increment,
     nome varchar(50) not null,
-    andar varchar(50) not null,
+    andar int,
     equipamento int,
     capacidade int(2) not null,
     estado boolean not null default 1,
     data_cad timestamp default current_timestamp,
-    FOREIGN KEY (equipamento) REFERENCES EQUIPAMENTO(id_equipamento)
+    FOREIGN KEY (equipamento) REFERENCES EQUIPAMENTO(id_equipamento),
+    FOREIGN KEY (andar) REFERENCES ANDAR(id_andar)
+);
+
+CREATE TABLE LABORATORIO_EQUIPAMENTO(
+	id_laboratorio_equipamento int primary key auto_increment,
+    id_equipamento int,
+    id_software int,
+	FOREIGN KEY (id_equipamento) REFERENCES EQUIPAMENTO(id_equipamento),
+    FOREIGN KEY (id_software) REFERENCES SOFTWARE(id_software)
 );
 
 CREATE TABLE RESERVA(
@@ -105,3 +127,12 @@ CREATE TABLE RESERVA(
     FOREIGN KEY (id_laboratorio) REFERENCES LABORATORIO(id_laboratorio),
     FOREIGN KEY (id_disciplina) REFERENCES DISCIPLINA(id_disciplina)
 );   
+
+CREATE TABLE LOG (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    acao VARCHAR(50) NOT NULL,
+    tabela  VARCHAR(50) NOT NULL,
+    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+);

@@ -1,6 +1,8 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
+use App\Model\Log;
+use App\utils\AuthHelpers;
 use PDO;
 
 class Laboratorio {
@@ -11,10 +13,15 @@ class Laboratorio {
     private $capacidade;
     private $conn;
     private $table = "Laboratorio";
+    private $log;
+    private $helper;
 
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->log = new Log();
+        $this->helper = new AuthHelpers(); 
     }
+
     public function insertLaboratorio($laboratorio) {
         $nome = $laboratorio->getNome();
         $andar = $laboratorio->getAndar();
@@ -28,7 +35,12 @@ class Laboratorio {
         $stmt->bindParam(":equipamento", $equipamento);
         $stmt->bindParam(":capacidade", $capacidade);
 
-        return $stmt->execute();
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Laboratório"); 
+        }
+        return $executar;
     }
 
     public function getLaboratorioId(){
@@ -120,13 +132,24 @@ class Laboratorio {
         $stmt->bindParam(":capacidade", $capacidade);
         $stmt->bindParam(":id_laboratorio", $idLaboratorio);
     
-        return $stmt->execute();
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Laboratório"); 
+        }
+        return $executar;
     }
     
     public function deleteLaboratorio($idLaboratorio) {
         $query = "DELETE FROM $this->table WHERE id_laboratorio = :id_laboratorio";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_laboratorio", $idLaboratorio, PDO::PARAM_INT);
-        return $stmt->execute();
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Laboratório"); 
+        }
+        return $executar;
     }
 }

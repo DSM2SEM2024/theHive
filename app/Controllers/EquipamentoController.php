@@ -1,56 +1,86 @@
 <?php
-
 namespace App\Controllers;
 
-// Importa a Model de Equipamento para acessar os métodos de CRUD
 use App\Model\Equipamento;
+use App\utils\AuthHelpers;
 
 class EquipamentoController {
-    private $equipamento;
+    private $equip;
+    private $helper;
 
-    // Construtor: inicializa a instância da Model de Equipamento
     public function __construct() {
-        $this->equipamento = new Equipamento();
+        $this->equip = new Equipamento();
+        $this->helper = new AuthHelpers();
     }
 
-    // Método para criar um novo equipamento
-    public function create() {
-        // Lê o corpo da requisição e decodifica o JSON
-        $data = json_decode(file_get_contents("php://input"), true);
-        $nome = $data['nome'] ?? '';
-        $numero = $data['numero'] ?? '';
-        $software = $data['sofware'] ?? '';
+    public function create($data) {
+        $this->helper->criar();
+
+        if (!isset($data->nome, $data->numero)) {
+            http_response_code(400);
+            echo json_encode(["error" => "Dados incompletos para a criação do equipamento."]);
+            return;
+        }
+
+        $this->equip->setNome($data->nome)->setNumero($data->numero)->setSoftware($data->software);
+        if ($this->equip->insertEquipamento($this->equip)) {
+            http_response_code(201);
+            echo json_encode(["success"=> true,"message" => "Equipamento criado com sucesso."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao criar Equipamento."]);
+        }
+    }
+
+    public function read($id = null) {
+        $this->helper->visualizar();
+        if ($id) {
+            $result = $this->equip->getEquipamentoById($id);
+            if($result){
+                $status = 200 ;
+            }else{
+                $status = 404;
+            }
+            
+            } else {
+            $result = $this->equip->getAllEquipamentos();
+            unset($equip);
+            $status = !empty($result) ? 200 : 404;
+        }
+
+        http_response_code($status);
+        echo json_encode($result ?: ["message" => "Nenhum equipamento encontrado."]);
+    }
+
+    public function update($id, $data) {
+        $this->helper->atualizar();
         
-        // Chama o método create na Model e retorna uma mensagem de sucesso
-        $this->equipamento->create($nome, $numero, $software);
-        echo json_encode(["message" => "Equipamento criado com sucesso!"]);
+        if (!isset($data->nome, $data->numero)) {
+            http_response_code(400);
+            echo json_encode(["error" => "Dados incompletos para atualização do equipamento."]);
+            return;
+        }
+    
+    $this->equip->setNome($data->nome)->setNumero($data->numero)->setSoftware($data->software);
+    
+        if ($this->equip->updateEquipamento($id)) {
+            http_response_code(200);
+            echo json_encode(["message" => "Equipamento atualizado com sucesso."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao atualizar equipamento."]);
+        }
     }
 
-    // Método para listar todos os equipamentos
-    public function read() {
-        // Chama o método getAll na Model e retorna o resultado como JSON
-        $result = $this->equipamento->getAll();
-        echo json_encode($result);
-    }
-
-    // Método para atualizar um equipamento
-    public function update($id) {
-        // Lê o corpo da requisição e decodifica o JSON
-        $data = json_decode(file_get_contents("php://input"), true);
-        $nome = $data['nome'] ?? '';
-        $numero = $data['numero'] ?? '';
-        $software = $data['sofware'] ?? '';
-        
-        // Chama o método update na Model e retorna uma mensagem de sucesso
-        $this->equipamento->update($id, $nome, $numero, $software);
-        echo json_encode(["message" => "Equipamento atualizado com sucesso!"]);
-    }
-
-    // Método para deletar (soft delete) um equipamento
     public function delete($id) {
-        // Chama o método delete na Model e retorna uma mensagem de sucesso
-        $this->equipamento->delete($id);
-        echo json_encode(["message" => "Equipamento deletado com sucesso!"]);
+        $this->helper->deletar();
+        if ($this->equip->deleteEquipamento($id)) {
+            http_response_code(200);
+            echo json_encode(["message" => "Equipamento excluído com sucesso."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao excluir equipamento."]);
+        }
     }
 }
 ?>

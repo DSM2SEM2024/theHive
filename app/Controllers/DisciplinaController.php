@@ -1,19 +1,22 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Model\Disciplina;
+use App\utils\AuthHelpers;
 
 class DisciplinaController {
     private $disciplina;
+    private $helper;
 
     public function __construct() {
         $this->disciplina = new Disciplina();
+        $this->helper = new AuthHelpers();
     }
 
     // Função para criar uma nova disciplina
     public function create($data) {
-        if (!isset($data->id_curso, $data->nome)) {
+        $this->helper->criar();
+        if (!isset($data->nome)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação da disciplina."]);
             return;
@@ -33,6 +36,7 @@ class DisciplinaController {
 
     // Função para listar todas as disciplinas
     public function readAll() {
+        $this->helper->visualizar();
         $disciplinas = $this->disciplina->getAllDisciplina();
         if ($disciplinas) {
             http_response_code(200);
@@ -45,6 +49,7 @@ class DisciplinaController {
 
     // Função para listar disciplina por ID
     public function readId($idDisciplina) {
+        $this->helper->visualizar();
         $disciplina = $this->disciplina->getByIdDisciplina($idDisciplina);
         if ($disciplina) {
             http_response_code(200);
@@ -57,6 +62,7 @@ class DisciplinaController {
 
     // Função para listar disciplinas por curso
     public function readByCurso($idCurso) {
+        $this->helper->visualizar();
         $disciplinas = $this->disciplina->getByIdCurso($idCurso);
         if ($disciplinas) {
             http_response_code(200);
@@ -69,6 +75,7 @@ class DisciplinaController {
 
     // Função para listar disciplinas por estado
     public function readByEstado($estado) {
+        $this->helper->visualizar();
         $disciplinas = $this->disciplina->findByEstado($estado);
         if ($disciplinas) {
             http_response_code(200);
@@ -81,7 +88,8 @@ class DisciplinaController {
 
     // Função para atualizar uma disciplina
     public function update($idDisciplina, $data) {
-        if (!isset($data->id_curso, $data->nome)) {
+        $this->helper->atualizar();
+        if (!isset($data->nome)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a atualização da disciplina."]);
             return;
@@ -100,6 +108,7 @@ class DisciplinaController {
 
     // Função para deletar uma disciplina
     public function delete($idDisciplina) {
+        $this->helper->deletar();
         if ($this->disciplina->deleteDisciplina($idDisciplina)) {
             http_response_code(200);
             echo json_encode(["message" => "Disciplina excluída com sucesso."]);

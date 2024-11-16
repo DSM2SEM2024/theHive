@@ -1,52 +1,86 @@
 <?php
-
-// Importa a Model de Software para acessar os métodos de CRUD
 namespace App\Controllers;
 
 use App\Model\Software;
+use App\utils\AuthHelpers;
+
 
 class SoftwareController {
     private $software;
+    private $helper;
 
-    // Construtor: inicializa a instância da Model de Software
     public function __construct() {
+        $this->helper = new AuthHelpers();
         $this->software = new Software();
     }
+    public function create($data) {
+        $this->helper->criar();
 
-    // Método para criar um novo software
-    public function create() {
-        // Lê o corpo da requisição e decodifica o JSON
-        $data = json_decode(file_get_contents("php://input"), true);
-        $nome = $data['nome'] ?? '';
+        if (!isset($data->nome)) {
+            http_response_code(400);
+            echo json_encode(["error" => "Dados incompletos para a criação do software."]);
+            return;
+        }
+
+        $this->software->setNome($data->nome);
+        if ($this->software->insertSoftware($this->software)) {
+            http_response_code(201);
+            echo json_encode(["success"=> true,"message" => "Software criado com sucesso."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao criar software."]);
+        }
+    }
+
+    public function read($id = null) {
+        $this->helper->visualizar();
+        if ($id) {
+            $result = $this->software->getSoftwareById($id);
+            if($result){
+                $status = 200 ;
+            }else{
+                $status = 404;
+            }
+            
+            } else {
+            $result = $this->software->getAllSoftwares();
+            unset($equip);
+            $status = !empty($result) ? 200 : 404;
+        }
+
+        http_response_code($status);
+        echo json_encode($result ?: ["message" => "Nenhum software encontrado."]);
+    }
+
+    public function update($id, $data) {
+        $this->helper->atualizar();
         
-        // Chama o método create na Model e retorna uma mensagem de sucesso
-        $this->software->create($nome);
-        echo json_encode(["message" => "Software criado com sucesso!"]);
+        if (!isset($data->nome)) {
+            http_response_code(400);
+            echo json_encode(["error" => "Dados incompletos para atualização do software."]);
+            return;
+        }
+    
+    $this->software->setNome($data->nome);
+    
+        if ($this->software->updateSoftware($id)) {
+            http_response_code(200);
+            echo json_encode(["message" => "Software atualizado com sucesso."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao atualizar software."]);
+        }
     }
 
-    // Método para listar todos os softwares
-    public function read() {
-        // Chama o método getAll na Model e retorna o resultado como JSON
-        $result = $this->software->getAll();
-        echo json_encode($result);
-    }
-
-    // Método para atualizar um software
-    public function update($id) {
-        // Lê o corpo da requisição e decodifica o JSON
-        $data = json_decode(file_get_contents("php://input"), true);
-        $nome = $data['nome'] ?? '';
-        
-        // Chama o método update na Model e retorna uma mensagem de sucesso
-        $this->software->update($id, $nome);
-        echo json_encode(["message" => "Software atualizado com sucesso!"]);
-    }
-
-    // Método para deletar (soft delete) um software
     public function delete($id) {
-        // Chama o método delete na Model e retorna uma mensagem de sucesso
-        $this->software->delete($id);
-        echo json_encode(["message" => "Software deletado com sucesso!"]);
+        $this->helper->deletar();
+        if ($this->software->deleteSoftware($id)) {
+            http_response_code(200);
+            echo json_encode(["message" => "Software excluído com sucesso."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Erro ao excluir software."]);
+        }
     }
 }
 ?>

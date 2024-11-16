@@ -1,6 +1,8 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
+use App\Model\Log;
+use App\utils\AuthHelpers;
 use PDO;
 
 class Disciplina {
@@ -11,9 +13,13 @@ class Disciplina {
     private $dataCad;
     private $conn;
     private $table = "disciplina";
+    private $log;
+    private $helper;
 
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->log = new Log();
+        $this->helper = new AuthHelpers();
     }
 
     public function criarDisciplina(Disciplina $disciplina) {
@@ -30,7 +36,12 @@ class Disciplina {
         $stmt->bindParam(":id_curso", $idCurso);
         $stmt->bindParam(":nome", $nome);
 
-        return $stmt->execute();
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "CREATE", "Disciplina"); 
+        }
+        return $executar;
     }
 
     public function getAllDisciplina() {
@@ -54,10 +65,16 @@ class Disciplina {
         $query = "UPDATE $this->table SET id_curso = :id_curso, nome = :nome WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id_disciplina", $this->idDisciplina, PDO::PARAM_INT);
+        $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
         $stmt->bindParam(":id_curso", $this->idCurso);
         $stmt->bindParam(":nome", $this->nome);
-        return $stmt->execute();
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Disciplina"); 
+        }
+        return $executar;
     }
 
     public function deleteDisciplina($idDisciplina) {
@@ -65,7 +82,12 @@ class Disciplina {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_disciplina", $idDisciplina, PDO::PARAM_INT);
 
-        return $stmt->execute();
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Disciplina"); 
+        }
+        return $executar;
     }
 
     // Método para listar disciplinas com base em seu estado
@@ -92,7 +114,13 @@ class Disciplina {
         $query = "UPDATE DISCIPLINA SET estado = 0 WHERE id_curso = :id_curso";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
-        return $stmt->execute();
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Disciplina"); 
+        }
+        return $executar;
     }
 
     public function getDisciplinaId() {

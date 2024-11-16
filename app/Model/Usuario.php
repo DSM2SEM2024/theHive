@@ -1,6 +1,8 @@
 <?php
 namespace App\Model;
 use App\Database\Database;
+use App\Model\Log;
+use App\utils\AuthHelpers;
 use PDO;
 
 class Usuario {
@@ -13,9 +15,13 @@ class Usuario {
     private $dataCad;
     private $conn;
     private $table = "Usuarios";
+    private $helper;
+    private $log;
 
     public function __construct() {
         $this->conn = Database::getInstance();
+        $this->helper = new AuthHelpers();
+        $this->log = new Log();
     }
 
     public function insertUsuario($usuario) {
@@ -33,7 +39,13 @@ class Usuario {
         $stmt->bindParam(":senha", $senha);
         $stmt->bindParam(":perfil", $perfil);
 
-        return $stmt->execute();
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Usuários"); 
+        }
+
+        return $executar;
     }
 
     public function getUsuarioId(){
@@ -116,6 +128,16 @@ class Usuario {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUsuarioByName($nomeUsuario) {
+        $query = "SELECT id_usuario, nome, email, perfil, estado, data_cad FROM $this->table WHERE LOWER(nome) LIKE :nome";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":nome", $nomeUsuario);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function updateUsuario($id_usuario) {
         $nome = $this->getNome();
         $email = $this->getEmail();
@@ -129,13 +151,26 @@ class Usuario {
         $stmt->bindParam(":perfil", $perfil);
         $stmt->bindParam(":id_usuario", $id_usuario);
     
-        return $stmt->execute();
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Usuários"); 
+        }
+
+        return $executar;
     }
     
     public function deleteUsuario($id_usuario) {
         $query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
-        return $stmt->execute();
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DELETE", "Usuários"); 
+        }
+
+        return $executar;
     }
 }

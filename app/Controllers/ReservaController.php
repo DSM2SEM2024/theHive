@@ -5,15 +5,19 @@ use App\Model\Reserva;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use App\utils\AuthHelpers;
 
 class ReservaController {
     private $reserva;
-
+    private $helper;
+    
     public function __construct() {
         $this->reserva = new Reserva();
+        $this->helper = new AuthHelpers();
     }
 
     public function obterTodasReservas() {
+        $this->helper->visualizar();
         $ReservaAtual = $this->reserva->obterTodasReservas();
         http_response_code(200);
         echo json_encode($ReservaAtual);
@@ -21,6 +25,7 @@ class ReservaController {
 
     public function obterReservaPorId($id)
     {
+        $this->helper->visualizar();
         $ReservaAtual = $this->reserva->obterReservaPorId($id);
         if ($ReservaAtual) {
             http_response_code(200);
@@ -31,9 +36,49 @@ class ReservaController {
         }
     }
 
+    public function obterReservaPorEstado($estado)
+    {
+        $this->helper->visualizar();
+        $ReservaAtual = $this->reserva->obterReservaPorEstado($estado);
+        if ($ReservaAtual) {
+            http_response_code(200);
+            echo json_encode($ReservaAtual);
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Reservas não encontradas']);
+        }
+    }
+
+    public function obterReservaPorLab($lab)
+    {
+        $this->helper->visualizar();
+        $ReservaAtual = $this->reserva->obterReservaPorLab($lab);
+        if ($ReservaAtual) {
+            http_response_code(200);
+            echo json_encode($ReservaAtual);
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Reservas não encontradas']);
+        }
+    }
+
+    public function obterReservaPorProf($prof)
+    {
+        $this->helper->visualizar();
+        $ReservaAtual = $this->reserva->obterReservaPorProf($prof);
+        if ($ReservaAtual) {
+            http_response_code(200);
+            echo json_encode($ReservaAtual);
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Reservas não encontradas']);
+        }
+    }
+
     //#[Router('/reserve/data/{dataini}/{datafim}', methods: ['GET'])]
     public function obterReservaPorIntervaloDeData($dataini, $datafim)
     {
+        $this->helper->visualizar();
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dataini) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $datafim)) {
             http_response_code(400);
             echo json_encode(['status' => false, 'message' => 'Formato de data inválido']);
@@ -52,6 +97,7 @@ class ReservaController {
 
     public function criarReserva($data)
     {
+        $this->helper->criar();
         if ($data->recorrencia === 'nenhuma') {
             $ReservaAtual = new Reserva();
             $ReservaAtual->setUsuarioId($data->usuarioId);
@@ -88,6 +134,7 @@ class ReservaController {
     
     private function criarReservasRecorrentes(Reserva $reserva)
     {
+        $this->helper->criar();
         $recorrencia = $reserva->getRecorrencia();
         $dataInicial = new DateTime($reserva->getDataInicial());
         $dataFinalOriginal = new DateTime($reserva->getDataFinal());
@@ -125,6 +172,7 @@ class ReservaController {
 
     public function atualizarReserva($id, $data)
     {
+        $this->helper->atualizar();
         // Verificar se a reserva existe
         $reservaExistente = $this->reserva->obterReservaPorId($id);
         if ($reservaExistente) {
@@ -162,6 +210,7 @@ class ReservaController {
     //#[Router('/reserve/forenkey/{id}', methods: ['DELETE'])]
     public function excluirReservaPorID($id)
     {
+        $this->helper->deletar();
         $reservasExcluidos = $this->reserva->excluirReservaPorID($id);
         if ($reservasExcluidos) {
             http_response_code(200);

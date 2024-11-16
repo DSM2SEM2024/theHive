@@ -2,15 +2,19 @@
 namespace App\Controllers;
 
 use App\Model\Laboratorio;
+use App\utils\AuthHelpers;
 
 class LaboratorioController {
     private $lab;
+    private $helper;
 
     public function __construct() {
         $this->lab = new Laboratorio();
+        $this->helper = new AuthHelpers();
     }
     public function create($data) {
-        if (!isset($data->nome, $data->andar, $data->capacidade)) {
+        $this->helper->criar();
+        if (!isset($data->nome, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do laboratório."]);
             return;
@@ -27,6 +31,7 @@ class LaboratorioController {
     }
 
     public function read($id = null) {
+        $this->helper->visualizar();
         if ($id) {
             $result = $this->lab->getLaboratorioById($id);
             if($result){
@@ -45,8 +50,10 @@ class LaboratorioController {
         echo json_encode($result ?: ["message" => "Nenhum laboratório encontrado."]);
     }
 
-    //função para listar/filtrar labroratorio por nome
     public function filterByNome($nomeLaboratorio) {
+        $nomeLaboratorio = urldecode($nomeLaboratorio);
+        $nomeUsuario = $this->prepareLikeParameter($nomeLaboratorio);
+        $this->helper->visualizar();
         $result = $this->lab->getLaboratorioByName($nomeLaboratorio);
     
         if ($result) {
@@ -58,9 +65,12 @@ class LaboratorioController {
         }
     }
     
+    private function prepareLikeParameter($param) {
+        return '%' . trim($param) . '%';
+    }    
 
-    //função para listar/filtrar labroratorio por andar
     public function filterLaboratorioByAndar($andar) {
+        $this->helper->visualizar();
         if (empty($andar)) {
             http_response_code(400);
             echo json_encode(["error" => "O valor do andar não pode estar vazio."]);
@@ -79,7 +89,8 @@ class LaboratorioController {
     }
 
     public function update($id, $data) {
-        if (!isset($data->nome, $data->andar, $data->equipamento, $data->capacidade)) {
+        $this->helper->atualizar();
+        if (!isset($data->nome, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do laboratório."]);
             return;
@@ -97,6 +108,7 @@ class LaboratorioController {
     }
 
     public function delete($id) {
+        $this->helper->deletar();
         if ($this->lab->deleteLaboratorio($id)) {
             http_response_code(200);
             echo json_encode(["message" => "Laboratório excluído com sucesso."]);
