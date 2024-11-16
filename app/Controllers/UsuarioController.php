@@ -51,11 +51,9 @@ class UsuarioController {
             echo json_encode(["error" => "Email ou senha inválidos."]);
         }
     }
-
-    //CRUD 
     
     public function create($data) {
-        //$this->helper->criar();
+        $this->helper->criar();
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do usuário."]);

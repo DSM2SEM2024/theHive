@@ -43,8 +43,10 @@ class rotas {
                 '/curso/{id}' => [CursoController::class, 'read'],
                 //software
                 '/software' => [SoftwareController::class, 'read'],
+                '/software/{id}' => [SoftwareController::class, 'read'],
                 //equipamento
                 '/equipamento' => [EquipamentoController::class, 'read'],
+                '/equipamento/{id}' => [EquipamentoController::class, 'read'],
                 //logs
                 '/logs' => [Log::class, 'read'],
                 '/logs/prof/{prof}' => [Log::class, 'obterLogPorProf'],
