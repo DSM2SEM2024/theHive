@@ -16,7 +16,7 @@ class EquipamentoController {
     public function create($data) {
         $this->helper->criar();
 
-        if (!isset($data->nome, $data->numero, $data->software)) {
+        if (!isset($data->nome, $data->numero)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do equipamento."]);
             return;
@@ -55,7 +55,7 @@ class EquipamentoController {
     public function update($id, $data) {
         $this->helper->atualizar();
         
-        if (!isset($data->nome, $data->numero, $data->software)) {
+        if (!isset($data->nome, $data->numero)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do equipamento."]);
             return;

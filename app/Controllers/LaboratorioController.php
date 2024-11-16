@@ -14,7 +14,7 @@ class LaboratorioController {
     }
     public function create($data) {
         $this->helper->criar();
-        if (!isset($data->nome, $data->andar, $data->capacidade)) {
+        if (!isset($data->nome, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do laboratório."]);
             return;
@@ -90,7 +90,7 @@ class LaboratorioController {
 
     public function update($id, $data) {
         $this->helper->atualizar();
-        if (!isset($data->nome, $data->andar, $data->capacidade)) {
+        if (!isset($data->nome, $data->capacidade)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do laboratório."]);
             return;

@@ -20,8 +20,8 @@
 //post/equipamento
 /*{
     "nome":"Computadores",
-    "numero":30,
-    "sofware":1
+    //"software":2,
+    "numero":30
 }*/
 
 //post/andar
@@ -33,8 +33,8 @@
 //post/labs
 /*{
     "nome":"CAD II",
-    "andar":2,
-    "equipamento":4,
+    //"andar":2,
+    //"equipamento":2,
     "capacidade":32
 }*/
 
@@ -45,7 +45,7 @@
 
 //post/disciplina
 /*{
-    "id_curso":5,
+    //"id_curso":5,
     "nome":"Desenvolvimento Web I"
 }*/
 
