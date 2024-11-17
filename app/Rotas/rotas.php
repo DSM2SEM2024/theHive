@@ -43,10 +43,8 @@ class rotas {
                 '/curso/{id}' => [CursoController::class, 'read'],
                 //software
                 '/software' => [SoftwareController::class, 'read'],
-                '/software/{id}' => [SoftwareController::class, 'read'],
                 //equipamento
                 '/equipamento' => [EquipamentoController::class, 'read'],
-                '/equipamento/{id}' => [EquipamentoController::class, 'read'],
                 //logs
                 '/logs' => [Log::class, 'read'],
                 '/logs/prof/{prof}' => [Log::class, 'obterLogPorProf'],
@@ -79,6 +77,8 @@ class rotas {
                 '/labs/{id}' => [LaboratorioController::class, 'update'],
                 //reserva
                 '/reserve/{id}' => [ReservaController::class, 'atualizarReserva'],
+                '/reserve/{id}/approve' => [ReservaController::class, 'aprovarReserva'],
+                '/reserve/{id}/deny' => [ReservaController::class, 'negarReserva'],
                 //disciplina
                 '/disciplina/{id}' => [DisciplinaController::class, 'update'],
                 //curso

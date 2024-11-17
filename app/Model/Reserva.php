@@ -51,10 +51,13 @@ class Reserva {
     
         return $executar;
     }
-    
 
     public function getReservaId() {
         return $this->idReserva;
+    }
+
+    public function setReservaId($idReserva) {
+        $this->idReserva = $idReserva;
     }
 
     public function getUsuarioId() {
@@ -248,7 +251,7 @@ class Reserva {
         $executar = $stmt->execute();
         if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
-            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
+            $this->log->registrar($tokenUser['id_usuario'], "APPROVE", "Reserva"); 
         }
         return $executar;
     }
@@ -263,7 +266,7 @@ class Reserva {
         $executar = $stmt->execute();
         if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
-            $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Reserva"); 
+            $this->log->registrar($tokenUser['id_usuario'], "DENNY", "Reserva"); 
         }
         return $executar;
     }

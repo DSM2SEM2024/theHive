@@ -231,12 +231,8 @@ class ReservaController {
     public function aprovarReserva($id)
     {
         $reservaExistente = $this->reserva->obterReservaPorId($id);
-        if ($reservaExistente) {
-            $ReservaAtual = new Reserva();
-            $ReservaAtual->setReservaId($id);
-            $ReservaAtual->setStatus('aprovada'); 
-
-        $reservaAtualizada = $this->reserva->atualizarReserva($ReservaAtual);
+        if ($reservaExistente) { 
+        $reservaAtualizada = $this->reserva->aprovarReserva($id);
         if ($reservaAtualizada) {
             http_response_code(200);
             echo json_encode(['status' => true, 'mensagem' => 'Reserva aprovada com sucesso']);
@@ -252,14 +248,10 @@ class ReservaController {
 
 //#[Router('/reserve/{id}/deny', methods: ['PUT'])]
     public function negarReserva($id)
-{
+    {
         $reservaExistente = $this->reserva->obterReservaPorId($id);
-        if ($reservaExistente) {
-            $ReservaAtual = new Reserva();
-            $ReservaAtual->setReservaId($id);
-            $ReservaAtual->setStatus('negada'); 
-
-        $reservaAtualizada = $this->reserva->atualizarReserva($ReservaAtual);
+        if ($reservaExistente) { 
+            $reservaAtualizada = $this->reserva->negarReserva($id);
         if ($reservaAtualizada) {
             http_response_code(200);
             echo json_encode(['status' => true, 'mensagem' => 'Reserva negada com sucesso']);
@@ -272,5 +264,4 @@ class ReservaController {
             echo json_encode(['status' => false, 'mensagem' => 'Reserva não encontrada']);
         }
     }
-
 }
