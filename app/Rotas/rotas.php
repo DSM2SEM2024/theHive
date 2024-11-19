@@ -51,8 +51,9 @@ class rotas {
             ],
             'POST' => [
                 //usuario
-                '/users' => [UsuarioController::class, 'create'],
-                '/login' => [UsuarioController::class, 'login'],
+                 '/users' => [UsuarioController::class, 'create'],
+                 //usuario
+                 '/login' => [UsuarioController::class, 'login'],
                 //andar
                 '/andar' => [AndarController::class, 'create'],
                 //labs
@@ -66,7 +67,7 @@ class rotas {
                 //software
                 '/software' => [SoftwareController::class, 'create'],
                 //equipamento
-                '/equipamento' => [EquipamentoController::class, 'create'], 
+                '/equipamento' => [EquipamentoController::class, 'create'],
             ],
             'PUT' => [
                 //users
@@ -87,6 +88,42 @@ class rotas {
                 '/software/{id}' => [SoftwareController::class, 'update'],
                 //equipamento
                 '/equipamento/{id}' => [EquipamentoController::class, 'update'],
+                
+                //desativar
+                //users
+                '/users/{id}/off' => [UsuarioController::class, 'desativar'],
+                //andar
+                '/andar/{id}/off' => [AndarController::class, 'desativar'],
+                //labs
+                '/labs/{id}//off' => [LaboratorioController::class, 'desativar'],
+                //reserva
+                '/reserve/{id}/off' => [ReservaController::class, 'desativar'],
+                //disciplina
+                '/disciplina/{id}/off' => [DisciplinaController::class, 'desativar'],
+                //curso
+                '/curso/{id}/off' => [CursoController::class, 'desativar'],
+                //software
+                '/software/{id}/off' => [SoftwareController::class, 'desativar'],
+                //equipamento
+                '/equipamento/{id}/off' => [EquipamentoController::class, 'desativar'],
+
+                //ativar
+                //users
+                '/users/{id}/on' => [UsuarioController::class, 'ativar'],
+                //andar
+                '/andar/{id}/on' => [AndarController::class, 'ativar'],
+                //labs
+                '/labs/{id}//on' => [LaboratorioController::class, 'ativar'],
+                //reserva
+                '/reserve/{id}/on' => [ReservaController::class, 'ativar'],
+                //disciplina
+                '/disciplina/{id}/on' => [DisciplinaController::class, 'ativar'],
+                //curso
+                '/curso/{id}/on' => [CursoController::class, 'ativar'],
+                //software
+                '/software/{id}/on' => [SoftwareController::class, 'ativar'],
+                //equipamento
+                '/equipamento/{id}/on' => [EquipamentoController::class, 'ativar'],
             ],
             'DELETE' => [
                 //users

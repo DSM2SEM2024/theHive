@@ -71,6 +71,18 @@ class AuthHelpers {
         
     }
 
+    public function visualizarInativos(){ 
+        $usuario = $this->verificarTokenComPermissao();
+        if ($usuario['perfil'] !== 'AdminMaster') {
+            http_response_code(403);
+            echo json_encode(["error" => "Você não tem permissão para essa ação."]);
+            exit();
+        }
+
+        return $usuario;
+        
+    }
+
     public function atualizar(){ 
         $usuario = $this->verificarTokenComPermissao();
         if ($usuario['perfil'] !== 'Admin' && $usuario['perfil'] !== 'AdminMaster') {
@@ -86,6 +98,18 @@ class AuthHelpers {
     public function desativar(){ 
         $usuario = $this->verificarTokenComPermissao();
         if ($usuario['perfil'] !== 'Admin' && $usuario['perfil'] !== 'AdminMaster') {
+            http_response_code(403);
+            echo json_encode(["error" => "Você não tem permissão para essa ação."]);
+            exit();
+        }
+
+        return $usuario;
+        
+    }
+
+    public function ativar(){ 
+        $usuario = $this->verificarTokenComPermissao();
+        if ($usuario['perfil'] !== 'AdminMaster' ) {
             http_response_code(403);
             echo json_encode(["error" => "Você não tem permissão para essa ação."]);
             exit();

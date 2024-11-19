@@ -43,7 +43,7 @@ class Curso {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table WHERE estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -74,6 +74,34 @@ class Curso {
         if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Curso"); 
+        }
+        return $executar;
+    }
+
+    public function desativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 0 WHERE id_curso = :id_curso";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_curso', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DEACTIVATED", "Curso");
+        }
+        return $executar;
+    }
+
+    public function ativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 1 WHERE id_curso = :id_curso";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_curso', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "ACTIVATED", "Curso");
         }
         return $executar;
     }

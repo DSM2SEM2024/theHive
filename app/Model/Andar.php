@@ -45,7 +45,7 @@ class Andar {
     }
 
     public function getAllAndar() {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table WHERE estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         
@@ -73,6 +73,34 @@ class Andar {
         if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Andar"); 
+        }
+        return $executar;
+    }
+    
+    public function desativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 0 WHERE id_andar = :id_andar";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_andar', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DEACTIVATED", "Andar");
+        }
+        return $executar;
+    }
+
+    public function ativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 1 WHERE id_andar = :id_andar";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_andar', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "ACTIVATED", "Andar");
         }
         return $executar;
     }

@@ -93,6 +93,44 @@ class CursoController {
         }
     }
 
+    public function desativar($id)
+    {
+        $this->helper->desativar();
+        $curso = $this->curso->getById($id);
+        if ($curso) {
+        $curso = $this->curso->desativar($id);
+        if ($curso) {
+            http_response_code(200);
+            echo json_encode(['status' => true, 'mensagem' => 'Removido com sucesso.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['status' => false, 'mensagem' => 'Erro ao remover.']);
+        }
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'mensagem' => 'Não encontrado.']);
+        }
+    }  
+
+    public function ativar($id)
+    {
+        $this->helper->ativar();
+        $curso = $this->curso->getById($id);
+        if ($curso) {
+        $curso = $this->curso->ativar($id);
+        if ($curso) {
+            http_response_code(200);
+            echo json_encode(['status' => true, 'mensagem' => 'Ativo com sucesso.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['status' => false, 'mensagem' => 'Erro ao ativar.']);
+        }
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'mensagem' => 'Não encontrado.']);
+        }
+    }
+
     public function delete($idCurso) {
         $this->helper->deletar();
         if ($this->curso->delete($idCurso)) {

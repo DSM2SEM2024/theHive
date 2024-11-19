@@ -87,6 +87,44 @@ class AndarController {
         }
     }
 
+    public function desativar($id)
+    {
+        $this->helper->desativar();
+        $andar = $this->user->getByIdAndar($id);
+        if ($andar) {
+        $andar = $this->user->desativar($id);
+        if ($andar) {
+            http_response_code(200);
+            echo json_encode(['status' => true, 'mensagem' => 'Removido com sucesso.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['status' => false, 'mensagem' => 'Erro ao remover.']);
+        }
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'mensagem' => 'Não encontrado.']);
+        }
+    }  
+
+    public function ativar($id)
+    {
+        $this->helper->ativar();
+        $andar = $this->andar->getByIdAndar($id);
+        if ($andar) {
+        $andar = $this->andar->ativar($id);
+        if ($andar) {
+            http_response_code(200);
+            echo json_encode(['status' => true, 'mensagem' => 'Ativo com sucesso.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['status' => false, 'mensagem' => 'Erro ao ativar.']);
+        }
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'mensagem' => 'Não encontrado.']);
+        }
+    }
+
     public function delete($idAndar) {
         $this->helper->deletar();
         if ($this->andar->deleteAndar($idAndar)) {

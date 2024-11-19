@@ -45,7 +45,7 @@ class Disciplina {
     }
 
     public function getAllDisciplina() {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table WHERE estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         
@@ -77,6 +77,36 @@ class Disciplina {
         return $executar;
     }
 
+    public function desativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 0 WHERE id_disciplina = :id_disciplina";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_disciplina', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DEACTIVATED", "Disciplina");
+        }
+        return $executar;
+    }
+
+    public function ativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 1 WHERE id_disciplina = :id_disciplina";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_disciplina', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "ACTIVATED", "Disciplina");
+        }
+        return $executar;
+    }
+
+    
+
     public function deleteDisciplina($idDisciplina) {
         $query = "DELETE FROM $this->table WHERE id_disciplina = :id_disciplina";
         $stmt = $this->conn->prepare($query);
@@ -102,7 +132,7 @@ class Disciplina {
 
     // Método para listar disciplinas associadas a um curso específico
     public function getByIdCurso($idCurso) {
-        $query = "SELECT * FROM $this->table WHERE id_curso = :id_curso";
+        $query = "SELECT * FROM $this->table WHERE id_curso = :id_curso AND estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_curso", $idCurso, PDO::PARAM_INT);
         $stmt->execute();

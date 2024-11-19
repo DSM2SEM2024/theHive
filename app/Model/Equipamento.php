@@ -24,7 +24,7 @@ class Equipamento {
     }
 
     public function getAllEquipamentos() {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table WHERE estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -74,6 +74,34 @@ class Equipamento {
         if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Equipamento"); 
+        }
+        return $executar;
+    }
+
+    public function desativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 0 WHERE id_equipamento = :id_equipamento";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_equipamento', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DEACTIVATED", "Equipamento");
+        }
+        return $executar;
+    }
+
+    public function ativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 1 WHERE id_equipamento = :id_equipamento";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_equipamento', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "ACTIVATED", "Equipamento");
         }
         return $executar;
     }

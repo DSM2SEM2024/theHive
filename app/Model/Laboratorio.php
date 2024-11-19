@@ -85,7 +85,7 @@ class Laboratorio {
     }
 
     public function getLaboratorioByName($nome) {
-        $query = "SELECT * FROM $this->table WHERE nome = :nome";
+        $query = "SELECT * FROM $this->table WHERE nome = :nome AND estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->execute();
@@ -95,7 +95,7 @@ class Laboratorio {
 
     //método para buscar laboratórios por andar
     public function getLaboratorioByAndar($andar) {
-        $query = "SELECT * FROM $this->table WHERE andar = :andar";
+        $query = "SELECT * FROM $this->table WHERE andar = :andar AND estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":andar", $andar, PDO::PARAM_INT);
         $stmt->execute();
@@ -103,7 +103,7 @@ class Laboratorio {
     }
     
     public function getAllLaboratorios() {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table WHERE estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -136,6 +136,34 @@ class Laboratorio {
         if ($executar) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
             $this->log->registrar($tokenUser['id_usuario'], "UPDATE", "Laboratório"); 
+        }
+        return $executar;
+    }
+
+    public function desativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 0 WHERE id_laboratorio = :id_laboratorio";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_laboratorio', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DEACTIVATED", "Laboratório");
+        }
+        return $executar;
+    }
+
+    public function ativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 1 WHERE id_laboratorio = :id_laboratorio";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_laboratorio', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "ACTIVATED", "Laboratório");
         }
         return $executar;
     }

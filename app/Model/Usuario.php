@@ -103,7 +103,7 @@ class Usuario {
     }
 
     public function getUsuarioByEmail($email) {
-        $query = "SELECT * FROM $this->table WHERE email = :email";
+        $query = "SELECT * FROM $this->table WHERE email = :email AND estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":email", $email);
         $stmt->execute();
@@ -112,7 +112,7 @@ class Usuario {
     }
 
     public function getAllUsuarios() {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table WHERE estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -129,7 +129,7 @@ class Usuario {
     }
 
     public function getUsuarioByName($nomeUsuario) {
-        $query = "SELECT id_usuario, nome, email, perfil, estado, data_cad FROM $this->table WHERE LOWER(nome) LIKE :nome";
+        $query = "SELECT id_usuario, nome, email, perfil, estado, data_cad FROM $this->table WHERE LOWER(nome) LIKE :nome AND estado = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nomeUsuario);
         $stmt->execute();
@@ -159,6 +159,36 @@ class Usuario {
 
         return $executar;
     }
+
+    public function desativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 0 WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_usuario', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DEACTIVATED", "Usuario");
+        }
+        return $executar;
+    }
+
+    public function ativar($id)
+    {
+        $query = "UPDATE $this->table SET estado = 1 WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_usuario', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "ACTIVATED", "Usuario");
+        }
+        return $executar;
+    }
+
+
     
     public function deleteUsuario($id_usuario) {
         $query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
