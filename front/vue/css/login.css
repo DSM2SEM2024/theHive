@@ -1,0 +1,214 @@
+/* Container geral do Login */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; 
+    width: 100%;
+    height: calc(100vh - 10%);
+    margin: 1.5rem;
+}
+
+/* Posição do card branco */
+.white-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    max-width: 600px;
+    background-color: var(--white-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
+/* Container para a imagem e o texto dentro do card branco */
+.pfp-container {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Imagem dentro do card branco */
+.pfp-container i {
+    color: var(--main-color);
+    font-size: 10rem;
+}
+
+/* Texto abaixo da imagem */
+.card-text {
+    font-size: 2rem;
+    font-weight: bolder;
+    color: var(--main-color); 
+}
+
+/* Posição do card vermelho */
+.login-card {
+    background-color: var(--main-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+/* Posição dos campos e textos */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Texto por cima do campo */
+.input-group label {
+    font-size: 1rem;
+    font-weight: bold; 
+    color: var(--white-color);  
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* Campo */
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--text-color-light);
+    border-radius: 10px;
+}
+
+/* Botão */
+button {
+    font-size: 1rem;
+    font-weight: bold; 
+    color: var(--main-color);  
+    width: 100%;
+    max-width: 150px;
+    padding: 10px;
+    background-color: var(--white-color);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+/* Quando passa o mouse em um botão */
+button:hover {
+    background-color: var(--gray-color);
+}
+
+/* Quando clica em um campo */
+input:focus {
+    outline-color: var(--text-color-light);
+    outline-width: 2px;
+    outline-style: solid; 
+}
+
+/* Posição do mostrar senha */
+.password-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Posição da checkbox e label de mostrar senha */
+.show-password-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Checkbox de mostrar senha */
+.show-password-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(180, 114, 124, 0.5);
+    border-radius: 3px;
+    background-color: rgba(180, 114, 124, 0.2);
+    cursor: pointer;
+    position: relative;
+    margin-right: 15px;
+}
+
+/* Checkbox de mostrar senha apertada */
+.show-password-checkbox:checked::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1); 
+    width: 10px; 
+    height: 10px;
+    background-color: var(--white-color);
+    clip-path: polygon(0% 50%, 40% 90%, 100% 10%, 100% 0%, 40% 70%, 0% 50%); 
+}
+
+/* Texto "Mostrar Senha" */
+.show-password-label {
+    color: var(--white-color);
+    font-size: 15px;
+    font-weight: 300;
+}
+
+/* Mudanças para dispositivos menores */
+@media (max-width: 600px) {
+    .white-card {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .pfp-container {
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 1.25rem;
+    }
+
+    .login-card {
+        width: 90%;
+    }
+
+    button {
+        font-size: 0.875rem;
+        width: 60%;
+        max-width: none;
+    }
+
+    .white-card {
+        margin-bottom: 5px; 
+    }
+}
+
+@media (max-width: 400px) {
+    header {
+        font-size: 20px;
+    }
+
+    .card-text {
+        font-size: 1rem;
+    }
+
+    .white-card {
+        margin-bottom: 5px; 
+    }
+
+    .input-group label {
+        font-size: 0.875rem;
+    }
+
+    .login-card {
+        width: 100%;
+    }
+
+    button {
+        font-size: 0.75rem;
+    }
+}

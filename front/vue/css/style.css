@@ -1,41 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 /* Configurações gerais */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-a {
-    text-decoration: none;
-    color: #eeebeb;
-}
-
-ul {
-    list-style: none;
-}
-
-img {
-    max-width: 100%;
-}
-
 html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 :root {
-    --main-color: #B03648;
-    --text-color: #575757;
-    --text-color-light: #909090;
-    --gray-color: #e2e2e2;
-    --white-color: #f6f6f6;
-    --black-gray-color: #2c2c2c;
-    font-family: "Inter", sans-serif;
+  --green-color: #2D854E;
+  --dark-green-color: #216a3d;
+  --yellow-color: #FF8324;
+  --dark-yellow-color: #d26c1e;
+  --pink-color: #EB6E8E;
+  --dark-pink-color: #c25a74;
+  --blue-color: #337BC3;
+  --dark-blue-color: #1a5c9d;
+  --purple-color: #5A3168;
+  --dark-purple-color: #42234c;
+  --main-color: #B03648;
+  --text-color: #575757;
+  --text-color-light: #909090;
+  --gray-color: #e2e2e2;
+  --white-color: #f6f6f6;
+  --black-gray-color: #2c2c2c;
+  font-family: "Inter", sans-serif;
 }
 
 body {
-    background-color: var(--white-color);
+  background-color: var(--white-color);
 }
 
 /* Cabeçalho */
