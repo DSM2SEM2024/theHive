@@ -1,21 +1,40 @@
-//import { Login } from '/components/login.js';
-const app = Vue.createApp({
+import { Login } from './components/login.js';
+import { Home } from './components/home.js';
+
+const routes = [
+    { path: '/', component: Login },
+    { path: '/home', component: Home }
+];
+
+const router = VueRouter.createRouter({
+    history: VueRouter.createWebHashHistory(),
+    routes
+});
+
+const app = {
+
   data() {
     return {
       usuarios: [],
-      logado: true,
-      busca: '',
+      logado: false,
       usuario: {
         usuario_id: null,
         nome: '',
         email: '',
-        senha: '',
       },
       url: 'http://localhost:3000/users',
     };
   },
-  methods: {
-
+  methods: {   
+    logout() {
+        localStorage.removeItem("usuario");
+        localStorage.removeItem("token");
+        this.usuario = null;
+        this.$router.push('/');
+    },
+    handleLoginSuccess() {
+        this.logado = true; // Atualiza para true ao logar
+    }
   },
 
   template: `
@@ -53,28 +72,6 @@ const app = Vue.createApp({
                       </div>
                   </a>
 
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
-
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
-
               </div>
               <div id="titulo-not-1"><p>Aprovadas</p></div>
               <div class="aprovadas">
@@ -90,64 +87,9 @@ const app = Vue.createApp({
                       </div>
                   </a>
 
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
-
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
-
               </div>
               <p id="titulo-not-1">Reprovadas</p>
               <div class="reprovadas">
-
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
-
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
-
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
 
                   <a href="" class="card-pedido">
                       <div id="txt-card">
@@ -179,14 +121,13 @@ const app = Vue.createApp({
                   <a href="#" onclick="logout()">Sair</a>
               </div>
           </div>
-
       </nav>
-
-      <router-view></router-view>
-
+      <router-view @login-success="handleLoginSuccess"></router-view>
     </main>
       
   `
-});
+};
 
-app.mount('#app');
+const App = Vue.createApp (app);
+App.use(router);
+App.mount('#app');
