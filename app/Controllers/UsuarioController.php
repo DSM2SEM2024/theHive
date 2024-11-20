@@ -157,6 +157,7 @@ class UsuarioController {
 
     public function ativar($id)
     {
+        $this->helper->ativar();
         $usuarioExistente = $this->user->getUsuarioById($id);
         if ($usuarioExistente) {
         $func = $this->user->ativar($id);

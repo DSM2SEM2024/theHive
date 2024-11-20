@@ -51,9 +51,9 @@ class rotas {
             ],
             'POST' => [
                 //usuario
-                 '/users' => [UsuarioController::class, 'create'],
-                 //usuario
-                 '/login' => [UsuarioController::class, 'login'],
+                '/users' => [UsuarioController::class, 'create'],
+                //usuario
+                '/login' => [UsuarioController::class, 'login'],
                 //andar
                 '/andar' => [AndarController::class, 'create'],
                 //labs
@@ -95,7 +95,7 @@ class rotas {
                 //andar
                 '/andar/{id}/off' => [AndarController::class, 'desativar'],
                 //labs
-                '/labs/{id}//off' => [LaboratorioController::class, 'desativar'],
+                '/labs/{id}/off' => [LaboratorioController::class, 'desativar'],
                 //reserva
                 '/reserve/{id}/off' => [ReservaController::class, 'desativar'],
                 //disciplina
@@ -113,7 +113,7 @@ class rotas {
                 //andar
                 '/andar/{id}/on' => [AndarController::class, 'ativar'],
                 //labs
-                '/labs/{id}//on' => [LaboratorioController::class, 'ativar'],
+                '/labs/{id}/on' => [LaboratorioController::class, 'ativar'],
                 //reserva
                 '/reserve/{id}/on' => [ReservaController::class, 'ativar'],
                 //disciplina
