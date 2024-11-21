@@ -77,7 +77,7 @@ export const Login = {
                                 <input type="checkbox" id="showPassword" class="show-password-checkbox" @change="alternarMostrarSenha">
                                 <label for="showPassword" class="show-password-label">Mostrar Senha</label>
                             </div>
-                            <button type="submit">Entrar</button>
+                            <button  id="btn-entrar" type="submit">Entrar</button>
                         </form>
                     </div>
                 </div>

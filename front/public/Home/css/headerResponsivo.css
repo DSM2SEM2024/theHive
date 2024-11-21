@@ -249,6 +249,40 @@
     .info-perfil a {
         font-size: 13px;
     }
+
+    #titulo-ola {
+        font-size: 18px;
+    }
+
+    main h2 {
+        font-size: 26px;
+        margin-top: 1rem;
+    }
+
+    .card-reservas {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .card-reservas p {
+        font-size: 20px;
+    }
+
+    .busca-2 {
+        width: 50rem;
+        height: 2.5rem;
+    }
+
+    .busca-2 img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .card-reservas #btn-reserva {
+        width: 13rem;
+        height: 3rem;
+        font-size: 20px;
+    }
 }
 
 @media (max-width: 880px) {

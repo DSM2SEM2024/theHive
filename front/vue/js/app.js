@@ -128,7 +128,7 @@ const app = {
     },
     template: `
       <header>
-          <h1>Fatec - SALA</h1>
+          <a @click="this.$router.push('/home');"><h1>Fatec - SALA</h1></a>
           <div class="busca" v-if="logado">
               <img src="Images/search.png" alt="Ícone de pesquisa">
               <input id="pesquisa" type="text" placeholder="O que está procurando?">
