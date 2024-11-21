@@ -1,4 +1,4 @@
-export const Laboratorios = {
+export const Laboratorio = {
     data() {
         
     },

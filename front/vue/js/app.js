@@ -1,11 +1,11 @@
 import { Login } from './components/login.js';
 import { Home } from './components/home.js';
-import { Laboratorios } from './components/laboratorios.js';
+import { Laboratorio } from './components/laboratorio.js';
 
 const routes = [
     { path: '/', component: Login },
     { path: '/home', component: Home },
-    { path: '/laboratorios', component: Laboratorios }
+    { path: '/laboratorio', component: Laboratorio }
 ];
 
 const router = VueRouter.createRouter({

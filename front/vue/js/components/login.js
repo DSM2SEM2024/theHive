@@ -31,18 +31,6 @@ export const Login = {
             })
             .catch(error => console.error("Erro no login:", error));
         },
-        redirecionarUsuario(tipo) {
-            switch (tipo) {
-                case 'professor':
-                    window.location.href = 'home/HomeProfessor.html';
-                    break;
-                case 'administrador':
-                    window.location.href = 'home/HomeProfessor.html';
-                    break;
-                default:
-                    console.error("Tipo de usuário inválido.");
-            }
-        },
         alternarMostrarSenha() {
             this.mostrarSenha = !this.mostrarSenha;
         }
