@@ -86,7 +86,7 @@
 }
 
 /* Botão */
-button {
+#btn-entrar {
     font-size: 1rem;
     font-weight: bold; 
     color: var(--main-color);  
@@ -100,7 +100,7 @@ button {
 }
 
 /* Quando passa o mouse em um botão */
-button:hover {
+#btn-entrar:hover {
     background-color: var(--gray-color);
 }
 
@@ -177,7 +177,7 @@ input:focus {
         width: 90%;
     }
 
-    button {
+    #btn-entrar {
         font-size: 0.875rem;
         width: 60%;
         max-width: none;
@@ -209,7 +209,7 @@ input:focus {
         width: 100%;
     }
 
-    button {
+    #btn-entrar {
         font-size: 0.75rem;
     }
 }
