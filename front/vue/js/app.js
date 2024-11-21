@@ -24,6 +24,8 @@ const app = {
                 email: '',
                 curso: '',
             },
+            notificacoesAberto: false,
+            perfilAberto: false,
             url: 'http://localhost:3000/users',
         };
     },
@@ -82,51 +84,52 @@ const app = {
                 texto.style.display = 'block'; // Exibe apenas o texto do item clicado
             }
         },
+
+        // Método para abrir/fechar o menu de notificações
+        toggleNotificacoes(event) {
+            event.stopPropagation(); // Impede a propagação do clique
+            this.notificacoesAberto = true; // Abre as notificações
+            this.perfilAberto = false; // Fecha o perfil, se estiver aberto
+        },
+
+        // Método para abrir/fechar o menu de perfil
+        togglePerfil(event) {
+            event.stopPropagation(); // Impede a propagação do clique
+            this.perfilAberto = true; // Abre o perfil
+            this.notificacoesAberto = false; // Fecha as notificações, se estiver aberto
+        },
+
+        // Função para lidar com cliques fora das divs de notificações ou perfil
+        handleClickOutside(event) {
+            // Verifica se o clique foi fora do menu de notificações e do menu de perfil
+            if (
+                this.notificacoesAberto && !this.$refs.notificacoesMenu.contains(event.target) &&
+                this.perfilAberto && !this.$refs.perfilMenu.contains(event.target)
+            ) {
+                this.closeMenus(); // Fecha os menus se o clique for fora
+            }
+        },
+
+        // Função para fechar ambos os menus
+        closeMenus() {
+            this.notificacoesAberto = false;
+            this.perfilAberto = false;
+        }
     },
+
     mounted() {
         this.getUserInfo();
         this.checkAuthStatus();
 
-        // Configura eventos de clique para cada item do menu do footer
-        document.querySelectorAll('.nav-mobile ul li').forEach((item) => {
-            const texto = item.querySelector('.txt-footer');
-            item.addEventListener('click', (event) => {
-                event.stopPropagation();
-                this.alternarTextoDoItemClicado(texto);
-            });
-        });
+        // Adiciona o ouvinte de clique global assim que o componente for montado
+        document.addEventListener('click', this.handleClickOutside);
 
-        // Oculta todos os textos inicialmente
-        document.querySelectorAll('.txt-footer').forEach((txt) => {
-            txt.style.display = 'none';
-        });
-
-        // Configura eventos para os botões de notificações e perfil
-        document.querySelectorAll(".btn-notificacoes").forEach((btn) => {
-            btn.addEventListener('click', (event) => {
-                event.stopPropagation();
-                const cardNotificacoes = document.querySelector('.notificacoes');
-                const isNotificacoesAberto = cardNotificacoes.classList.contains('mostrar');
-                if (!isNotificacoesAberto) {
-                    cardNotificacoes.classList.add('mostrar');
-                }
-            });
-        });
-
-        document.querySelectorAll(".btn-perfil").forEach((btn) => {
-            btn.addEventListener('click', (event) => {
-                event.stopPropagation();
-                const cardPerfil = document.querySelector('.perfil');
-                const isPerfilAberto = cardPerfil.classList.contains('mostrar');
-                if (!isPerfilAberto) {
-                    cardPerfil.classList.add('mostrar');
-                }
-            });
-        });
-
-        // Configura campos de entrada e botões de limpar
     },
-    template: `
+        beforeDestroy() {
+    // Remove o ouvinte de clique global quando o componente for destruído
+    document.removeEventListener('click', this.handleClickOutside);
+},
+template: `
       <header>
           <a @click="this.$router.push('/home');"><h1>Fatec - SALA</h1></a>
           <div class="busca" v-if="logado">
@@ -135,13 +138,13 @@ const app = {
               <button id="limpa-input" class="btn-limpar" type="button">&times;</button>
           </div>
           <div id="icons" v-if="logado">
-              <i title="notificações" id="btn-notificacoes" class="fi fi-ss-bell"></i>
-              <i title="perfil" id="btn-perfil" class="fi fi-ss-circle-user"></i>
+              <i title="notificações" id="btn-notificacoes" class="fi fi-ss-bell" @click="toggleNotificacoes"></i>
+              <i title="perfil" id="btn-perfil" class="fi fi-ss-circle-user" @click="togglePerfil"></i>
           </div>
       </header>
       <main>
             <nav>
-            <div class="notificacoes">
+            <div class="notificacoes" v-show="notificacoesAberto" ref="notificacoesMenu">
             <p id="titulo-not">Pendentes</p>
             <div class="pendentes">
 
@@ -271,7 +274,7 @@ const app = {
 
 
 
-        <div class="perfil">
+        <div class="perfil" v-show="perfilAberto" ref="perfilMenu">
             <div class="usuario">
                 <p id="avatar"><span id="letra">-</span></p>
                 <h3 id="name">Indefinido</h3>
