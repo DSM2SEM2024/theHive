@@ -1,7 +1,3 @@
-window.onload = function() {
-  localStorage.removeItem('laboratorioId');
-  localStorage.removeItem('formId');
-};
 // Faz a requisição para obter os laboratórios
 fetch('http://localhost:3000/labs', {
   method: 'GET',
@@ -9,8 +5,6 @@ fetch('http://localhost:3000/labs', {
 })
 .then(response => response.json())
 .then(data => {
-  // Seleciona o container onde os cards serão adicionados
-  const container = document.querySelector('.andar'); // Verifique se a classe está correta
   container.innerHTML = ''; // Limpa o container
 
   // Itera sobre os laboratórios e cria um card para cada um

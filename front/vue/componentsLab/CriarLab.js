@@ -49,6 +49,8 @@ export default {
       },
     },
     template: `
+    <!-- Popup para criar laboratorios -->
+    
       <div id="popup-laboratorio" class="popup">
         <div class="popup-content">
           <button id="btn-fechar-laboratorio" class="btn-fechar" @click="fecharPopup">
