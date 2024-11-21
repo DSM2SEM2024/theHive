@@ -1,0 +1,586 @@
+/* Estilos gerais para o pop-up */
+.popup {
+    display: none; /* Esconde o pop-up por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+}
+
+/*
+#popup {
+
+}
+*/
+
+.popup-content {
+    background-color: var(--gray-color); /* Fundo do conteúdo do pop-up */
+    border-radius: 17px;
+    padding: 35px;
+    position: relative;
+    align-items: center;
+    height: 480px;
+    width: 520px;
+}
+
+/* Botão para fechar o pop-up */
+.btn-fechar {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+/* Card vermelho no centro */
+#card-vermelho {
+    background-color: var(--red-color);
+    text-align: center;
+    border-radius: 0px 0px 10px 10px; /* Bordas arredondadas inferiores */
+    margin-top: -62px;
+    width: 248px;
+    height: 48px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto; /* Centraliza horizontalmente */
+}
+
+#card-vermelho h1 {
+    color: var(--white-color);
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* Título do andar */
+#titulo-andar {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 32px;
+    margin-bottom: 15px;
+}
+
+#titulo-andar h1 {
+    color: var(--red-color);
+    font-size: 20px;
+}
+
+/* Texto em vermelho dentro de spans */
+span {
+    color: var(--red-color);
+    font-size: 20px;
+}
+
+/* Formulário principal */
+#formulario-1 {
+    width: 100%;
+    align-items: start;
+    gap: 100px; /* Espaçamento entre elementos */
+    margin-top: 26px;
+}
+
+/* Título do campo de nome */
+#titulo-nome {
+    align-items: start;
+    color: var(--black-gray-color);
+    margin-bottom: 10px;
+}
+
+#titulo-nome h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Caixa de entrada para o nome */
+#box-input-nome {
+    background-color: var(--white-color);
+    align-items: start;
+    width: 180px;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden; /* Esconde excessos */
+}
+
+#input-nome {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--white-color);
+    color: var(--black-gray-color);
+    padding-left: 10px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+#input-nome:focus {
+    outline: none; /* Remove o contorno padrão ao focar */
+}
+
+#input-nome::placeholder {
+    text-align: left;
+    color: gray;
+}
+
+/* Título do campo de cor */
+#titulo-cor {
+    align-items: start;
+    color: var(--black-gray-color);
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+#titulo-cor h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Caixa de entrada para seleção de cor */
+#box-input-cor {
+    background-color: var(--white-color);
+    align-items: start;
+    width: 180px;
+    height: 35px;
+    border-radius: 10px;
+}
+
+.selected-option {
+    background-color: var(--white-color);
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    border: 1px solid var(--gray-color);
+    font-size: 14px;
+    color: gray;
+    display: flex;
+    align-items: center; /* Alinha ícone e texto */
+}
+
+/* Seleção personalizada */
+.custom-select {
+    position: relative;
+    width: 180px;
+}
+
+#input-cor {
+    width: 180px;
+    height: 35px;
+    border-radius: 10px;
+    border: 0px;
+}
+
+.selected-option::after {
+    content: "▼"; /* Ícone de seta */
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--black-gray-color);
+}
+
+.selected-option::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    background-color: currentColor; /* Mostra a cor selecionada */
+}
+
+/* Lista de opções para seleção */
+.options-list {
+    display: none; /* Esconde por padrão */
+    position: absolute;
+    width: 180px;
+    max-height: 150px;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    border: 1px solid var(--gray-color);
+    overflow-y: scroll;
+    z-index: 2;
+}
+
+.options-list li {
+    padding: 8px;
+    cursor: pointer;
+    list-style: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.options-list li::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    background-color: currentColor; /* Exibe a cor respectiva */
+}
+
+.options-list li:hover {
+    background-color: var(--gray-color); /* Fundo ao passar o mouse */
+}
+
+/* Ativa a lista de opções ao clicar */
+.custom-select.active .options-list {
+    display: block;
+}
+
+/* Botões de ação no rodapé */
+#section-button {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 50px;
+}
+
+#section-button .cancelar, #section-button .criar {
+    height: 35px;
+    border-radius: 10px;
+    width: 120px;
+    border: 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#section-button .cancelar {
+    background-color: var(--red-color);
+    color: var(--white-color);
+}
+
+#section-button .cancelar:hover {
+    background-color: var(--white-color);
+    color: var(--red-color);
+    border: 1px solid var(--red-color);
+}
+
+#section-button .criar {
+    background-color: #2D854E;
+    color: var(--white-color);
+}
+
+#section-button .criar:hover {
+    background-color: var(--white-color);
+    color: #2D854E;
+    border: 1px solid #2D854E;
+}
+
+/* Aviso no rodapé */
+#aviso {
+    bottom: 20px;
+    width: 100%;
+    margin-top: 35px;
+    text-align: start;
+    font-size: 14px;
+}
+
+#aviso h2 {
+    color: var(--red-color);
+    font-size: 14px;
+    font-weight: normal;
+}
+
+/* Contêiner para andares */
+#andares-container {
+    margin-top: 30px;
+}
+
+/* ---------- Opções de cores (estilos personalizados) ---------- */
+.options-list li [data-value="rosa"]::before { background-color: #EB6E8E; }
+.options-list li [data-value="azul"]::before { background-color: #337BC3; }
+.options-list li [data-value="amarelo"]::before { background-color: #FFB303; }
+.options-list li [data-value="roxo"]::before { background-color: #5A3168; }
+.options-list li [data-value="verde"]::before { background-color: #2D854E; }
+.options-list li [data-value="vermelho"]::before { background-color: #eb1f2c; }
+.options-list li [data-value="laranja"]::before { background-color: #ff8324; }
+.options-list li [data-value="cinza"]::before { background-color: var(--text-color); }
+.options-list li [data-value="marrom"]::before { background-color: rgb(147, 37, 37); }
+.options-list li [data-value="preto"]::before { background-color: black; }
+
+/* ---------- Estilo geral da lista de opções ---------- */
+.options-list {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    width: 180px;
+    max-height: 150px;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    border: 1px solid var(--gray-color);
+    overflow-y: scroll; /* Permite rolagem quando necessário */
+    z-index: 2; /* Garante sobreposição */
+}
+
+.options-list li {
+    padding: 8px;
+    cursor: pointer;
+    list-style: none;
+    text-align: left;
+    display: flex;
+    align-items: center; /* Alinha ícone e texto */
+}
+
+.options-list li::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    background-color: currentColor; /* Mostra a cor correspondente */
+}
+
+.options-list li:hover {
+    background-color: var(--gray-color); /* Cor ao passar o mouse */
+}
+
+.custom-select.active .options-list {
+    display: block; /* Mostra lista de opções quando ativa */
+}
+
+/* ---------- Botões (Criar e Cancelar) ---------- */
+#section-button {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Botões alinhados à direita */
+    gap: 15px; /* Espaço entre os botões */
+    margin-top: 50px;
+}
+
+#section-button .cancelar, 
+#section-button .criar {
+    height: 35px;
+    border-radius: 10px;
+    width: 120px;
+    border: none;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#section-button .cancelar {
+    background-color: var(--red-color);
+    color: var(--white-color);
+}
+
+#section-button .cancelar:hover {
+    background-color: var(--white-color);
+    color: var(--red-color);
+    border: 1px solid var(--red-color);
+}
+
+#section-button .criar {
+    background-color: #2D854E;
+    color: var(--white-color);
+}
+
+#section-button .criar:hover {
+    background-color: var(--white-color);
+    color: #2D854E;
+    border: 1px solid #2D854E;
+}
+
+/* ---------- Aviso de mensagens ---------- */
+#aviso {
+    bottom: 20px;
+    width: 100%;
+    margin-top: 35px;
+    text-align: start;
+    font-size: 14px;
+}
+
+#aviso h2 {
+    color: var(--red-color);
+    font-size: 14px;
+    font-weight: normal;
+}
+
+/* ---------- Estilo do container dos andares ---------- */
+#andares-container {
+    margin-top: 30px;
+}
+
+/* ---------- Estilos de pop-up ---------- */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: var(--gray-color);
+    border-radius: 17px;
+    padding: 35px;
+    position: relative;
+    align-items: center;
+    height: 480px;
+    width: 520px;
+}
+
+/* ---------- Estilo do botão fechar ---------- */
+.btn-fechar {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+/* ---------- Estilo do card vermelho ---------- */
+#card-vermelho {
+    background-color: var(--red-color);
+    text-align: center;
+    border-radius: 0px 0px 10px 10px;
+    margin-top: -62px;
+    width: 248px;
+    height: 48px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#card-vermelho h1 {
+    color: var(--white-color);
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* ---------- Títulos e inputs ---------- */
+#titulo-andar {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 32px;
+    margin-bottom: 15px;
+}
+
+#titulo-andar h1 {
+    color: var(--red-color);
+    font-size: 20px;
+}
+
+span {
+    color: var(--red-color);
+    font-size: 20px;
+}
+
+#formulario-1 {
+    width: 100%;
+    align-items: start;
+    gap: 100px;
+    margin-top: 26px;
+}
+
+#titulo-nome {
+    align-items: start;
+    color: var(--black-gray-color);
+    margin-bottom: 10px;
+}
+
+#titulo-nome h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#box-input-nome {
+    background-color: var(--white-color);
+    align-items: start;
+    width: 180px;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#input-nome {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--white-color);
+    color: var(--black-gray-color);
+    padding-left: 10px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+#input-nome:focus {
+    outline: none;
+}
+
+#input-nome::placeholder {
+    text-align: left;
+    color: gray;
+}
+
+#titulo-cor {
+    align-items: start;
+    color: var(--black-gray-color);
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+#titulo-cor h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ---------- Select customizado ---------- */
+#box-input-cor {
+    background-color: var(--white-color);
+    align-items: start;
+    width: 180px;
+    height: 35px;
+    border-radius: 10px;
+}
+
+.selected-option {
+    background-color: var(--white-color);
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    border: 1px solid var(--gray-color);
+    font-size: 14px;
+    color: gray;
+    display: flex;
+    align-items: center;
+}
+
+.custom-select {
+    position: relative;
+    width: 180px;
+}
+
+.selected-option::after {
+    content: "▼"; /* Ícone de dropdown */
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--black-gray-color);
+}
+
+.selected-option::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    background-color: currentColor;
+}
