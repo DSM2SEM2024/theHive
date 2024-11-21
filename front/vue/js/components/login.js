@@ -22,7 +22,8 @@ export const Login = {
                 console.log("Resposta do servidor:", data);
 
                 if (response.ok) {
-                    localStorage.setItem('usuario', JSON.stringify(this.usuario.email));
+                    localStorage.setItem('id_usuario', data.userId);
+                    localStorage.setItem('token', data.token);
                     this.$emit('login-success');
                     this.$router.push('/home');
                 } else {

@@ -42,7 +42,8 @@ class UsuarioController {
             
             http_response_code(200);
             echo json_encode(["message" => "Login bem-sucedido.",
-            "token" => $token
+            "token" => $token,
+            "userId" => $usuario['id_usuario']
             ]);
             
             exit();

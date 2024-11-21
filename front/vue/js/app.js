@@ -19,7 +19,7 @@ const app = {
             usuarios: [],
             logado: false,
             usuario: {
-                usuario_id: null,
+                id_usuario: null,
                 nome: '',
                 email: '',
                 curso: '',
@@ -28,14 +28,19 @@ const app = {
         };
     },
     methods: {
-        // Obtém as informações do usuário com base no userId salvo no localStorage
         async getUserInfo() {
-            const userId = localStorage.getItem('userId');
-            if (!userId) return;
+            const id_usuario = localStorage.getItem('id_usuario');
+            const token = localStorage.getItem('token');
+            if (!id_usuario) return;
 
             try {
-                const response = await fetch(`${this.url}/${userId}`);
-
+                const response = await fetch(`${this.url}/${id_usuario}`, {
+                    method: 'GET', // Ou o método apropriado (POST, PUT, etc.)
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`  // Envia o token de autorização
+                    }
+                });
                 if (!response.ok) {
                     throw new Error('Erro ao obter informações do usuário');
                 }
@@ -45,34 +50,81 @@ const app = {
                     console.error(data.error);
                     return;
                 }
-
-                // Atualiza as informações do usuário no estado do Vue
                 this.usuario.nome = data.nome || "Não especificado";
                 this.usuario.email = data.email || "Não especificado";
-                this.usuario.curso = data.curso || "Não especificado";
-
-                // Atualiza a inicial do nome do usuário
                 document.getElementById('letra').innerText = this.usuario.nome.charAt(0) || "N";
             } catch (error) {
                 console.error('Erro ao buscar informações do usuário:', error);
             }
         },
         logout() {
-            localStorage.removeItem("usuario");
+            localStorage.removeItem("id_usuario");
             localStorage.removeItem("token");
-            localStorage.removeItem("userId");
             this.usuario = {};
             this.logado = false;
             this.$router.push('/');
         },
         handleLoginSuccess() {
             this.logado = true;
-            this.getUserInfo(); 
-        }
+            this.getUserInfo();
+        },
+        checkAuthStatus() {
+            const token = localStorage.getItem('token');
+            this.logado = !!token;
+        },
+        alternarTextoDoItemClicado(texto) {
+            if (texto.style.display === 'block') {
+                texto.style.display = 'none'; // Oculta o texto se já estiver visível
+            } else {
+                document.querySelectorAll('.txt-footer').forEach((txt) => {
+                    txt.style.display = 'none'; // Oculta todos os outros textos
+                });
+                texto.style.display = 'block'; // Exibe apenas o texto do item clicado
+            }
+        },
     },
     mounted() {
-        
         this.getUserInfo();
+        this.checkAuthStatus();
+
+        // Configura eventos de clique para cada item do menu do footer
+        document.querySelectorAll('.nav-mobile ul li').forEach((item) => {
+            const texto = item.querySelector('.txt-footer');
+            item.addEventListener('click', (event) => {
+                event.stopPropagation();
+                this.alternarTextoDoItemClicado(texto);
+            });
+        });
+
+        // Oculta todos os textos inicialmente
+        document.querySelectorAll('.txt-footer').forEach((txt) => {
+            txt.style.display = 'none';
+        });
+
+        // Configura eventos para os botões de notificações e perfil
+        document.querySelectorAll(".btn-notificacoes").forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const cardNotificacoes = document.querySelector('.notificacoes');
+                const isNotificacoesAberto = cardNotificacoes.classList.contains('mostrar');
+                if (!isNotificacoesAberto) {
+                    cardNotificacoes.classList.add('mostrar');
+                }
+            });
+        });
+
+        document.querySelectorAll(".btn-perfil").forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const cardPerfil = document.querySelector('.perfil');
+                const isPerfilAberto = cardPerfil.classList.contains('mostrar');
+                if (!isPerfilAberto) {
+                    cardPerfil.classList.add('mostrar');
+                }
+            });
+        });
+
+        // Configura campos de entrada e botões de limpar
     },
     template: `
       <header>
@@ -83,77 +135,157 @@ const app = {
               <button id="limpa-input" class="btn-limpar" type="button">&times;</button>
           </div>
           <div id="icons" v-if="logado">
-              <i title="Notificações" id="btn-notificacoes" class="fi fi-ss-bell"></i>
-              <i title="Perfil" id="btn-perfil" class="fi fi-ss-circle-user"></i>
+              <i title="notificações" id="btn-notificacoes" class="fi fi-ss-bell"></i>
+              <i title="perfil" id="btn-perfil" class="fi fi-ss-circle-user"></i>
           </div>
       </header>
       <main>
-          <nav>
-          <div class="notificacoes">
-              <p id="titulo-not">Pendentes</p>
-              <div class="pendentes">
+            <nav>
+            <div class="notificacoes">
+            <p id="titulo-not">Pendentes</p>
+            <div class="pendentes">
 
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
 
-              </div>
-              <div id="titulo-not-1"><p>Aprovadas</p></div>
-              <div class="aprovadas">
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
 
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
 
-              </div>
-              <p id="titulo-not-1">Reprovadas</p>
-              <div class="reprovadas">
+            </div>
+            <div id="titulo-not-1">
+                <p>Aprovadas</p>
+            </div>
+            <div class="aprovadas">
 
-                  <a href="" class="card-pedido">
-                      <div id="txt-card">
-                          <p id="txt-card-lab">Laboratório 22</p>
-                          <p id="txt-card-dic">Designin Digital</p>
-                      </div>
-                      <div id="txt-card-2">
-                          <p id="txt-card-dia">26/04/24</p>
-                          <p id="txt-card-hrs">16:20 - 17:30</p>
-                      </div>
-                  </a>
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
 
-              </div>
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
 
-          </div>
-              <div class="perfil">
-                  <div class="usuario">
-                      <p id="avatar">{{ usuario.nome.charAt(0) || 'R' }}</p>
-                      <h3 id="name">{{ usuario.nome }}</h3>
-                  </div>
-                  <div class="info-perfil">
-                      <p id="label">Curso(s):</p>
-                      <p id="courses">{{ usuario.curso }}</p>
-                      <p id="label">E-mail:</p>
-                      <p id="email">{{ usuario.email }}</p>
-                      <a href="#" @click="logout">Sair</a>
-                  </div>
-              </div>
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
+
+            </div>
+            <p id="titulo-not-1">Reprovadas</p>
+            <div class="reprovadas">
+
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
+
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
+
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
+
+                <a href="" class="card-pedido">
+                    <div id="txt-card">
+                        <p id="txt-card-lab">Laboratório 22</p>
+                        <p id="txt-card-dic">Designin Digital</p>
+                    </div>
+                    <div id="txt-card-2">
+                        <p id="txt-card-dia">26/04/24</p>
+                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="perfil">
+            <div class="usuario">
+                <p id="avatar"><span id="letra">-</span></p>
+                <h3 id="name">Indefinido</h3>
+            </div>
+            <div class="info-perfil">
+                <p id="label">Curso(s):</p>
+                <p id="courses">Indefinido</p>
+                <p id="label">E-mail:</p>
+                <p id="email">Indefinido</p>
+                <a href="#" onclick="logout()">Sair</a>
+            </div>
+        </div>
           </nav>
-
           <router-view @login-success="handleLoginSuccess"></router-view>
-          
       </main>
     `
 };
