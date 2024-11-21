@@ -22,31 +22,18 @@ export default {
     },
     
     methods: {
-        async excluirEventoUser() {
-            const response = await fetch(`${this.urlbase}/eventos/nome/${this.nome}`, {
+        async excluirEventoID() {
+            const response = await fetch(`${this.urlbase}/reserve/${id}`, {
                 method: 'DELETE'
             });
             const result = await response.json();
             if (result.status) {
-                this.mensagem = 'Evento(s) excluído(s) com sucesso.';
+                this.mensagem = 'Reserva(s) excluído(s) com sucesso.';
                 this.nome = '';
                 this.$emit('eventoExcluido');
             } else {
                 this.mensagem = 'Evento não encontrado.';
             }
         },
-        async excluirEventoID() {
-            const response = await fetch(`${this.urlbase}/eventos/forenkey/${this.id}`, {
-                method: 'DELETE'
-            });
-            const result = await response.json();
-            if (result.status) {
-                this.mensagem = 'Evento(s) excluído(s) com sucesso.';
-                this.id = '';
-                this.$emit('eventoExcluido');
-            } else {
-                this.mensagem = 'Evento não encontrado.';
-            }
-        }
     }
 };

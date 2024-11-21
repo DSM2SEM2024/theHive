@@ -2,7 +2,7 @@ import ListaEventos from './components/ListaEventos.js';
 import FormularioEvento from './components/FormularioEvento.js';
 import ExcluirEvento from './components/ExcluirEvento.js';
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:3000';
 
 const routes = [
   { path: '/', component: ListaEventos, props: { urlbase: BASE_URL } },

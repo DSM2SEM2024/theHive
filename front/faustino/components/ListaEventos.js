@@ -30,8 +30,8 @@ export default {
         };
     },
     methods: {
-        async buscaEvento() {
-            const response = await fetch(`${this.urlbase}/eventos`);
+        async buscarReservas() {
+            const response = await fetch(`${this.urlbase}/reserve`);
             this.eventos = await response.json();
         },
         buscarEventos() {
@@ -100,7 +100,7 @@ export default {
         }
     },
    async mounted() {
-       await this.buscaEvento()
+       await this.buscarReservas()
         this.carregarUsuarios();
         this.renderCalendar(this.eventos);
     }
