@@ -1,65 +1,195 @@
-/* Estilo da imagem clicável */
-.clickable-img {
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  /* Estilo da sobreposição (overlay) do modal */
-  .modal-overlay {
+/* front/vue/css/laboratorio.css */
+/* estilo para o modal */
+
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-  }
-  
-  /* Estilo do card (modal) */
-  .modal-card {
-    background-color: white;
+}
+
+.modal-card {
+    background-color: #e2e2e2;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 8px;
     width: 300px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* Estilo do botão de fechar */
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    background-color: #B03648;
+    /* Vermelho */
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    /* Apenas o topo arredondado */
+    text-align: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between; /* Espaço entre os botões */
+    width: 100%; /* Garantir que a largura dos botões ocupe todo o espaço disponível */
+}
+
+.modal-actions button {
+    margin: 10px 5px;
+    padding: 10px;
+    border: 2px solid transparent; /* Borda transparente inicialmente */
+    border-radius: 4px;
     cursor: pointer;
-  }
-  
-  /* Estilo do botão de envio */
-  button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #4CAF50;
+    transition: all 0.3s ease; /* Animação suave para a transição */
+    width: 45%; /* Define a largura para os dois botões ocuparem 45% do modal */
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Cores dos botões */
+.create-btn {
+    background-color: #239427;
+    /* Cor verde */
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  input {
+    border: 2px solid #239427; /* Cor da borda igual ao fundo */
+    font-weight: bolder;
+}
+
+.cancel-btn {
+    background-color: #B03648;
+    /* Cor vermelha */
+    color: white;
+    border: 2px solid #B03648;
+    font-weight: bolder;
+}
+
+
+
+/* Adiciona espaçamento entre os elementos p */
+.p {
+    font-weight: bolder;
+    margin-top: 15px;
+    font-size: 16px;
+    text-align: left;
+    /* Alinha o texto à esquerda */
+    margin-left: 10px;
+    /* Aproxime o título do input */
+}
+
+/* Estilo para o seletor de cor e display da cor escolhida */
+.color-picker-container {
+    display: flex;
+    flex-direction: column;
+    /* Coloca o círculo embaixo */
+    align-items: center;
+    /* Centraliza o círculo abaixo */
+    justify-content: center;
+}
+
+.color-picker {
+    margin: 10px 0; /* Espaçamento em cima e embaixo */
+    width: 5rem;
+    height: 5rem;
+}
+
+input {
     margin-top: 10px;
     padding: 8px;
     width: 80%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+    border: none; /* Remove a borda */
+    border-radius: 10px; /* Deixa as pontas arredondadas */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para dar destaque */
+}
+
+
+/* estilo para o botão + andar */
+
+#app {
+    position: relative;
+    /* Necessário para o posicionamento absoluto do botão */
+}
+
+.button-circle {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: absolute;
+    /* Posicionamento absoluto */
+    top: 100%;
+    /* Imediatamente após o header */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Centraliza horizontalmente e ajusta verticalmente */
+}
+
+.button-circle:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    /* Ampliação suave */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-circle::before {
+    content: '+';
+    font-size: 36px;
+    color: black;
+    font-weight: bold;
+}
+
+#app {
+    position: relative;
+    /* Necessário para o posicionamento absoluto do botão */
+}
+
+.button-circle {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: absolute;
+    /* Posicionamento absoluto */
+    top: 100%;
+    /* Imediatamente após o header */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Centraliza horizontalmente e ajusta verticalmente */
+}
+
+.button-circle:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    /* Ampliação suave */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-circle::before {
+    content: '+';
+    padding-bottom: 0.3rem;
+    font-size: 36px;
+    color: black;
+    font-weight: bold;
+}
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -76,7 +206,7 @@
     font-family: "Inter", sans-serif;
 }
 
-#card-cinza{
+#card-cinza {
     background-color: #d9d9d9;
     border-radius: 17px;
     max-width: 100%;
@@ -86,9 +216,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-#card-cinza img{
+
+
+#card-cinza img {
     width: auto;
     height: auto;
     height: 60px;
@@ -96,16 +229,26 @@
     cursor: pointer;
 }
 
-#titulo{
+/* Estilo apenas para o <h1> dentro da <section> com id="titulo" */
+#titulo h1 {
     width: auto;
     align-items: start;
     margin-top: 30px;
+    color: #B03648;
+    /* Cor inicial */
+    font-size: 16px;
+    /* Tamanho inicial */
+    font-weight: bold;
+    transition: transform 0.3s ease, color 0.3s ease;
+    /* Suaviza o zoom e a mudança de cor */
 }
 
-#titulo h1{
-    color: var(--red-color);
-    font-size: 18px;
-    font-weight: medium;
+/* Estilo de hover para o <h1> */
+#titulo h1:hover {
+
+    /* Nova cor ao passar o mouse */
+    transform: scale(1.01);
+    /* Aumenta 1% no tamanho */
 }
 
 /* criar andar */
@@ -117,7 +260,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -134,12 +277,12 @@
 
 }
 
-.btn-fechar{
+.btn-fechar {
     margin-top: 20px;
     margin-right: 20px;
 }
 
-.btn-fechar img{
+.btn-fechar img {
     background: none;
     border: none;
     cursor: pointer;
@@ -150,7 +293,7 @@
     right: 18px;
 }
 
-#card-vermelho{
+#card-vermelho {
     background-color: var(--red-color);
     text-align: center;
     border-radius: 0px 0px 10px 10px;
@@ -162,14 +305,14 @@
     margin-right: auto;
 }
 
-#card-vermelho h1{
+#card-vermelho h1 {
     color: var(--white-color);
     font-size: 16px;
     font-weight: bold;
     margin-top: 8px;
 }
 
-#titulo-andar{
+#titulo-andar {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -177,30 +320,30 @@
     margin-bottom: 15px;
 }
 
-#titulo-andar h1{
+#titulo-andar h1 {
     color: var(--red-color);
     font-size: 20px;
 }
 
-span{
+span {
     color: var(--red-color);
     font-size: 20px;
 }
 
-#formulario-1{
+#formulario-1 {
     width: 100%;
     align-items: start;
     gap: 100px;
     margin-top: 26px;
 }
 
-#titulo-nome{
+#titulo-nome {
     align-items: start;
     color: var(--black-gray-color);
     margin-bottom: 10px;
 }
 
-#titulo-nome h2{
+#titulo-nome h2 {
     font-size: 14px;
     font-weight: bold;
 }
@@ -210,25 +353,25 @@ span{
     align-items: start;
     width: 180px;
     height: 40px;
-    border-radius: 10px;  
-    overflow: hidden; 
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 #input-nome {
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
-    border: none; 
-    background-color: var(--white-color); 
-    color: var(--black-gray-color); 
+    border: none;
+    background-color: var(--white-color);
+    color: var(--black-gray-color);
     padding-left: 10px;
-    text-align: left; 
+    text-align: left;
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
 #input-nome:focus {
-    outline: none; 
+    outline: none;
 }
 
 #input-nome::placeholder {
@@ -236,30 +379,30 @@ span{
     color: gray;
 }
 
-#titulo-cor{
+#titulo-cor {
     align-items: start;
     color: var(--black-gray-color);
     margin-bottom: 10px;
     margin-top: 15px;
 }
 
-#titulo-cor h2{
+#titulo-cor h2 {
     font-size: 14px;
     font-weight: bold;
 }
 
-#box-input-cor{
+#box-input-cor {
     background-color: var(--white-color);
     align-items: start;
     width: 180px;
     height: 35px;
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
-#input-cor{
+#input-cor {
     width: 180px;
     height: 35px;
-    border-radius: 10px;    
+    border-radius: 10px;
     border: 0px;
 }
 
@@ -273,19 +416,20 @@ span{
     padding: 8px;
     border-radius: 10px;
     cursor: pointer;
-    text-align: left; 
+    text-align: left;
     border: 1px solid var(--gray-color);
-    font-size: 14px; 
+    font-size: 14px;
     color: gray;
     display: flex;
-    align-items: center; /* Alinha ícone e texto */
+    align-items: center;
+    /* Alinha ícone e texto */
 }
 
 .selected-option::after {
-    content: "▼"; 
+    content: "▼";
     font-size: 12px;
     position: absolute;
-    right: 10px; 
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--black-gray-color);
@@ -297,29 +441,59 @@ span{
     width: 12px;
     height: 12px;
     margin-right: 8px;
-    background-color: currentColor; /* Mostra a cor selecionada */
+    background-color: currentColor;
+    /* Mostra a cor selecionada */
 }
 
-.options-list li[data-value="rosa"]::before { background-color: #EB6E8E; }
-.options-list li[data-value="azul"]::before { background-color: #337BC3; }
-.options-list li[data-value="amarelo"]::before { background-color: #FFB303; }
-.options-list li[data-value="roxo"]::before { background-color: #5A3168; }
-.options-list li[data-value="verde"]::before { background-color: #2D854E; }
-.options-list li[data-value="vermelho"]::before { background-color: #eb1f2c; }
-.options-list li[data-value="laranja"]::before { background-color: #ff8324; }
-.options-list li[data-value="cinza"]::before { background-color: var(--text-color); }
-.options-list li[data-value="marrom"]::before { background-color: rgb(147, 37, 37); }
-.options-list li[data-value="preto"]::before { background-color: black; }
+.options-list li[data-value="rosa"]::before {
+    background-color: #EB6E8E;
+}
+
+.options-list li[data-value="azul"]::before {
+    background-color: #337BC3;
+}
+
+.options-list li[data-value="amarelo"]::before {
+    background-color: #FFB303;
+}
+
+.options-list li[data-value="roxo"]::before {
+    background-color: #5A3168;
+}
+
+.options-list li[data-value="verde"]::before {
+    background-color: #2D854E;
+}
+
+.options-list li[data-value="vermelho"]::before {
+    background-color: #eb1f2c;
+}
+
+.options-list li[data-value="laranja"]::before {
+    background-color: #ff8324;
+}
+
+.options-list li[data-value="cinza"]::before {
+    background-color: var(--text-color);
+}
+
+.options-list li[data-value="marrom"]::before {
+    background-color: rgb(147, 37, 37);
+}
+
+.options-list li[data-value="preto"]::before {
+    background-color: black;
+}
 
 .options-list {
-    display: none; 
+    display: none;
     position: absolute;
     width: 180px;
     max-height: 150px;
     background-color: var(--white-color);
     border-radius: 10px;
     border: 1px solid var(--gray-color);
-    overflow-y: scroll; 
+    overflow-y: scroll;
     z-index: 2;
 }
 
@@ -327,9 +501,10 @@ span{
     padding: 8px;
     cursor: pointer;
     list-style: none;
-    text-align: left; 
+    text-align: left;
     display: flex;
-    align-items: center; /* Alinha o ícone e o texto */
+    align-items: center;
+    /* Alinha o ícone e o texto */
 }
 
 .options-list li::before {
@@ -338,11 +513,12 @@ span{
     width: 12px;
     height: 12px;
     margin-right: 8px;
-    background-color: currentColor; /* Exibe a cor respectiva */
+    background-color: currentColor;
+    /* Exibe a cor respectiva */
 }
 
 .options-list li:hover {
-    background-color: var(--gray-color); 
+    background-color: var(--gray-color);
 }
 
 .custom-select.active .options-list {
@@ -352,12 +528,15 @@ span{
 #section-button {
     width: 100%;
     display: flex;
-    justify-content: flex-end; /* Alinha à direita */
-    gap: 15px; /* Espaço entre os botões */
+    justify-content: flex-end;
+    /* Alinha à direita */
+    gap: 15px;
+    /* Espaço entre os botões */
     margin-top: 50px;
 }
 
-#section-button .cancelar, #section-button .criar {
+#section-button .cancelar,
+#section-button .criar {
     height: 35px;
     border-radius: 10px;
     width: 120px;
@@ -390,7 +569,7 @@ span{
     border: 1px solid #2D854E;
 }
 
-#aviso{
+#aviso {
     bottom: 20px;
     width: 100%;
     margin-top: 35px;
@@ -398,7 +577,7 @@ span{
     font-size: 14px;
 }
 
-#aviso h2{
+#aviso h2 {
     color: var(--red-color);
     font-size: 14px;
     font-weight: normal;
@@ -411,21 +590,25 @@ span{
 /* criar laboratorio */
 
 #popup-laboratorio {
-    display: none; /* Oculta o popup por padrão */
+    display: none;
+    /* Oculta o popup por padrão */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo semitransparente */
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Garante que o popup fique acima de outros elementos */
+    z-index: 1000;
+    /* Garante que o popup fique acima de outros elementos */
 }
 
 #popup-laboratorio .popup-content {
     background-color: var(--gray-color);
-    border-radius: 17px; /* Bordas arredondadas */
+    border-radius: 17px;
+    /* Bordas arredondadas */
     padding: 35px;
     position: relative;
     align-items: center;
@@ -496,14 +679,16 @@ span {
 
 /* Formulário principal */
 #formulario-laboratorio {
-    width: 96%; /* Preenche quase toda a largura */
+    width: 96%;
+    /* Preenche quase toda a largura */
     margin-top: 26px;
 }
 
 /* Agrupamento de inputs */
 #agrupamento1 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Três colunas de tamanhos iguais */
+    grid-template-columns: repeat(3, 1fr);
+    /* Três colunas de tamanhos iguais */
     margin-top: 50px;
     margin-bottom: 70px;
 }
@@ -533,7 +718,8 @@ span {
 #titulo-anexar-imagem {
     align-items: start;
     color: var(--black-gray-color);
-    margin-bottom: -30px; /* Ajuste de margem */
+    margin-bottom: -30px;
+    /* Ajuste de margem */
 }
 
 #titulo-anexar-imagem h2 {
@@ -548,7 +734,8 @@ span {
     width: 180px;
     height: 40px;
     border-radius: 10px;
-    overflow: hidden; /* Esconde conteúdo que ultrapassar as bordas */
+    overflow: hidden;
+    /* Esconde conteúdo que ultrapassar as bordas */
 }
 
 #input-nome-laboratorio {
@@ -558,14 +745,16 @@ span {
     border: none;
     background-color: var(--white-color);
     color: gray;
-    padding-left: 10px; /* Espaço interno à esquerda */
+    padding-left: 10px;
+    /* Espaço interno à esquerda */
     text-align: left;
     display: flex;
     align-items: center;
 }
 
 #input-nome-laboratorio:focus {
-    outline: none; /* Remove o contorno ao focar */
+    outline: none;
+    /* Remove o contorno ao focar */
 }
 
 #input-nome-laboratorio::placeholder {
@@ -598,7 +787,8 @@ span {
     font-size: 14px;
     color: gray;
     display: flex;
-    align-items: center; /* Alinha o ícone e o texto */
+    align-items: center;
+    /* Alinha o ícone e o texto */
 }
 
 /* Ícone de dropdown */
@@ -619,41 +809,79 @@ span {
     width: 12px;
     height: 12px;
     margin-right: 8px;
-    background-color: currentColor; /* Mostra a cor selecionada */
+    background-color: currentColor;
+    /* Mostra a cor selecionada */
 }
+
 /* Estilos para as opções de cores */
-.options-list li[data-value="rosa"]::before { background-color: #EB6E8E; }
-.options-list li[data-value="azul"]::before { background-color: #337BC3; }
-.options-list li[data-value="amarelo"]::before { background-color: #FFB303; }
-.options-list li[data-value="roxo"]::before { background-color: #5A3168; }
-.options-list li[data-value="verde"]::before { background-color: #2D854E; }
-.options-list li[data-value="vermelho"]::before { background-color: #eb1f2c; }
-.options-list li[data-value="laranja"]::before { background-color: #ff8324; }
-.options-list li[data-value="cinza"]::before { background-color: var(--text-color); }
-.options-list li[data-value="marrom"]::before { background-color: rgb(147, 37, 37); }
-.options-list li[data-value="preto"]::before { background-color: black; }
+.options-list li[data-value="rosa"]::before {
+    background-color: #EB6E8E;
+}
+
+.options-list li[data-value="azul"]::before {
+    background-color: #337BC3;
+}
+
+.options-list li[data-value="amarelo"]::before {
+    background-color: #FFB303;
+}
+
+.options-list li[data-value="roxo"]::before {
+    background-color: #5A3168;
+}
+
+.options-list li[data-value="verde"]::before {
+    background-color: #2D854E;
+}
+
+.options-list li[data-value="vermelho"]::before {
+    background-color: #eb1f2c;
+}
+
+.options-list li[data-value="laranja"]::before {
+    background-color: #ff8324;
+}
+
+.options-list li[data-value="cinza"]::before {
+    background-color: var(--text-color);
+}
+
+.options-list li[data-value="marrom"]::before {
+    background-color: rgb(147, 37, 37);
+}
+
+.options-list li[data-value="preto"]::before {
+    background-color: black;
+}
 
 /* Estilo da lista de opções (dropdown) */
 .options-list {
-    display: none; /* Oculta a lista por padrão */
+    display: none;
+    /* Oculta a lista por padrão */
     position: absolute;
     width: 180px;
-    max-height: 150px; /* Altura máxima com rolagem */
+    max-height: 150px;
+    /* Altura máxima com rolagem */
     background-color: var(--white-color);
-    border-radius: 10px; /* Bordas arredondadas */
+    border-radius: 10px;
+    /* Bordas arredondadas */
     border: 1px solid var(--gray-color);
-    overflow-y: scroll; /* Adiciona rolagem vertical */
-    z-index: 2; /* Garante sobreposição */
+    overflow-y: scroll;
+    /* Adiciona rolagem vertical */
+    z-index: 2;
+    /* Garante sobreposição */
 }
 
 /* Estilo para cada item na lista */
 .options-list li {
     padding: 8px;
     cursor: pointer;
-    list-style: none; /* Remove marcadores */
+    list-style: none;
+    /* Remove marcadores */
     text-align: left;
     display: flex;
-    align-items: center; /* Alinha ícone e texto */
+    align-items: center;
+    /* Alinha ícone e texto */
 }
 
 /* Ícone de cor antes do texto */
@@ -663,12 +891,14 @@ span {
     width: 12px;
     height: 12px;
     margin-right: 8px;
-    background-color: currentColor; /* Exibe a cor correspondente */
+    background-color: currentColor;
+    /* Exibe a cor correspondente */
 }
 
 /* Efeito de hover nos itens */
 .options-list li:hover {
-    background-color: var(--gray-color); /* Destaque no hover */
+    background-color: var(--gray-color);
+    /* Destaque no hover */
 }
 
 /* Exibe a lista de opções quando ativa */
@@ -686,18 +916,22 @@ span {
 #input-anexar-imagem {
     width: 100%;
     height: 100%;
-    border-radius: 10px; /* Bordas arredondadas */
-    border: none; /* Remove borda padrão */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    border: none;
+    /* Remove borda padrão */
     background-color: var(--white-color);
     color: gray;
-    padding-left: 10px; /* Espaço interno à esquerda */
+    padding-left: 10px;
+    /* Espaço interno à esquerda */
     text-align: left;
     display: flex;
     align-items: center;
 }
 
 #input-anexar-imagem:focus {
-    outline: none; /* Remove contorno no foco */
+    outline: none;
+    /* Remove contorno no foco */
 }
 
 #input-anexar-imagem::placeholder {
@@ -727,16 +961,19 @@ span {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    gap: 15px; /* Espaçamento entre os botões */
+    gap: 15px;
+    /* Espaçamento entre os botões */
     margin-top: 30%;
 }
 
-#section-button-laboratorio .cancelar, 
+#section-button-laboratorio .cancelar,
 #section-button-laboratorio .criar {
     height: 35px;
-    border-radius: 10px; /* Bordas arredondadas */
+    border-radius: 10px;
+    /* Bordas arredondadas */
     width: 120px;
-    border: 0; /* Remove borda padrão */
+    border: 0;
+    /* Remove borda padrão */
     text-align: center;
     font-size: 15px;
     font-weight: bold;
@@ -752,7 +989,8 @@ span {
 #section-button-laboratorio .cancelar:hover {
     background-color: var(--white-color);
     color: var(--red-color);
-    border: 1px solid var(--red-color); /* Destaque no hover */
+    border: 1px solid var(--red-color);
+    /* Destaque no hover */
 }
 
 /* Botão de criar */
@@ -764,7 +1002,6 @@ span {
 #section-button-laboratorio .criar:hover {
     background-color: var(--white-color);
     color: #2D854E;
-    border: 1px solid #2D854E; /* Destaque no hover */
+    border: 1px solid #2D854E;
+    /* Destaque no hover */
 }
-
-
