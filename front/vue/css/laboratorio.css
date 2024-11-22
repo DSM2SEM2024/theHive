@@ -128,23 +128,6 @@ span {
     font-size: 20px;
 }
 
-.p {
-    font-weight: bolder;
-    margin-top: 30px;
-    font-size: 16px;
-    text-align: left;
-    margin-left: 10px;
-}
-
-input {
-    margin-top: 10px;
-    padding: 8px;
-    width: 80%;
-    border: none; /* Remove a borda */
-    border-radius: 10px; /* Deixa as pontas arredondadas */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para dar destaque */
-}
-
 #aviso {
     bottom: 20px;
     width: 100%;
@@ -195,9 +178,6 @@ input {
     font-weight: bolder;
 }
 
-
-
-/* Adiciona espaçamento entre os elementos p */
 .p {
     font-weight: bolder;
     margin-top: 15px;
@@ -224,7 +204,7 @@ input {
     height: 5rem;
 }
 
-input {
+.color-picker-container input {
     margin-top: 10px;
     padding: 8px;
     width: 80%;
