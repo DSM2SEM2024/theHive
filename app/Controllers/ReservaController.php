@@ -75,6 +75,19 @@ class ReservaController {
         }
     }
 
+    public function obterReservaPorProfeEstado($prof, $estado)
+    {
+        $this->helper->visualizar();
+        $ReservaAtual = $this->reserva->obterReservaPorProfeEstado($prof, $estado);
+        if ($ReservaAtual) {
+            http_response_code(200);
+            echo json_encode($ReservaAtual);
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Não há reservas no momento.']);
+        }
+    }
+
     //#[Router('/reserve/data/{dataini}/{datafim}', methods: ['GET'])]
     public function obterReservaPorIntervaloDeData($dataini, $datafim)
     {

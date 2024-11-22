@@ -1,3 +1,5 @@
+
+//rotas
 import { Login } from './components/login.js';
 import { Home } from './components/home.js';
 import { Laboratorio } from './components/laboratorio.js';
@@ -13,6 +15,7 @@ const router = VueRouter.createRouter({
     routes
 });
 
+//impede o acesso da home caso chegue ao login
 router.beforeEach((to, from, next) => {
     if (to.path === '/') {
         if (localStorage.getItem('token')) {
@@ -32,29 +35,37 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
-
 const app = {
     data() {
+    //variáveis
         return {
+            //usuários
             usuarios: [],
-            logado: false,
-            divNotificacoes: false,
-            divPerfil: false,
             usuario: {
                 id_usuario: null,
                 nome: '',
                 email: '',
                 curso: '',
             },
-            url: 'http://localhost:3000/users',
+            //reservas
+            pendentes: [],
+            aprovadas: [],
+            negadas: [],
+            //sistema
+            logado: false,
+            divNotificacoes: false,
+            divPerfil: false,
         };
     },
+
+    //métodos
     methods: {
+        //sistema
         alteraNotificacoes() {
-            this.divNotificacoes = !this.divNotificacoes; // Alterna o estado da div
+            this.divNotificacoes = !this.divNotificacoes;
         },
         alteraPerfil() {
-            this.divPerfil = !this.divPerfil; // Alterna o estado da div
+            this.divPerfil = !this.divPerfil;
         },
         fechaNotificacoes() {
             this.divNotificacoes = false;
@@ -82,13 +93,45 @@ const app = {
                 this.fechaPerfil();
             }
         },
+
+        //deslogar
+        logout() {
+            localStorage.removeItem("id_usuario");
+            localStorage.removeItem("token");
+            localStorage.removeItem("usuario_nome");
+            if (this.$refs.notificacoesMenu && this.divNotificacoes) {
+                this.fechaNotificacoes();
+            }
+        
+            if (this.$refs.perfilMenu && this.divPerfil) {
+                this.fechaPerfil();
+            }
+            this.usuario = {};
+            this.logado = false;
+            this.$router.push('/');
+        },
+
+        //se apertar no formulario de login, checa o usuário
+        handleLoginSuccess() {
+            this.logado = true;
+            this.getUserInfo();
+        },
+
+        //checa se possui token
+        checkAuthStatus() {
+            const token = localStorage.getItem('token');
+            this.logado = !!token;
+        },
+
+
+        //obter usuário logado
         async getUserInfo() {
             const id_usuario = localStorage.getItem('id_usuario');
             const token = localStorage.getItem('token');
             if (!id_usuario) return;
 
             try {
-                const response = await fetch(`${this.url}/${id_usuario}`, {
+                const response = await fetch(`http://localhost:3000/users/${id_usuario}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -112,45 +155,102 @@ const app = {
                 console.error('Erro ao buscar informações do usuário:', error);
             }
         },
-        logout() {
-            localStorage.removeItem("id_usuario");
-            localStorage.removeItem("token");
-            localStorage.removeItem("usuario_nome");
-            if (this.$refs.notificacoesMenu && this.divNotificacoes) {
-                this.fechaNotificacoes();
-            }
-        
-            if (this.$refs.perfilMenu && this.divPerfil) {
-                this.fechaPerfil();
-            }
-            this.usuario = {};
-            this.logado = false;
-            this.$router.push('/');
-        },
-        handleLoginSuccess() {
-            this.logado = true;
-            this.getUserInfo();
-        },
-        checkAuthStatus() {
+
+        //obter reservas feitas pelo usuário logado e organizar nas notificações
+        async getReservas() {
+            const id_usuario = localStorage.getItem('id_usuario');
             const token = localStorage.getItem('token');
-            this.logado = !!token;
+            if (!id_usuario) return;
+        
+            try {
+                const responsePendentes = await fetch(`http://localhost:3000/reserve/profestado/${id_usuario}/pendente`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const responseAprovadas = await fetch(`http://localhost:3000/reserve/profestado/${id_usuario}/aprovada`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const responseNegadas = await fetch(`http://localhost:3000/reserve/profestado/${id_usuario}/negada`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+        
+                const pendentes = await responsePendentes.json();
+                const aprovadas = await responseAprovadas.json();
+                const negadas = await responseNegadas.json();
+
+                this.pendentes = Array.isArray(pendentes) && pendentes.length > 0 ? pendentes : [];
+                this.aprovadas = Array.isArray(aprovadas) && aprovadas.length > 0 ? aprovadas : [];
+                this.negadas = Array.isArray(negadas) && negadas.length > 0 ? negadas : [];
+                
+                for (const reserva of [...this.pendentes, ...this.aprovadas, ...this.negadas]) {
+                    reserva.nome_laboratorio = await this.getLaboratorioName(reserva.id_laboratorio);
+                }
+
+                console.log("Pendentes:", this.pendentes);
+                console.log("Aprovadas:", this.aprovadas);
+                console.log("Negadas:", this.negadas);
+        
+            } catch (error) {
+                console.error('Erro ao obter reservas:', error);
+            }
+        },
+
+        //obter nome do laboratório reservado
+        async getLaboratorioName(id_laboratorio) {
+            const token = localStorage.getItem('token');
+            if (!id_laboratorio || !token) return null;
+    
+            try {
+                const response = await fetch(`http://localhost:3000/labs/${id_laboratorio}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Erro ao obter o nome do laboratório');
+                }
+                
+                const data = await response.json();
+                return data.nome || "Laboratório desconhecido";
+            } catch (error) {
+                console.error('Erro ao buscar laboratório:', error);
+                return "Laboratório desconhecido";
+            }
         },
     },
 
+    //roda no início da vida do componente
     mounted() {
         this.getUserInfo();
         this.checkAuthStatus();
+        this.getReservas();
 
-        // Adiciona o listener para cliques fora da div
+        //adiciona o listener para cliques fora da div
       document.addEventListener("click", this.clickForaNotificacoes);
       document.addEventListener("click", this.clickForaPerfil);
 
     },
     beforeUnmount() {
-        // Remove o listener quando o componente for desmontado
+        //remove o listener quando o componente for desmontado
         document.removeEventListener("click", this.clickForaNotificacoes);
         document.removeEventListener("click", this.clickForaPerfil);
     },
+
+    //templates necessários de header, notificações e perfil
     template: `
       <header>
         <h1 v-if="!logado">Fatec - SALA</h1>
@@ -168,134 +268,72 @@ const app = {
       <main>
             <nav>
             <div class="notificacoes" v-if="divNotificacoes" ref="notificacoesMenu">
-            <p id="titulo-not">Pendentes</p>
-            <div class="pendentes">
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Design Digital</p>
+            <!-- Pendentes -->
+            <div>
+                <p id="titulo-not">Pendentes</p>
+                <div class="pendentes">
+                    <div v-if="pendentes.length > 0">
+                        <a v-for="reserva in pendentes" :key="reserva.id_reserva" href="#" class="card-pedido">
+                            <div id="txt-card">
+                                <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
+                                <p id="txt-card-dic">{{ reserva.descricao }}</p>
+                            </div>
+                            <div id="txt-card-2">
+                                <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
+                                <p id="txt-card-hrs">{{ reserva.hora_inicial }}</p>
+                            </div>
+                        </a>
                     </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
+                    <div v-else>
+                        <p>Não há reservas pendentes.</p>
                     </div>
-                </a>
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-            </div>
-            <div id="titulo-not-1">
-                <p>Aprovadas</p>
-            </div>
-            <div class="aprovadas">
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-            </div>
-            <p id="titulo-not-1">Reprovadas</p>
-            <div class="reprovadas">
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
-                <a href="" class="card-pedido">
-                    <div id="txt-card">
-                        <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
-                    </div>
-                    <div id="txt-card-2">
-                        <p id="txt-card-dia">26/04/24</p>
-                        <p id="txt-card-hrs">16:20 - 17:30</p>
-                    </div>
-                </a>
-
+                </div>
             </div>
 
+            <!-- Aprovadas -->
+            <div>
+                <p id="titulo-not-1">Aprovadas</p>
+                <div class="aprovadas">
+                    <div v-if="aprovadas.length > 0">
+                        <a v-for="reserva in aprovadas" :key="reserva.id_reserva" href="#" class="card-pedido">
+                            <div id="txt-card">
+                                <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
+                                <p id="txt-card-dic">{{ reserva.descricao }}</p>
+                            </div>
+                            <div id="txt-card-2">
+                                <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
+                                <p id="txt-card-hrs">{{ reserva.hora_inicial }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div v-else>
+                        <p>Não há reservas aprovadas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Negadas -->
+            <div>
+                <p id="titulo-not-1">Negadas</p>
+                <div class="negadas">
+                    <div v-if="negadas.length > 0">
+                        <a v-for="reserva in negadas" :key="reserva.id_reserva" href="#" class="card-pedido">
+                            <div id="txt-card">
+                                <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
+                                <p id="txt-card-dic">{{ reserva.descricao }}</p>
+                            </div>
+                            <div id="txt-card-2">
+                                <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
+                                <p id="txt-card-hrs">{{ reserva.hora_inicial }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div v-else>
+                        <p>Não há reservas negadas.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
 
         <div class="perfil" v-if="divPerfil" ref="perfilMenu">
             <div class="usuario">

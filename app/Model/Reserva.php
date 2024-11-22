@@ -168,6 +168,15 @@ class Reserva {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function obterReservaPorProfeEstado($prof, $estado) {
+        $query = "SELECT * FROM $this->table WHERE status_reserva = :status_reserva AND id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_usuario", $prof);
+        $stmt->bindParam(":status_reserva", $estado);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obterReservaPorLab($lab) {
         $query = "SELECT * FROM $this->table WHERE id_laboratorio = :id_laboratorio";
         $stmt = $this->conn->prepare($query);

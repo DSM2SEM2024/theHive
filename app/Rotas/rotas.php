@@ -35,6 +35,7 @@ class rotas {
                 '/reserve/estado/{estado}' => [ReservaController::class, 'obterReservaPorEstado'],
                 '/reserve/lab/{lab}' => [ReservaController::class, 'obterReservaPorLab'],
                 '/reserve/prof/{prof}' => [ReservaController::class, 'obterReservaPorProf'],
+                '/reserve/profestado/{prof}/{estado}' => [ReservaController::class, 'obterReservaPorProfeEstado'],
                 //disciplina
                 '/disciplina' => [DisciplinaController::class, 'readAll'],
                 '/disciplina/{id}' => [DisciplinaController::class, 'readId'],
