@@ -9,9 +9,13 @@ export const Calendario = {
     },
     methods: {
         async buscaReserva() {
-            const response = await fetch('http://localhost:3000/calendario', {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:3000/reserve', {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  
+                }
             })
         },
         buscarReservas() {
