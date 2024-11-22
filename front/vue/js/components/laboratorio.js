@@ -1,7 +1,7 @@
 export const Laboratorio = {
   template: `
     <section id="titulo">
-       <h1>Gerenciamento de Andares e Laboratórios</h1>
+       <h1>*Adicione um novo andar</h1>
     </section>
     <section id="card-cinza">    
       <div id="app">
@@ -18,17 +18,28 @@ export const Laboratorio = {
   <div class="modal-card">
     <!-- Topo do Modal com fundo vermelho e título em branco -->
     <div class="modal-header">
-      <h3>Adicionar Andar:</h3>
+      <h3>ADICIONAR ANDAR</h3>
+    </div>
+
+    <!-- titulo "+andar" do pop up -->
+    <div id="titulo-andar">
+        <span>+</span><h1>Andar</h1>
     </div>
 
     <!-- Campo de entrada para o nome -->
-    <p class="p">Nome do Andar:</p>
+    <p class="p">NOME:</p>
     <input type="text" v-model="inputValue" placeholder="Nome do andar">
 
     <!-- Espaçamento entre os elementos -->
-    <p class="p">Cor do andar:</p>
-    <div class="color-picker-container">
-      <input type="color" v-model="selectedColor" class="color-picker">
+    <p class="p">COR:</p>
+
+    <div class="box-input-cores">
+      <select name="select-cores" id="select-cores"></select>
+    </div>
+
+    <!-- pequeno aviso em vermelho-->
+    <div id="aviso">
+        <h2>*Após criar o andar será possível personalizar os laboratórios</h2>
     </div>
 
     <!-- Botões de ação -->
