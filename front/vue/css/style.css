@@ -48,7 +48,7 @@ header {
     position: relative;
 }
 
-header h1 {
+header #tituloFatec {
     cursor: pointer;
 }
 
@@ -134,7 +134,7 @@ nav {
 
 .notificacoes {
     width: 30rem;
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh - 120px);
     position: absolute;
     background-color: var(--main-color);
     right: 0;
