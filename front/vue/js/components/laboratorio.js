@@ -24,31 +24,163 @@ export const Laboratorio = {
       mostrarCores: false, // Controle da visibilidade do menu de cores
     };
   },
+  
   computed: {
 
     corSelecionada() {
       return this.corLaboratorio ? this.corLaboratorio : "Selecione uma cor";
     },
   },
+  
   methods: {
+    obterAndares() {
+      fetch('http://localhost:3000/andar', {
+        method: 'GET',
+        headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                }
+      })
+      .then(response => response.json())
+      .then(data => {
+        container.innerHTML = ''; // Limpa o container
+  
+        data.forEach(andar => {
+          const containerAndar = document.createElement('div');
+          containerAndar.className = 'andar';
+      
+          containerAndar.innerHTML = `
+            <h2>${andar.nome}</h2>
+            <div class="cards-lab"></div>
+          `;
+          container.appendChild(containerAndar);
+        })
+      })
+      
+    },
+
+    obterLaaboratorios() {
+      fetch('http://localhost:3000/labs', {
+        method: 'GET',
+        headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                }
+      })
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(laboratorio => {
+          const card = document.createElement('article');
+          card.className = 'card-lab';
+          
+          card.innerHTML = `
+            <span id="barra-card"></span>
+            <h3 id="nome-lab">${laboratorio.nome}</h3>
+            <div class="lab-content">
+              <img id="img-lab" src="assets/Images/lab.png" alt="Imagem de laboratório">
+              <div class="descricao-lab">
+                <ul>
+                  <li id="capacidade"><strong>Capacidade:</strong><br> ${laboratorio.capacidade} alunos</li>
+                  <li id="equipamento"><strong>Equipamentos:</strong><br> ${laboratorio.equipamento}</li>
+                </ul>
+              </div>
+              <button class="btn-calendario" data-laboratorio-id="${laboratorio.idLaboratorio}" onclick="verCalendario(this)">Ver calendário</button>
+          `;
+      
+          // Adiciona o card ao container
+          container.appendChild(card);
+        });
+      })
+      .catch(error => console.error('Erro ao buscar laboratórios:', error));
+    },
     adicionarAndar() {
       //FETCH POST ANDAR + AUTORIZAÇÃO 
       // Emite evento para abrir o pop-up de criação de andar
+      fetch('http://localhost:3000/andar', {
+        method: 'POST',
+        headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+
+      })
       this.$emit("adicionarAndar");
     },
     atualizarAndares(novoAndar) {
       //FETCH PUT ANDAR + AUTORIZAÇÃO
       // Método chamado ao adicionar um novo andar
+      fetch('http://localhost:3000/andar', {
+        method: 'PUT',
+        headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(novoAndar)
+      })
+        then(response => response.json())
+        then(data => {
+
+      })
       this.andares.push({ ...novoAndar, laboratorios: [] }); // Adiciona o andar com lista de laboratórios vazia
     },
     adicionarLaboratorio(idAndar, laboratorio) {
       //FETCH POST + AUTORIZAÇÃO
       // Localiza o andar e adiciona o laboratório
-      const andar = this.andares.find(andar => andar.id === idAndar);
-      if (andar) {
-        andar.laboratorios.push(laboratorio);
-      }
+      fetch('http://localhost:3000/labs', {
+        method: 'POST',
+        headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(laboratorio)
+      })
+        then(response => response.json())
+        then(data => {
+          
+        })
+      },
+      
+    
+    atualizarLaboratorios(novoLaboratorio) {
+      //FETCH PUT + AUTORIZAÇÃO
+      // Método chamado ao adicionar um novo laboratório
+      fetch('http://localhost:3000/labs', {
+        method: 'PUT',
+        headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(novoLaboratorio)
+      })
+        then(response => response.json())
+        then(data => {
+          
+        })
+
+      this.laboratorios.push(novoLaboratorio);
     },
+    deletarAndar(idAndar) {
+      //FETCH DELETE + AUTORIZAÇÃO
+      // Remove o andar
+      this.andares = this.andares.filter(andar => andar.id !== idAndar);
+    },
+    
+    
+    deletarLaboratorio(idLaboratorio) {
+      //FETCH DELETE + AUTORIZAÇÃO
+      // Remove o laboratório
+      this.laboratorios = this.laboratorios.filter(laboratorio => laboratorio.id !== idLaboratorio);
+    },
+
+
+
+
+
+
+
     selecionarCor(cor) {
       this.corLaboratorio = cor;
       this.mostrarCores = false; // Fechar o menu de cores após a seleção
@@ -85,7 +217,8 @@ export const Laboratorio = {
       this.corAndar = cor;
       document.querySelector(".selected-option").textContent = cor;
     },
-  },
+  
+
   template: `
     <section id="titulo">
       <h1>*Adicione um novo andar</h1>
@@ -271,4 +404,4 @@ export const Laboratorio = {
         </div>
       </div>
     `,
-};
+}};
