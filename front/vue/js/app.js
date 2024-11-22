@@ -55,6 +55,7 @@ const app = {
             logado: false,
             divNotificacoes: false,
             divPerfil: false,
+            pesquisa: "",
         };
     },
 
@@ -64,15 +65,19 @@ const app = {
         alteraNotificacoes() {
             this.divNotificacoes = !this.divNotificacoes;
         },
+
         alteraPerfil() {
             this.divPerfil = !this.divPerfil;
         },
+
         fechaNotificacoes() {
             this.divNotificacoes = false;
         },
+
         fechaPerfil() {
             this.divPerfil = false;
         },
+
         clickForaNotificacoes(event) {
             if (
                 this.$refs.iconNotificacoes && 
@@ -83,6 +88,7 @@ const app = {
                 this.fechaNotificacoes();
             }
         },
+
         clickForaPerfil(event) {
             if (
                 this.$refs.perfilMenu && 
@@ -93,6 +99,10 @@ const app = {
                 this.fechaPerfil();
             }
         },
+
+        limparPesquisa() {
+            this.pesquisa = ""; // Limpa o campo de pesquisa
+          },
 
         //deslogar
         logout() {
@@ -122,7 +132,6 @@ const app = {
             const token = localStorage.getItem('token');
             this.logado = !!token;
         },
-
 
         //obter usuário logado
         async getUserInfo() {
@@ -257,8 +266,8 @@ const app = {
         <a v-if="logado" @click="this.$router.push('/home');"><h1 id="tituloFatec">Fatec - SALA</h1></a>
           <div class="busca" v-if="logado">
               <img src="Images/search.png" alt="Ícone de pesquisa">
-              <input id="pesquisa" type="text" placeholder="O que está procurando?">
-              <button id="limpa-input" class="btn-limpar" type="button">&times;</button>
+              <input v-model="pesquisa" id="pesquisa" type="text" placeholder="O que está procurando?">
+              <button v-show="pesquisa.length > 0" @click="limparPesquisa" class="btn-limpar" type="button">&times;</button>
           </div>
           <div id="icons" v-if="logado">
               <i id="btn-notificacoes" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
@@ -276,7 +285,7 @@ const app = {
                         <a v-for="reserva in pendentes" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
-                                <p id="txt-card-dic">{{ reserva.descricao }}</p>
+                                <p id="txt-card-dic">{{ reserva.disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
                                 <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
@@ -285,7 +294,7 @@ const app = {
                         </a>
                     </div>
                     <div v-else>
-                        <p>Não há reservas pendentes.</p>
+                        <p id="txt-sem-reverva">Não há reservas pendentes.</p>
                     </div>
                 </div>
             </div>
@@ -298,7 +307,7 @@ const app = {
                         <a v-for="reserva in aprovadas" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
-                                <p id="txt-card-dic">{{ reserva.descricao }}</p>
+                                <p id="txt-card-dic">{{ reserva.disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
                                 <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
@@ -307,7 +316,7 @@ const app = {
                         </a>
                     </div>
                     <div v-else>
-                        <p>Não há reservas aprovadas.</p>
+                        <p id="txt-sem-reverva">Não há reservas aprovadas.</p>
                     </div>
                 </div>
             </div>
@@ -320,7 +329,7 @@ const app = {
                         <a v-for="reserva in negadas" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
-                                <p id="txt-card-dic">{{ reserva.descricao }}</p>
+                                <p id="txt-card-dic">{{ reserva.disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
                                 <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
@@ -329,7 +338,7 @@ const app = {
                         </a>
                     </div>
                     <div v-else>
-                        <p>Não há reservas negadas.</p>
+                        <p id="txt-sem-reverva">Não há reservas negadas.</p>
                     </div>
                 </div>
             </div>

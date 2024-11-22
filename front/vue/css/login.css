@@ -106,7 +106,7 @@
 
 /* Quando clica em um campo */
 input:focus {
-    outline-color: var(--text-color-light);
+    outline-color: var(--white-color);
     outline-width: 2px;
     outline-style: solid; 
 }

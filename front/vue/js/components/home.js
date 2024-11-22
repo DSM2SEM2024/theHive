@@ -55,7 +55,7 @@ export const Home = {
 
             <div class="card-reservas">
                 <p>Você não possui reservas no momento.</p>
-                <button id="btn-reserva" @click="fazerReserva">Fazer reserva</button>
+                <button id="btn-reserva" type="button" @click="fazerReserva">Fazer reserva</button>
             </div>
         </div>
     `,
