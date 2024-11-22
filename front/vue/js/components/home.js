@@ -1,22 +1,33 @@
 export const Home = {
     data() {
         return {
-            nomeUsuario: "NOME", 
-            pesquisa: '', 
+            nomeUsuario: null, // Inicializa como null para diferenciar o estado "não carregado"
+            pesquisa: '', // Campo para a pesquisa
         };
     },
     methods: {
         limparPesquisa() {
-            this.pesquisa = ''; 
+            this.pesquisa = ''; // Limpa o campo de pesquisa
         },
         fazerReserva() {
-            this.$router.push('/laboratorios'); 
+            this.$router.push('/laboratorio'); // Navega para a página de laboratórios
         },
+    },
+    mounted() {
+        setTimeout(() => {
+            const nome = localStorage.getItem('usuario_nome');
+            this.nomeUsuario = nome;
+        }, 100);
     },
     template: `
         <div>
-            <p id="titulo-ola">
+            <p id="titulo-ola" v-if="nomeUsuario">
                 Olá, <span id="nome-usuario">{{ nomeUsuario }}</span>, seja bem vindo(a) ao <strong>SALA</strong>!
+            </p>
+
+            <!-- Enquanto nomeUsuario não foi carregado, exibe uma mensagem ou espaço vazio -->
+            <p id="titulo-ola" v-else>
+                Carregando...
             </p>
 
             <div class="card-pesquisa">
@@ -44,7 +55,7 @@ export const Home = {
 
             <div class="card-reservas">
                 <p>Você não possui reservas no momento.</p>
-                <button id="btn-reserva" @click="this.$router.push('/laboratorio');">Fazer reserva</button>
+                <button id="btn-reserva" @click="fazerReserva">Fazer reserva</button>
             </div>
         </div>
     `,

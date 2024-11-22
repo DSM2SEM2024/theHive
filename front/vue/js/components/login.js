@@ -5,7 +5,7 @@ export const Login = {
                 email: '',
                 senha: ''
             },
-            mostrarSenha: false // Controle para mostrar/ocultar senha
+            mostrarSenha: false
         };
     },
     methods: {
@@ -37,21 +37,20 @@ export const Login = {
         }
     },
     created() {
-        // Criando a tag de estilo dinamicamente
         const style = document.createElement('style');
         style.textContent = `
-            html {
-                background: url('../Images/backgroundfatec.png') no-repeat center center fixed;
-                background-size: cover;
-            }
-            main {
-                display: flex;
-                justify-content: center;
-                background: url('../Images/backgroundfatec.png') no-repeat center center fixed;
-                background-size: cover;
-            }
+        html.login-background {
+            background: url('../Images/backgroundfatec.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+        main.login-background {
+            display: flex;
+            justify-content: center;
+            background: url('../Images/backgroundfatec.png') no-repeat center center fixed;
+            background-size: cover;
+        }
         `;
-        document.head.appendChild(style); // Adiciona o estilo ao head do documento
+        document.head.appendChild(style);
     },
     template: `
             <div class="login-container">

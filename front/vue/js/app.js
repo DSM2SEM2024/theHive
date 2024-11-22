@@ -13,12 +13,31 @@ const router = VueRouter.createRouter({
     routes
 });
 
+router.beforeEach((to, from, next) => {
+    if (to.path === '/') {
+        if (localStorage.getItem('token')) {
+            return next('/home');
+        }
+        document.documentElement.classList.add('login-background');
+        document.querySelector('main').classList.add('login-background');
+    } else {
+        document.documentElement.classList.remove('login-background');
+        document.querySelector('main').classList.remove('login-background');
+    }
+    if (to.path === '/home' && !localStorage.getItem('token')) {
+        return next('/');
+        document.documentElement.classList.add('login-background');
+        document.querySelector('main').classList.add('login-background');
+    }
+    next();
+});
+
+
 const app = {
     data() {
         return {
             usuarios: [],
             logado: false,
-            deslogado: true,
             divNotificacoes: false,
             divPerfil: false,
             usuario: {
@@ -43,13 +62,23 @@ const app = {
         fechaPerfil() {
             this.divPerfil = false;
         },
-        clickForaNotificacoes(event) { 
-            if ( !this.$refs.iconNotificacoes.contains(event.target) && !this.$refs.notificacoesMenu.contains(event.target)) {
+        clickForaNotificacoes(event) {
+            if (
+                this.$refs.iconNotificacoes && 
+                this.$refs.notificacoesMenu &&
+                !this.$refs.iconNotificacoes.contains(event.target) &&
+                !this.$refs.notificacoesMenu.contains(event.target)
+            ) {
                 this.fechaNotificacoes();
             }
         },
-        clickForaPerfil(event) { 
-            if (!this.$refs.perfilMenu.contains(event.target) && !this.$refs.iconPerfil.contains(event.target)) {
+        clickForaPerfil(event) {
+            if (
+                this.$refs.perfilMenu && 
+                this.$refs.iconPerfil &&
+                !this.$refs.perfilMenu.contains(event.target) &&
+                !this.$refs.iconPerfil.contains(event.target)
+            ) {
                 this.fechaPerfil();
             }
         },
@@ -60,10 +89,10 @@ const app = {
 
             try {
                 const response = await fetch(`${this.url}/${id_usuario}`, {
-                    method: 'GET', // Ou o método apropriado (POST, PUT, etc.)
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`  // Envia o token de autorização
+                        'Authorization': `Bearer ${token}`
                     }
                 });
                 if (!response.ok) {
@@ -77,7 +106,8 @@ const app = {
                 }
                 this.usuario.nome = data.nome || "Não especificado";
                 this.usuario.email = data.email || "Não especificado";
-                document.getElementById('letra').innerText = this.usuario.nome.charAt(0) || "N";
+                this.usuario.perfil = data.perfil || "Não especificado";
+                localStorage.setItem('usuario_nome', this.usuario.nome);
             } catch (error) {
                 console.error('Erro ao buscar informações do usuário:', error);
             }
@@ -85,14 +115,20 @@ const app = {
         logout() {
             localStorage.removeItem("id_usuario");
             localStorage.removeItem("token");
+            localStorage.removeItem("usuario_nome");
+            if (this.$refs.notificacoesMenu && this.divNotificacoes) {
+                this.fechaNotificacoes();
+            }
+        
+            if (this.$refs.perfilMenu && this.divPerfil) {
+                this.fechaPerfil();
+            }
             this.usuario = {};
             this.logado = false;
-            this.deslogado = true;
             this.$router.push('/');
         },
         handleLoginSuccess() {
             this.logado = true;
-            this.deslogado = false;
             this.getUserInfo();
         },
         checkAuthStatus() {
@@ -117,7 +153,7 @@ const app = {
     },
     template: `
       <header>
-        <h1 v-if="deslogado">Fatec - SALA</h1>
+        <h1 v-if="!logado">Fatec - SALA</h1>
         <a v-if="logado" @click="this.$router.push('/home');"><h1 id="tituloFatec">Fatec - SALA</h1></a>
           <div class="busca" v-if="logado">
               <img src="Images/search.png" alt="Ícone de pesquisa">
@@ -138,7 +174,7 @@ const app = {
                 <a href="" class="card-pedido">
                     <div id="txt-card">
                         <p id="txt-card-lab">Laboratório 22</p>
-                        <p id="txt-card-dic">Designin Digital</p>
+                        <p id="txt-card-dic">Design Digital</p>
                     </div>
                     <div id="txt-card-2">
                         <p id="txt-card-dia">26/04/24</p>
@@ -263,15 +299,15 @@ const app = {
 
         <div class="perfil" v-if="divPerfil" ref="perfilMenu">
             <div class="usuario">
-                <p id="avatar"><span id="letra">-</span></p>
-                <h3 id="name">Indefinido</h3>
+                <p id="avatar">{{ usuario.nome.charAt(0) || '-' }}</p>
+                <h3 id="nome">{{ usuario.nome }}</h3>
             </div>
             <div class="info-perfil">
-                <p id="label">Curso(s):</p>
-                <p id="courses">Indefinido</p>
+                <p id="label">Perfil:</p>
+                <p id="perfil">{{ usuario.perfil }}</p>
                 <p id="label">E-mail:</p>
-                <p id="email">Indefinido</p>
-                <a href="#" onclick="logout()">Sair</a>
+                <p id="email">{{ usuario.email }}</p>
+                <a href="#" @click="logout()">Sair</a>
             </div>
         </div>
           </nav>
