@@ -21,7 +21,7 @@ export const Laboratorio = {
         <h3>ADICIONAR ANDAR</h3>
       </div>
 
-      <!-- titulo "+andar" do pop up -->
+      <!-- título "+andar" do pop-up -->
       <div id="titulo-andar">
         <span>+</span><h1>Andar</h1>
       </div>
@@ -102,12 +102,14 @@ export const Laboratorio = {
     },
     // Função para enviar o novo andar
     submitInput() {
+      const token = localStorage.getItem('token');
       if (this.andarName && this.selectedColor) {
         // Envia os dados do novo andar para a API
         fetch('http://localhost:3000/andar', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
             nome: this.andarName,
@@ -150,36 +152,16 @@ export const Laboratorio = {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          nome: this.andarName,
-          cor: this.selectedColor
-        }),
-      }
+        }
+      })
       .then(response => response.json())
       .then(data => {
         this.andares = data;
       })
       .catch(error => {
         console.error('Erro ao carregar os andares:', error);
-      }),
-    })
-        if (nomeAndar && corSelecionada !== "Selecione uma cor") {
-          // Cria o container do novo andar
-          const novoAndarContainer = document.createElement("div");
-          novoAndarContainer.classList.add("andar-container");
-
-          // Cria o título do andar com a cor selecionada
-          const tituloAndar = document.createElement("div");
-          tituloAndar.classList.add("titulo-andar");
-
-          // Aplica a cor de fundo selecionada no título do andar
-          tituloAndar.style.backgroundColor = getCorSelecionada(corSelecionada);
-          tituloAndar.textContent = nomeAndar;
-
-          // Adiciona o título ao container do andar
-          novoAndarContainer.appendChild(tituloAndar);
-    },
+      });
+    }
   },
   created() {
     this.loadAndares();
