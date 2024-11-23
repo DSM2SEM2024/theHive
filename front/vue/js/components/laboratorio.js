@@ -1,60 +1,94 @@
 export const Laboratorio = {
   template: `
-    <section id="titulo">
-       <h1>*Adicione um novo andar</h1>
-    </section>
-    <section id="card-cinza">    
-      <div id="app">
-          <!-- Botão que ao ser clicado abre o modal -->
-          <div 
-              class="button-circle clickable-btn" 
-              @click="openModal">
-          </div>
+ <section id="titulo">
+    <h1>*Adicione um novo andar</h1>
+  </section>
+  <section id="card-cinza">    
+    <div id="app">
+      <!-- Botão que ao ser clicado abre o modal -->
+      <div 
+        class="button-circle clickable-btn" 
+        @click="openModal">
       </div>
-    </section>
-
-      <!-- Modal (popup) com estilo de card -->
-      <div v-if="isModalOpen" class="modal-overlay">
-  <div class="modal-card">
-    <!-- Topo do Modal com fundo vermelho e título em branco -->
-    <div class="modal-header">
-      <h3>ADICIONAR ANDAR</h3>
     </div>
+  </section>
 
-    <!-- titulo "+andar" do pop up -->
-    <div id="titulo-andar">
+  <!-- Modal (popup) com estilo de card -->
+  <div v-if="isModalOpen" class="modal-overlay">
+    <div class="modal-card">
+      <!-- Topo do Modal com fundo vermelho e título em branco -->
+      <div class="modal-header">
+        <h3>ADICIONAR ANDAR</h3>
+      </div>
+
+      <!-- titulo "+andar" do pop up -->
+      <div id="titulo-andar">
         <span>+</span><h1>Andar</h1>
-    </div>
+      </div>
 
-    <!-- Campo de entrada para o nome -->
-    <p class="p">NOME:</p>
-    <input type="text" v-model="inputValue" placeholder="Nome do andar">
+      <!-- Campo de entrada para o nome -->
+      <p class="p">NOME:</p>
+      <input type="text" v-model="andarName" placeholder="Nome do andar">
 
-    <!-- Espaçamento entre os elementos -->
-    <p class="p">COR:</p>
+      <!-- Espaçamento entre os elementos -->
+      <p class="p">COR:</p>
 
-    <div class="box-input-cores">
-      <select name="select-cores" id="select-cores"></select>
-    </div>
+      <div>
+        <select name="select-cores" id="select-cores" v-model="selectedColor">
+          <option v-for="(cor, index) in cores" :key="index" :value="cor.hex">
+            {{ cor.nome }}
+          </option>
+        </select>
+      </div>
 
-    <!-- pequeno aviso em vermelho-->
-    <div id="aviso">
+      <!-- pequeno aviso em vermelho-->
+      <div id="aviso">
         <h2>*Após criar o andar será possível personalizar os laboratórios</h2>
-    </div>
+      </div>
 
-    <!-- Botões de ação -->
-    <div class="modal-actions">
-      <button @click="submitInput" class="create-btn">Criar</button>
-      <button @click="closeModal" class="cancel-btn">Cancelar</button>
+      <!-- Mensagens de erro ou sucesso -->
+      <div v-if="message" :class="{'error': message.type === 'error', 'success': message.type === 'success'}">
+        <p>{{ message.text }}</p>
+      </div>
+
+      <!-- Botões de ação -->
+      <div class="modal-actions">
+        <button @click="submitInput" class="create-btn">Criar</button>
+        <button @click="closeModal" class="cancel-btn">Cancelar</button>
+      </div>
     </div>
   </div>
-</div>
-`,
+
+  <!-- Carrossel de andares -->
+  <div class="carrossel-container">
+    <div v-for="(andar, index) in andares" :key="index" class="carrossel-column">
+      <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
+        <div class="andar-name" :style="{ backgroundColor: andar.cor }">
+          {{ andar.nome }}
+        </div>
+      </div>
+    </div>
+  </div>
+  `,
   data() {
     return {
       isModalOpen: false, // Controla se o modal está aberto
-      inputValue: '',// Armazena o valor do input
-      selectedColor: '#ffffff',
+      andarName: '', // Armazena o nome do andar
+      selectedColor: '', // Armazena a cor selecionada
+      message: null, // Mensagem de erro ou sucesso
+      cores: [
+        { nome: 'Vermelho', hex: '#FF0000' },
+        { nome: 'Azul', hex: '#0000FF' },
+        { nome: 'Verde', hex: '#008000' },
+        { nome: 'Amarelo', hex: '#FFFF00' },
+        { nome: 'Preto', hex: '#000000' },
+        { nome: 'Branco', hex: '#FFFFFF' },
+        { nome: 'Rosa', hex: '#FFC0CB' },
+        { nome: 'Laranja', hex: '#FFA500' },
+        { nome: 'Roxo', hex: '#800080' },
+        { nome: 'Cinza', hex: '#808080' }
+      ],
+      andares: [] // Armazena os andares criados
     };
   },
   methods: {
@@ -62,177 +96,92 @@ export const Laboratorio = {
     openModal() {
       this.isModalOpen = true;
     },
+    // Função para fechar o modal
     closeModal() {
       this.isModalOpen = false;
     },
+    // Função para enviar o novo andar
     submitInput() {
-      console.log('Nome do Andar:', this.inputValue);
-      console.log('Cor Selecionada:', this.selectedColor);
-      this.closeModal();
+      if (this.andarName && this.selectedColor) {
+        // Envia os dados do novo andar para a API
+        fetch('http://localhost:3000/andar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nome: this.andarName,
+            cor: this.selectedColor
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === 'Andar criado com sucesso') {
+            // Atualiza a lista de andares
+            this.andares.push({
+              nome: this.andarName,
+              cor: this.selectedColor
+            });
+            // Limpa os campos após a criação
+            this.andarName = '';
+            this.selectedColor = '';
+            this.showMessage('success', 'Andar criado com sucesso!');
+            this.closeModal();
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao criar o andar:', error);
+          this.showMessage('error', 'Erro ao criar o andar. Tente novamente!');
+        });
+      } else {
+        this.showMessage('error', 'Por favor, adicione o nome do andar e selecione uma cor!');
+      }
     },
+    // Função para mostrar mensagens de erro ou sucesso
+    showMessage(type, text) {
+      this.message = { type, text };
+      setTimeout(() => this.message = null, 3000); // Mensagem desaparece após 3 segundos
+    },
+    // Função para carregar os andares do banco de dados
+    loadAndares() {
+      const token = localStorage.getItem('token');
+      fetch('http://localhost:3000/andar', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          nome: this.andarName,
+          cor: this.selectedColor
+        }),
+      }
+      .then(response => response.json())
+      .then(data => {
+        this.andares = data;
+      })
+      .catch(error => {
+        console.error('Erro ao carregar os andares:', error);
+      }),
+    })
+        if (nomeAndar && corSelecionada !== "Selecione uma cor") {
+          // Cria o container do novo andar
+          const novoAndarContainer = document.createElement("div");
+          novoAndarContainer.classList.add("andar-container");
+
+          // Cria o título do andar com a cor selecionada
+          const tituloAndar = document.createElement("div");
+          tituloAndar.classList.add("titulo-andar");
+
+          // Aplica a cor de fundo selecionada no título do andar
+          tituloAndar.style.backgroundColor = getCorSelecionada(corSelecionada);
+          tituloAndar.textContent = nomeAndar;
+
+          // Adiciona o título ao container do andar
+          novoAndarContainer.appendChild(tituloAndar);
+    },
+  },
+  created() {
+    this.loadAndares();
   }
-  //   data() {
-  //     return {
-  //       andares: [], // Lista de andares criados
-  //       nomeAndar: "", // Nome do novo andar
-  //       corSelecionada: "Selecione uma cor", // Cor do novo andar
-  //       nomeLaboratorio: "", // Nome do novo laboratório
-  //       andarSelecionado: null, // ID do andar onde será criado o laboratório
-  //       cores: [ // Cores disponíveis para seleção
-  //         { nome: "Rosa", hex: "#EB6E8E" },
-  //         { nome: "Azul", hex: "#337BC3" },
-  //         { nome: "Amarelo", hex: "#FFB303" },
-  //         { nome: "Roxo", hex: "#5A3168" },
-  //         { nome: "Verde", hex: "#2D854E" },
-  //         { nome: "Vermelho", hex: "#eb1f2c" },
-  //         { nome: "Laranja", hex: "#ff8324" },
-  //         { nome: "Cinza", hex: "#575757" },
-  //         { nome: "Marrom", hex: "rgb(147, 37, 37)" },
-  //         { nome: "Preto", hex: "black" },
-  //       ],
-  //       mostrarPopupAndar: false,
-  //       mostrarPopupLaboratorio: false,
-  //     };
-  //   },
-  //   methods: {
-  //     // Exibir e fechar pop-ups
-  //     abrirPopupAndar() {
-  //       this.mostrarPopupAndar = true;
-  //     },
-  //     abrirPopupLaboratorio(andarId) {
-  //       this.andarSelecionado = andarId;
-  //       this.mostrarPopupLaboratorio = true;
-  //     },
-  //     fecharPopup() {
-  //       this.mostrarPopupAndar = false;
-  //       this.mostrarPopupLaboratorio = false;
-  //     },
-
-  //     // Cria um novo andar
-  //     async criarAndar() {
-  //       if (!this.nomeAndar || this.corSelecionada === "Selecione uma cor") {
-  //         alert("Por favor, preencha o nome do andar e selecione uma cor.");
-  //         return;
-  //       }
-
-  //       const novoAndar = {
-  //         nome: this.nomeAndar,
-  //         cor: this.cores.find(cor => cor.nome === this.corSelecionada)?.hex || "#d9d9d9",
-  //       };
-
-  //       // Envia o novo andar para o backend
-  //       try {
-  //         const response = await fetch("http://localhost:3000/andares", {
-  //           method: "POST",
-  //           headers: { "Content-Type": "application/json" },
-  //           body: JSON.stringify(novoAndar),
-  //         });
-  //         const resultado = await response.json();
-  //         this.andares.push({ ...resultado, laboratorios: [] });
-  //         this.nomeAndar = "";
-  //         this.corSelecionada = "Selecione uma cor";
-  //         this.fecharPopup();
-  //       } catch (error) {
-  //         console.error("Erro ao criar andar:", error);
-  //       }
-  //     },
-
-  //     // Cria um novo laboratório
-  //     async criarLaboratorio() {
-  //       if (!this.nomeLaboratorio || !this.andarSelecionado) {
-  //         alert("Por favor, preencha o nome do laboratório.");
-  //         return;
-  //       }
-
-  //       const novoLaboratorio = { nome: this.nomeLaboratorio, andarId: this.andarSelecionado };
-
-  //       // Envia o laboratório para o backend
-  //       try {
-  //         const response = await fetch("http://localhost:3000/laboratorios", {
-  //           method: "POST",
-  //           headers: { "Content-Type": "application/json" },
-  //           body: JSON.stringify(novoLaboratorio),
-  //         });
-  //         const resultado = await response.json();
-
-  //         // Atualiza a lista de laboratórios no andar correspondente
-  //         const andar = this.andares.find(a => a.id === this.andarSelecionado);
-  //         if (andar) andar.laboratorios.push(resultado);
-
-  //         this.nomeLaboratorio = "";
-  //         this.fecharPopup();
-  //       } catch (error) {
-  //         console.error("Erro ao criar laboratório:", error);
-  //       }
-  //     },
-
-  //     // Seleciona uma cor
-  //     selecionarCor(corNome) {
-  //       this.corSelecionada = corNome;
-  //     },
-
-  //     // Busca andares do backend
-  //     async carregarAndares() {
-  //       try {
-  //         const response = await fetch("http://localhost:3000/andares");
-  //         this.andares = await response.json();
-  //       } catch (error) {
-  //         console.error("Erro ao carregar andares:", error);
-  //       }
-  //     },
-  //   },
-  //   created() {
-  //     this.carregarAndares(); // Carregar andares ao inicializar
-  //   },
-  //   template: `
-  //     <section id="titulo">
-  //       <h1>Gerenciamento de Andares e Laboratórios</h1>
-  //     </section>
-
-  //     <section id="card-cinza">
-  //       <img id="btn-adicionar-andar" src="images/mais.png" alt="Adicionar Andar" @click="abrirPopupAndar">
-  //     </section>
-
-  //     <div id="andares-container">
-  //       <div v-for="andar in andares" :key="andar.id" class="card-andar" :style="{ backgroundColor: andar.cor }">
-  //         <h2>{{ andar.nome }}</h2>
-  //         <div class="carrossel-laboratorios">
-  //           <div v-for="lab in andar.laboratorios" :key="lab.id" class="card-laboratorio">{{ lab.nome }}</div>
-  //           <div class="card-laboratorio card-adicionar-lab" @click="abrirPopupLaboratorio(andar.id)">
-  //             <img src="images/mais.png" alt="Adicionar Laboratório">
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-
-  //     <div id="popup-andar" class="popup" v-show="mostrarPopupAndar">
-  //       <div class="popup-content">
-  //         <button class="btn-fechar" @click="fecharPopup"><img src="images/x.png" alt="Fechar"></button>
-  //         <h1>Adicionar Andar</h1>
-  //         <form @submit.prevent="criarAndar">
-  //           <input type="text" v-model="nomeAndar" placeholder="Nome do Andar">
-  //           <div class="custom-select">
-  //             <div class="selected-option">{{ corSelecionada }}</div>
-  //             <ul class="options-list">
-  //               <li v-for="cor in cores" :key="cor.nome" @click="selecionarCor(cor.nome)" :style="{ color: cor.hex }">
-  //                 {{ cor.nome }}
-  //               </li>
-  //             </ul>
-  //           </div>
-  //           <button type="submit">Criar</button>
-  //         </form>
-  //       </div>
-  //     </div>
-
-  //     <div id="popup-laboratorio" class="popup" v-show="mostrarPopupLaboratorio">
-  //       <div class="popup-content">
-  //         <button class="btn-fechar" @click="fecharPopup"><img src="Images/x.png" alt="Fechar"></button>
-  //         <h1>Adicionar Laboratório</h1>
-  //         <form @submit.prevent="criarLaboratorio">
-  //           <input type="text" v-model="nomeLaboratorio" placeholder="Nome do Laboratório">
-  //           <button type="submit">Criar</button>
-  //         </form>
-  //       </div>
-  //     </div>
-  //   `,
 };
