@@ -53,8 +53,10 @@ export const Laboratorio = {
 
       <!-- Botões de ação -->
       <div class="modal-actions">
-        <button @click="submitInput" class="create-btn">Criar</button>
-        <button @click="closeModal" class="cancel-btn">Cancelar</button>
+        <button @click="handleClick" class="create-btn">Criar</button>
+        <button @click="this.closeModal" class="cancel-btn">Cancelar</button>
+
+        
       </div>
     </div>
   </div>
@@ -92,12 +94,17 @@ export const Laboratorio = {
     };
   },
   methods: {
+    handleClick() {
+      this.submitInput();
+      this.closeModal();
+      location.reload();
+    },
     // Função para abrir o modal
     openModal() {
       this.isModalOpen = true;
     },
     // Função para fechar o modal
-    closeModal() {
+    async closeModal() {
       this.isModalOpen = false;
     },
     // Função para enviar o novo andar
@@ -128,7 +135,6 @@ export const Laboratorio = {
             this.andarName = '';
             this.selectedColor = '';
             this.showMessage('success', 'Andar criado com sucesso!');
-            this.closeModal();
           }
         })
         .catch(error => {
@@ -161,6 +167,7 @@ export const Laboratorio = {
       .catch(error => {
         console.error('Erro ao carregar os andares:', error);
       });
+    
     }
   },
   created() {
