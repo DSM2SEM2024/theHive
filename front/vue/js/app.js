@@ -267,6 +267,22 @@ const app = {
                 return "Disciplina desconhecida";
             }
         },
+
+        formatarDataHora(data, hora) {
+            // Formata data no formato DD/MM/AAAA
+            const dateObj = new Date(data);
+            const dia = String(dateObj.getDate()).padStart(2, '0');
+            const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const ano = dateObj.getFullYear();
+    
+            // Hora já está no formato HH:MM:SS, pegamos os dois primeiros
+            const [horas, minutos] = hora.split(':');
+    
+            return {
+                dataFormatada: `${dia}/${mes}/${ano}`,
+                horaFormatada: `${horas}:${minutos}`
+            };
+        },
     },
 
     //roda no início da vida do componente
@@ -315,8 +331,8 @@ const app = {
                                 <p id="txt-card-dic">{{ reserva.nome_disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
-                                <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
-                                <p id="txt-card-hrs">{{ reserva.horario_inicial }}</p>
+                                <p id="txt-card-dia">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
+                                <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
                     </div>
@@ -337,8 +353,8 @@ const app = {
                                 <p id="txt-card-dic">{{ reserva.nome_disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
-                                <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
-                                <p id="txt-card-hrs">{{ reserva.horario_inicial }}</p>
+                                <p id="txt-card-dia">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
+                                <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
                     </div>
@@ -359,8 +375,8 @@ const app = {
                                 <p id="txt-card-dic">{{ reserva.nome_disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
-                                <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
-                                <p id="txt-card-hrs">{{ reserva.horario_inicial }}</p>
+                                <p id="txt-card-dia">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
+                                <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
                     </div>
