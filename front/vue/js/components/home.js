@@ -179,37 +179,51 @@ export const Home = {
 
     <div id="container-reservas">
         <div id="sup-reservas">
-            <h2 v-if="professor">Minhas reservas:</h2>
-            <h2 v-if="!professor">Reservas:</h2>
+                    <h2 v-if="professor">Minhas reservas:</h2>
+                    <h2 v-if="!professor">Reservas:</h2>
+                    <div v-if="reservas.length > 0" id="div-btn-reserva">
+                        <button id="btn-reserva" type="button" @click="fazerReserva">Fazer reserva</button>
+                        <div id="div-filtro">
+                            <p>Ordenar por:</p>
+                            <select name="filtro" id="filtro">
+                                <option value="">Mais recentes</option>
+                                <option value="">Pendentes</option>
+                                <option value="">Aprovadas</option>
+                                <option value="">Recusadas</option>
+                            </select>
+                        </div>
+                    </div>
         </div>
-        <div v-if="reservas.length > 0">
-            <div v-for="reserva in reservas" :key="reserva.id_reserva" class="card-reservas">
+        <div class="card-com-reservas" v-if="reservas.length > 0" >
+            <div v-for="reserva in reservas" :key="reserva.id_reserva">
                 <!-- Card individual da reserva -->
                 <div class="reserva">
-                        <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
-                        <p id="txt-card-dic">{{ reserva.nome_disciplina }}</p>
-
-                        <p id="txt-card-dia">
-                            {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}
-                        </p>
-                        <p id="txt-card-dia">
-                            {{ formatarDataHora(reserva.data_final, reserva.horario_final).dataFormatada }}
-                        </p>
-                        <p id="txt-card-hrs">
-                            {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}
-                        </p>
-                        <p id="txt-card-hrs">
-                            {{ formatarDataHora(reserva.data_final, reserva.horario_final).horaFormatada }}
-                        </p>
-
-                        <button @click="excluirReserva(reserva.id_reserva)">
-                            <i class="fi fi-ss-trash"></i>
-                        </button>
-
-                        <p id="txt-card-status">{{ reserva.status_reserva }}</p>
+                    <div id="sup-card-reserva">
+                        <p>{{ reserva.nome_laboratorio }}</p>
+                            <i v-if="professor" @click="excluirReserva(reserva.id_reserva)" class="fi fi-ss-trash"></i>
+                            <i v-if="!professor" @click="excluirReserva(reserva.id_reserva)" class="fi fi-bs-edit"></i>
                     </div>
+                    <div id="txt-card">
+                        <div id="txt-card-1">
+                            <p>Status da reserva: <strong id="status">{{ reserva.status_reserva }}</strong></p>
+                            <p>Curso: NOME CURSO</p>
+                            <p>Disciplina: {{ reserva.nome_disciplina }}</p>
+                        </div>
+                        <div id="txt-card-2">
+                            <p>Data inicial: {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
+                            <p>Data final: {{ formatarDataHora(reserva.data_final, reserva.horario_final).dataFormatada }}
+                            </p>
+                            <p>{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }} às {{ formatarDataHora(reserva.data_final, reserva.horario_final).horaFormatada }}</p>
+                        </div>
+                    </div>
+
+
+                        
+
+                        
                 </div>
-                </div>
+            </div>
+        </div>
 
         <div class="card-reservas" v-if="!reservas || reservas.length === 0">
             <p>Você não possui reservas no momento.</p>
