@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
 
 const app = {
     data() {
-    //variáveis
+        //variáveis
         return {
             //usuários
             usuarios: [],
@@ -80,7 +80,7 @@ const app = {
 
         clickForaNotificacoes(event) {
             if (
-                this.$refs.iconNotificacoes && 
+                this.$refs.iconNotificacoes &&
                 this.$refs.notificacoesMenu &&
                 !this.$refs.iconNotificacoes.contains(event.target) &&
                 !this.$refs.notificacoesMenu.contains(event.target)
@@ -91,7 +91,7 @@ const app = {
 
         clickForaPerfil(event) {
             if (
-                this.$refs.perfilMenu && 
+                this.$refs.perfilMenu &&
                 this.$refs.iconPerfil &&
                 !this.$refs.perfilMenu.contains(event.target) &&
                 !this.$refs.iconPerfil.contains(event.target)
@@ -102,7 +102,7 @@ const app = {
 
         limparPesquisa() {
             this.pesquisa = ""; // Limpa o campo de pesquisa
-          },
+        },
 
         //deslogar
         logout() {
@@ -112,7 +112,7 @@ const app = {
             if (this.$refs.notificacoesMenu && this.divNotificacoes) {
                 this.fechaNotificacoes();
             }
-        
+
             if (this.$refs.perfilMenu && this.divPerfil) {
                 this.fechaPerfil();
             }
@@ -170,7 +170,7 @@ const app = {
             const id_usuario = localStorage.getItem('id_usuario');
             const token = localStorage.getItem('token');
             if (!id_usuario) return;
-        
+
             try {
                 const responsePendentes = await fetch(`http://localhost:3000/reserve/profestado/${id_usuario}/pendente`, {
                     method: 'GET',
@@ -193,7 +193,7 @@ const app = {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-        
+
                 const pendentes = await responsePendentes.json();
                 const aprovadas = await responseAprovadas.json();
                 const negadas = await responseNegadas.json();
@@ -201,15 +201,16 @@ const app = {
                 this.pendentes = Array.isArray(pendentes) && pendentes.length > 0 ? pendentes : [];
                 this.aprovadas = Array.isArray(aprovadas) && aprovadas.length > 0 ? aprovadas : [];
                 this.negadas = Array.isArray(negadas) && negadas.length > 0 ? negadas : [];
-                
+
                 for (const reserva of [...this.pendentes, ...this.aprovadas, ...this.negadas]) {
                     reserva.nome_laboratorio = await this.getLaboratorioName(reserva.id_laboratorio);
+                    reserva.nome_disciplina = await this.getDisciplinaName(reserva.id_disciplina);
                 }
 
                 console.log("Pendentes:", this.pendentes);
                 console.log("Aprovadas:", this.aprovadas);
                 console.log("Negadas:", this.negadas);
-        
+
             } catch (error) {
                 console.error('Erro ao obter reservas:', error);
             }
@@ -219,7 +220,7 @@ const app = {
         async getLaboratorioName(id_laboratorio) {
             const token = localStorage.getItem('token');
             if (!id_laboratorio || !token) return null;
-    
+
             try {
                 const response = await fetch(`http://localhost:3000/labs/${id_laboratorio}`, {
                     method: 'GET',
@@ -228,16 +229,42 @@ const app = {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                
+
                 if (!response.ok) {
                     throw new Error('Erro ao obter o nome do laboratório');
                 }
-                
+
                 const data = await response.json();
                 return data.nome || "Laboratório desconhecido";
             } catch (error) {
                 console.error('Erro ao buscar laboratório:', error);
                 return "Laboratório desconhecido";
+            }
+        },
+
+        //obter nome da disciplina que o professor ministrará nas reservas
+        async getDisciplinaName(id_disciplina) {
+            const token = localStorage.getItem('token');
+            if (!id_disciplina || !token) return null;
+
+            try {
+                const response = await fetch(`http://localhost:3000/disciplina/${id_disciplina}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao obter o nome da disciplina');
+                }
+
+                const data = await response.json();
+                return data.nome || "Disciplina desconhecida";
+            } catch (error) {
+                console.error('Erro ao buscar disciplina:', error);
+                return "Disciplina desconhecida";
             }
         },
     },
@@ -249,8 +276,8 @@ const app = {
         this.getReservas();
 
         //adiciona o listener para cliques fora da div
-      document.addEventListener("click", this.clickForaNotificacoes);
-      document.addEventListener("click", this.clickForaPerfil);
+        document.addEventListener("click", this.clickForaNotificacoes);
+        document.addEventListener("click", this.clickForaPerfil);
 
     },
     beforeUnmount() {
@@ -285,11 +312,11 @@ const app = {
                         <a v-for="reserva in pendentes" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
-                                <p id="txt-card-dic">{{ reserva.disciplina }}</p>
+                                <p id="txt-card-dic">{{ reserva.nome_disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
                                 <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
-                                <p id="txt-card-hrs">{{ reserva.hora_inicial }}</p>
+                                <p id="txt-card-hrs">{{ reserva.horario_inicial }}</p>
                             </div>
                         </a>
                     </div>
@@ -307,11 +334,11 @@ const app = {
                         <a v-for="reserva in aprovadas" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
-                                <p id="txt-card-dic">{{ reserva.disciplina }}</p>
+                                <p id="txt-card-dic">{{ reserva.nome_disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
                                 <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
-                                <p id="txt-card-hrs">{{ reserva.hora_inicial }}</p>
+                                <p id="txt-card-hrs">{{ reserva.horario_inicial }}</p>
                             </div>
                         </a>
                     </div>
@@ -329,11 +356,11 @@ const app = {
                         <a v-for="reserva in negadas" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
-                                <p id="txt-card-dic">{{ reserva.disciplina }}</p>
+                                <p id="txt-card-dic">{{ reserva.nome_disciplina }}</p>
                             </div>
                             <div id="txt-card-2">
                                 <p id="txt-card-dia">{{ reserva.data_inicial }}</p>
-                                <p id="txt-card-hrs">{{ reserva.hora_inicial }}</p>
+                                <p id="txt-card-hrs">{{ reserva.horario_inicial }}</p>
                             </div>
                         </a>
                     </div>
@@ -350,10 +377,10 @@ const app = {
                 <h3 id="nome">{{ usuario.nome }}</h3>
             </div>
             <div class="info-perfil">
-                <p id="label">Perfil:</p>
-                <p id="perfil">{{ usuario.perfil }}</p>
                 <p id="label">E-mail:</p>
                 <p id="email">{{ usuario.email }}</p>
+                <p id="label">Perfil:</p>
+                <p id="perfil">{{ usuario.perfil }}</p>
                 <a href="#" @click="logout()">Sair</a>
             </div>
         </div>
