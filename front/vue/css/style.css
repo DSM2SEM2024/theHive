@@ -460,15 +460,80 @@ main {
     color: var(--black-gray-color);
 }
 
-main h2 {
+#container-reservas {
+    display: flex;
+    flex-direction: column;
+
+}
+
+#sup-reservas {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#div-btn-reserva {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+}
+
+#div-btn-reserva #btn-reserva {
+    width: 12rem;
+    height: 2.5rem;
+    background-color: var(--main-color);
+    color: var(--white-color);
+    border: solid 2px var(--main-color);
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#div-filtro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#div-filtro p {
+    font-size: 18px;
+    color: var(--black-gray-color);
+}
+
+#div-filtro select {
+    background-color: var(--gray-color);
+    color: var(--black-gray-color);
+    font-size: 16px;
+    border-radius: 5px;
+    height: 1.8rem;
+    width: 8rem;
+    border: 1px solid var(--gray-color);
+}
+
+#div-filtro select:focus {
+    outline: none;
+}
+
+#div-filtro select option::before {
+    background-color: var(--main-color);
+}
+
+#container-reservas h2 {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     color: var(--main-color);
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 700;
     transition: 0.3s;
 }
-
 
 .card-reservas {
     display: flex;
@@ -482,7 +547,7 @@ main h2 {
 
 .card-reservas p {
     color: var(--text-color);
-    font-size: 22px;
+    font-size: 24px;
     transition: 0.3s;
     text-align: center;
 }
@@ -493,33 +558,29 @@ main h2 {
     background-color: var(--main-color);
     color: var(--white-color);
     border: solid 2px var(--main-color);
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 10px;
     cursor: pointer;
-    transition: 0.2s;
-    text-wrap: nowrap;
+    transition: all 0.2s ease;
 }
 
 /* Efeito inverte as cores do botão reserva  */
 
-.card-reservas #btn-reserva:hover {
+#container-reservas #btn-reserva:hover {
     background-color: var(--white-color);
     border: solid 2px var(--main-color);
     color: var(--main-color);
-    transition: 0.2s;
+    transition: all 0.2s ease;
 }
 
-
-
-:root {
-    --main-color: #B03648;
-    --text-color: #575757;
-    --text-color-light: #909090;
-    --gray-color: #e2e2e2;
-    --white-color: #f6f6f6;
-    --black-gray-color: #2c2c2c;
-    font-family: "Inter", sans-serif;
+.reserva {
+    width: 30rem;
+    height: 10rem;
+    background-color: var(--gray-color);
 }
 
 @media (max-width: 1170px) {

@@ -1,8 +1,10 @@
 export const Home = {
     data() {
         return {
-            nomeUsuario: null, // Inicializa como null para diferenciar o estado "não carregado"
-            pesquisa: '', // Campo para a pesquisa
+            nomeUsuario: null,
+            pesquisa: '',
+            reservas: false,
+            professor: true,
         };
     },
     methods: {
@@ -51,11 +53,28 @@ export const Home = {
                 </div>
             </div>
 
-            <h2>Minhas reservas:</h2>
+            <div id="container-reservas">
+                <div id="sup-reservas">
+                    <h2 v-if="professor">Minhas reservas:</h2>
+                    <h2 v-if="!professor">Reservas:</h2>
+                    <div v-if="reservas" id="div-btn-reserva">
+                        <button v-if="reservas" id="btn-reserva" type="button" @click="fazerReserva">Fazer reserva</button>
+                        <div id="div-filtro">
+                            <p>Ordenar por:</p>
+                            <select name="filtro" id="filtro">
+                                <option value="">Mais recentes</option>
+                                <option value="">Pendentes</option>
+                                <option value="">Aprovadas</option>
+                                <option value="">Recusadas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="card-reservas">
-                <p>Você não possui reservas no momento.</p>
-                <button id="btn-reserva" type="button" @click="fazerReserva">Fazer reserva</button>
+                <div class="card-reservas">
+                    <p v-if="!reservas">Você não possui reservas no momento.</p>
+                    <button v-if="!reservas" id="btn-reserva" type="button" @click="fazerReserva">Fazer reserva</button>
+                </div>
             </div>
         </div>
     `,
