@@ -321,10 +321,9 @@ const app = {
             <nav>
             <div class="notificacoes" v-if="divNotificacoes" ref="notificacoesMenu">
             <!-- Pendentes -->
-            <div>
+            
                 <p id="titulo-not">Pendentes</p>
-                <div class="pendentes">
-                    <div v-if="pendentes.length > 0">
+                <div v-if="pendentes.length > 0" class="pendentes">
                         <a v-for="reserva in pendentes" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
@@ -335,18 +334,16 @@ const app = {
                                 <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
-                    </div>
                     <div v-else>
                         <p id="txt-sem-reverva">Não há reservas pendentes.</p>
                     </div>
                 </div>
-            </div>
+            
 
             <!-- Aprovadas -->
             <div>
                 <p id="titulo-not-1">Aprovadas</p>
-                <div class="aprovadas">
-                    <div v-if="aprovadas.length > 0">
+                <div v-if="aprovadas.length > 0" class="aprovadas">
                         <a v-for="reserva in aprovadas" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
@@ -357,7 +354,6 @@ const app = {
                                 <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
-                    </div>
                     <div v-else>
                         <p id="txt-sem-reverva">Não há reservas aprovadas.</p>
                     </div>
@@ -367,8 +363,7 @@ const app = {
             <!-- Negadas -->
             <div>
                 <p id="titulo-not-1">Negadas</p>
-                <div class="negadas">
-                    <div v-if="negadas.length > 0">
+                <div v-if="negadas.length > 0" class="negadas">
                         <a v-for="reserva in negadas" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
@@ -379,7 +374,6 @@ const app = {
                                 <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
-                    </div>
                     <div v-else>
                         <p id="txt-sem-reverva">Não há reservas negadas.</p>
                     </div>
