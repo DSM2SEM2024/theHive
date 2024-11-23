@@ -153,7 +153,7 @@ class Reserva {
     }
 
     public function obterReservaPorId($id) {
-        $query = "SELECT * FROM $this->table WHERE id_reserva = :id_reserva";
+        $query = "SELECT * FROM $this->table WHERE id_reserva = :id_reserva AND status_reserva != 'cancelada'";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_reserva", $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -161,7 +161,7 @@ class Reserva {
     }
 
     public function obterReservaPorEstado($estado) {
-        $query = "SELECT * FROM $this->table WHERE status_reserva = :status_reserva";
+        $query = "SELECT * FROM $this->table WHERE status_reserva = :status_reserva AND status_reserva != 'cancelada'";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":status_reserva", $estado);
         $stmt->execute();
@@ -178,7 +178,7 @@ class Reserva {
     }
 
     public function obterReservaPorLab($lab) {
-        $query = "SELECT * FROM $this->table WHERE id_laboratorio = :id_laboratorio";
+        $query = "SELECT * FROM $this->table WHERE id_laboratorio = :id_laboratorio AND status_reserva != 'cancelada'";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_laboratorio", $lab);
         $stmt->execute();
@@ -186,11 +186,11 @@ class Reserva {
     }
 
     public function obterReservaPorProf($prof) {
-        $query = "SELECT * FROM $this->table WHERE id_usuario = :id_usuario";
+        $query = "SELECT * FROM $this->table WHERE id_usuario = :id_usuario AND status_reserva != 'cancelada'";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_usuario", $prof);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function atualizarReserva(Reserva $Reserva, $idReserva) {
@@ -269,6 +269,21 @@ class Reserva {
         $query = "UPDATE $this->table SET status_reserva = :status_reserva WHERE id_reserva = :id_reserva";
         $stmt = $this->conn->prepare($query);
         $status = 'negada'; 
+        $stmt->bindParam(':status_reserva', $status);
+        $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
+
+        $executar = $stmt->execute();
+        if ($executar) {
+            $tokenUser = $this->helper->verificarTokenComPermissao();
+            $this->log->registrar($tokenUser['id_usuario'], "DENNY", "Reserva"); 
+        }
+        return $executar;
+    }
+
+    public function cancelarReserva($id) {
+        $query = "UPDATE $this->table SET status_reserva = :status_reserva WHERE id_reserva = :id_reserva";
+        $stmt = $this->conn->prepare($query);
+        $status = 'cancelada'; 
         $stmt->bindParam(':status_reserva', $status);
         $stmt->bindParam(':id_reserva', $id, PDO::PARAM_INT);
 

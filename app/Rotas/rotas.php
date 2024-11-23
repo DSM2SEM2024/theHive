@@ -81,6 +81,8 @@ class rotas {
                 '/reserve/{id}' => [ReservaController::class, 'atualizarReserva'],
                 '/reserve/{id}/approve' => [ReservaController::class, 'aprovarReserva'],
                 '/reserve/{id}/deny' => [ReservaController::class, 'negarReserva'],
+                '/reserve/{id}/cancel' => [ReservaController::class, 'cancelarReserva'],
+                //disciplina
                 //disciplina
                 '/disciplina/{id}' => [DisciplinaController::class, 'update'],
                 //curso

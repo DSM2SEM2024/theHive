@@ -15,4 +15,4 @@
                                 reserva.horario_inicial).horaFormatada }}</p>
                         </div>
                     </div>
-                </div>
+</div>
