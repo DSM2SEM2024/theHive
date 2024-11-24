@@ -672,6 +672,52 @@ main {
     gap: 1rem;
 }
 
+#acoes-card-reserva {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+#acoes-card-reserva button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px; 
+    color: white; 
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+#acoes-card-reserva {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.reserva {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; 
+}
+
+#acoes-card-reserva button.negar {
+    background-color: var(--main-color);
+}
+
+#acoes-card-reserva button.negar:hover {
+    background-color: #c9302c; 
+}
+
+#acoes-card-reserva button.aprovar {
+    background-color: #5cb85c; 
+}
+
+#acoes-card-reserva button.aprovar:hover {
+    background-color: #4cae4c; 
+}
+
 @media (max-width: 1170px) {
     
     header {

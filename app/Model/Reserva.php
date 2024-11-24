@@ -165,7 +165,7 @@ class Reserva {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":status_reserva", $estado);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function obterReservaPorProfeEstado($prof, $estado) {

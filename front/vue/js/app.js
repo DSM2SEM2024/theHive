@@ -3,11 +3,13 @@
 import { Login } from './components/login.js';
 import { Home } from './components/home.js';
 import { Laboratorio } from './components/laboratorio.js';
+import { Calendario } from './components/calendario.js';
 
 const routes = [
     { path: '/', component: Login },
     { path: '/home', component: Home },
-    { path: '/laboratorio', component: Laboratorio }
+    { path: '/laboratorio', component: Laboratorio },
+    { path: '/calendario', component: Calendario }
 ];
 
 const router = VueRouter.createRouter({
@@ -53,12 +55,17 @@ const app = {
             negadas: [],
             //sistema
             logado: false,
+            professor: false,
             divNotificacoes: false,
             divPerfil: false,
             pesquisa: "",
         };
     },
-
+    provide() {
+        return {
+            isProfessor: Vue.computed(() => this.professor)
+        };
+    },
     //métodos
     methods: {
         //sistema
@@ -160,6 +167,12 @@ const app = {
                 this.usuario.email = data.email || "Não especificado";
                 this.usuario.perfil = data.perfil || "Não especificado";
                 localStorage.setItem('usuario_nome', this.usuario.nome);
+
+                if(this.usuario.perfil == 'professor'){
+                    this.professor = true;
+                } else {
+                    this.professor = false;
+                }
             } catch (error) {
                 console.error('Erro ao buscar informações do usuário:', error);
             }
@@ -334,9 +347,9 @@ const app = {
                                 <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
-                    <div v-else>
+                </div>
+                <div v-if="pendentes.length === 0">
                         <p id="txt-sem-reverva">Não há reservas pendentes.</p>
-                    </div>
                 </div>
             
 
@@ -354,16 +367,16 @@ const app = {
                                 <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
-                    <div v-else>
+                </div>
+                <div v-if="aprovadas.length === 0">
                         <p id="txt-sem-reverva">Não há reservas aprovadas.</p>
-                    </div>
                 </div>
             </div>
 
             <!-- Negadas -->
             <div>
                 <p id="titulo-not-1">Negadas</p>
-                <div v-if="negadas.length > 0" class="negadas">
+                    <div v-if="negadas.length > 0" class="negadas">
                         <a v-for="reserva in negadas" :key="reserva.id_reserva" href="#" class="card-pedido">
                             <div id="txt-card">
                                 <p id="txt-card-lab">{{ reserva.nome_laboratorio }}</p>
@@ -374,10 +387,10 @@ const app = {
                                 <p id="txt-card-hrs">{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
                             </div>
                         </a>
-                    <div v-else>
-                        <p id="txt-sem-reverva">Não há reservas negadas.</p>
                     </div>
-                </div>
+                    <div v-if="negadas.length === 0">
+                            <p id="txt-sem-reverva">Não há reservas negadas.</p>
+                    </div>
             </div>
         </div>
 
