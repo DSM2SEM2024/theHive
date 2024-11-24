@@ -25,9 +25,14 @@ export const criarReserva = {
         </select>
         <button type="submit">Criar reserva</button>        
         <p v-if="mensagem">{{ mensagem }}</p>   
+        
+        
         <button @click="this.$router.push('/Calendario')" class="calendar-btn">Ver Calendário</button>     
+        
+        <br>
+
       </form>
-      
+      </div>
     `,
     props: ['urlbase'],
     data() {

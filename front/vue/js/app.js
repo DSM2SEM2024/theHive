@@ -12,6 +12,7 @@ const routes = [
     { path: '/laboratorio', component: Laboratorio },
     { path: '/calendario', component: Calendario },
     { path: '/criarReserva', component: criarReserva }
+    
 ];
 
 const router = VueRouter.createRouter({
