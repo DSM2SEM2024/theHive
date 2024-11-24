@@ -17,7 +17,7 @@ export const Usuarios = {
                         <div class="form-group">
                             <label>Senha:</label>
                             <input v-model="newUser.senha" type="text" maxlength="500" required /> <!-- Mostra a senha -->
-                            <button class="create-btn" type="button" @click="generateRandomPassword">Gerar Senha</button> <!-- Botão para gerar a senha -->
+                            <button class="create-btn random-password" type="button" @click="generateRandomPassword">Gerar Senha</button> <!-- Botão para gerar a senha -->
                         </div>
                         <div class="form-group">
                             <label>Email:</label>
@@ -31,10 +31,6 @@ export const Usuarios = {
                                 <option value="AdminMaster">AdminMaster</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Estado:</label>
-                            <input type="checkbox" v-model="newUser.estado" />
-                        </div>
                         <div class="modal-actions">
                             <button type="button" @click="closePopup" class="cancel-btn">Cancelar</button>
                             <button type="submit" @click="createUser" class="create-btn">Criar</button>
@@ -45,33 +41,63 @@ export const Usuarios = {
 
             <!-- Lista de usuários criados -->
             <div class="user-list">
-                <div v-for="user in users" :key="user.id_usuario" class="user-container">
+                <div v-for="user in users" :key="user.id_usuario" class="user-container" @click="openEditPopup(user)">
                     <p><strong>{{ user.nome }}</strong></p>
                     <p class="user-email">{{ user.email }}</p>
                     <p class="user-perfil">{{ user.perfil }}</p>
 
                     <!-- Botão de exclusão -->
                     <button @click="confirmDelete(user.id_usuario)" class="delete-user-btn">Excluir</button>
+
                 </div>
             </div>
 
-                    <!-- Popup de confirmação de exclusão -->
-            <div v-if="isDeletePopupOpen" class="confirmation-overlay">
-                <div class="confirmation-popup">
-                    <h3 id="titulo">Confirmar Exclusão</h3>
-                    <p>Você tem certeza que deseja excluir este usuário?</p>
-                    <div class="popup-actions">
-                        <button @click="deleteUser" class="delete-user">Sim</button>
-                        <button @click="closeDeletePopup" class="cancel-btn-popup">Não</button>
+                        <!-- Popup de confirmação de exclusão -->
+                <div v-if="isDeletePopupOpen" class="confirmation-overlay">
+                    <div class="confirmation-popup">
+                        <h3 id="titulo">Confirmar Exclusão</h3>
+                        <p>Você tem certeza que deseja excluir este usuário?</p>
+                        <div class="popup-actions">
+                            <button @click="deleteUser" class="delete-user">Sim</button>
+                            <button @click="closeDeletePopup" class="cancel-btn-popup">Não</button>
+                        </div>
+                    </div>    
+                </div>
+                        <!-- Popup de edição de usuário -->
+                <div v-if="isEditPopupOpen" class="popup-overlay">
+                    <div class="popup">
+                        <h3 id="titulo">Editar Usuário</h3>
+                        <form>
+                            <div class="form-group">
+                                <label>Nome:</label>
+                                <input v-model="editUser.nome" type="text" maxlength="50" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input v-model="editUser.email" type="email" maxlength="50" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Perfil:</label>
+                                <select v-model="editUser.perfil" required>
+                                    <option value="Professor">Professor</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="AdminMaster">AdminMaster</option>
+                                </select>
+                            </div>
+                            <div class="modal-actions">
+                                <button type="button" @click="closeEditPopup" class="cancel-btn">Cancelar</button>
+                                <button type="submit" @click="updateUser" class="save-btn">Salvar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     `,
     data() {
         return {
             isPopupOpen: false,
+            isEditPopupOpen: false,
             isDeletePopupOpen: false,  // Controle do popup de exclusão
             userToDelete: null,  // Armazenar o ID do usuário a ser excluído
             users: [], // Lista de usuários criados
@@ -82,6 +108,7 @@ export const Usuarios = {
                 perfil: 'Professor', // Valor inicial padrão
                 estado: true, // Valor inicial padrão (ativo)
             },
+            editUser: { id_usuario: null, nome: '', email: '', perfil: '' },
         };
     },
     created() {
@@ -198,5 +225,42 @@ export const Usuarios = {
                 console.error('Erro ao excluir o usuário:', error);
             }
         },
+        openEditPopup(user) {
+            this.editUser = { ...user };
+            this.isEditPopupOpen = true;
+        },
+        closeEditPopup() {
+            this.isEditPopupOpen = false;
+        },
+        async updateUser() {
+            const token = localStorage.getItem('token'); // Recupera o token do localStorage
+            try {
+                const response = await fetch(`http://localhost:3000/users/${this.editUser.id_usuario}`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`, // Envia o token no cabeçalho
+                    },
+                    body: JSON.stringify({
+                        nome: this.editUser.nome,
+                        email: this.editUser.email,
+                        perfil: this.editUser.perfil,
+                    }), // Envia apenas os campos editáveis
+                });
+        
+                if (response.ok) {
+                    const updatedUser = await response.json();
+                    const index = this.users.findIndex(user => user.id_usuario === updatedUser.id_usuario);
+                    if (index !== -1) {
+                        this.users.splice(index, 1, updatedUser); // Substitui o usuário atualizado na lista
+                    }
+                    this.closeEditPopup(); // Fecha o popup de edição
+                } else {
+                    console.error('Erro ao atualizar o usuário');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar o usuário:', error);
+            }
+        },   
     },
 }

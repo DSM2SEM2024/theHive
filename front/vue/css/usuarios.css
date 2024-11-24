@@ -199,3 +199,11 @@
 .delete-user:hover {
   background-color: darkred;
 }
+
+.random-password {
+margin-top: 0.5rem;
+}
+
+.edit-user-btn {
+  cursor: pointer;
+}
