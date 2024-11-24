@@ -1,17 +1,19 @@
 export const Laboratorio = {
   template: `
- <section id="titulo">
-    <h1>*Adicione um novo andar</h1>
-  </section>
-  <section id="card-cinza">    
-    <div id="app">
-      <!-- Botão que ao ser clicado abre o modal -->
-      <div 
-        class="button-circle clickable-btn" 
-        @click="openModal">
-      </div>
+
+  <h1 id="titulo" v-if="!isProfessor"> *Adicione um novo andar</h1>
+
+  <div id="container-center">
+    <div id="card-cinza" v-if="!isProfessor" @click="openModal">    
+
+        <!-- Botão que ao ser clicado abre o modal -->
+        <div 
+          class="button-circle" 
+          @click="openModal"> +
+        </div>
+
     </div>
-  </section>
+  </div>
 
   <!-- Modal (popup) com estilo de card -->
   <div v-if="isModalOpen" class="modal-overlay">
@@ -26,21 +28,30 @@ export const Laboratorio = {
         <span>+</span><h1>Andar</h1>
       </div>
 
+    <form id="formulario-1">
       <!-- Campo de entrada para o nome -->
-      <p class="p">NOME:</p>
-      <input type="text" v-model="andarName" placeholder="Nome do andar">
+      <div class="p">
+      <h2>NOME:</h2>
+      </div>
+
+      <div class="box-input-nome">
+      <input type="text" class="input-nome" v-model="andarName" placeholder="Ex: Primeiro andar">
+      </div>
 
       <!-- Espaçamento entre os elementos -->
-      <p class="p">COR:</p>
+      <div class="p">
+      <h2>COR:</h2>
+      </div>
 
-      <div>
+      <div class="box-input-cor">
         <select name="select-cores" id="select-cores" v-model="selectedColor">
           <option v-for="(cor, index) in cores" :key="index" :value="cor.hex">
             {{ cor.nome }}
           </option>
         </select>
       </div>
-
+    </form>
+    
       <!-- pequeno aviso em vermelho-->
       <div id="aviso">
         <h2>*Após criar o andar será possível personalizar os laboratórios</h2>
@@ -53,25 +64,26 @@ export const Laboratorio = {
 
       <!-- Botões de ação -->
       <div class="modal-actions">
-        <button @click="handleClick" class="create-btn">Criar</button>
         <button @click="this.closeModal" class="cancel-btn">Cancelar</button>
-
-        
+        <button @click="handleClick" class="create-btn">Criar</button>
       </div>
     </div>
   </div>
 
   <!-- Carrossel de andares -->
-  <div class="carrossel-container">
-    <div v-for="(andar, index) in andares" :key="index" class="carrossel-column">
+
+    <div v-for="(andar, index) in andares" :key="index" class="container-andares">
       <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
-        <div class="andar-name" :style="{ backgroundColor: andar.cor }">
+        <p class="andar-name">
           {{ andar.nome }}
-        </div>
+        </p>
       </div>
     </div>
-  </div>
   `,
+  setup() {
+    const isProfessor = Vue.inject('isProfessor');
+    return { isProfessor };
+},
   data() {
     return {
       isModalOpen: false, // Controla se o modal está aberto
@@ -79,16 +91,13 @@ export const Laboratorio = {
       selectedColor: '', // Armazena a cor selecionada
       message: null, // Mensagem de erro ou sucesso
       cores: [
-        { nome: 'Vermelho', hex: '#FF0000' },
-        { nome: 'Azul', hex: '#0000FF' },
-        { nome: 'Verde', hex: '#008000' },
-        { nome: 'Amarelo', hex: '#FFFF00' },
-        { nome: 'Preto', hex: '#000000' },
-        { nome: 'Branco', hex: '#FFFFFF' },
-        { nome: 'Rosa', hex: '#FFC0CB' },
+        { nome: 'Vermelho', hex: '#B03648' },
+        { nome: 'Azul', hex: '#337BC3' },
+        { nome: 'Verde', hex: '#2D854E' },
+        { nome: 'Amarelo', hex: '#FF8324' },
+        { nome: 'Rosa', hex: '#EB6E8E' },
         { nome: 'Laranja', hex: '#FFA500' },
-        { nome: 'Roxo', hex: '#800080' },
-        { nome: 'Cinza', hex: '#808080' }
+        { nome: 'Roxo', hex: '#5A3168' },
       ],
       andares: [] // Armazena os andares criados
     };
