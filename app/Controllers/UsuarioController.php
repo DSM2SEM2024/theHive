@@ -35,7 +35,7 @@ class UsuarioController {
                 "email" => $usuario['email'],
                 "perfil" => $usuario['perfil'],
                 "iat" => time(),
-                "exp" => time() + 3600
+                "exp" => time() + 3600000
             ];
 
             $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
