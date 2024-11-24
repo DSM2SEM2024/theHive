@@ -100,8 +100,8 @@ export const Calendario = {
         <select v-model="filtroNome" @change="buscarReservas">
                 <option value="">Todos Usuários</option>
                 <option v-for="usuario in usuarios" :key="usuario" :value="usuario">{{ usuario }}</option>
-            </select>
-
+        </select>
+        <button @click="this.$router.push('/criarReserva')" class="criar-reserva-btn">Criar Reserva</button>
             <div id="calendar"> </div>
 
             <div v-if="reservaselecionado" class="modal">
