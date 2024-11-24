@@ -1,31 +1,27 @@
 export const Calendario = {
     data() {
         return {
-            reservas: '',
+            eventos: '',
             filtroNome: '',
             usuarios: [],
-            reservaselecionado: null
+            eventoselecionado: null
         };
     },
     methods: {
-        async buscaReserva() {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/reserve', {
+        async buscaEvento() {
+            const response = await fetch('http://localhost:3000/calendario', {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`  
-                }
+                headers: { 'Content-Type': 'application/json' }
             })
         },
-        buscarReservas() {
-            const reservasFiltrados = this.filtroNome 
-                ? this.reservas.filter(reserva => reserva.nome === this.filtroNome) 
-                : this.reservas;
+        buscarEventos() {
+            const eventosFiltrados = this.filtroNome 
+                ? this.eventos.filter(evento => evento.nome === this.filtroNome) 
+                : this.eventos;
 
-            this.renderCalendar(reservasFiltrados);
+            this.renderCalendar(eventosFiltrados);
         },
-        renderCalendar(reservas) {
+        renderCalendar(eventos) {
             const calendarEl = document.getElementById('calendar');
             calendarEl.innerHTML = '';
 
@@ -56,59 +52,59 @@ export const Calendario = {
 				editable: false,
 				businessHours: true,
 				dayMaxEvents: true,
-                events: reservas.map(reserva => ({
-                    title: reserva.titulo,
-                    start: `${reserva.datainicial}T${reserva.horarioinicial}`,
-                    end: `${reserva.datafinal}T${reserva.horariofinal}`,   
-                    backgroundColor: reserva.cor,
+                events: eventos.map(evento => ({
+                    title: evento.titulo,
+                    start: `${evento.datainicial}T${evento.horarioinicial}`,
+                    end: `${evento.datafinal}T${evento.horariofinal}`,   
+                    backgroundColor: evento.cor,
                     extendedProps: {
-                        id: reserva.reserva_base_id,
-                        descricao: reserva.descricao,
+                        id: evento.evento_base_id,
+                        descricao: evento.descricao,
                     
                     }
                 })),
-                eventClick: this.mostrarDetalhesReserva()
+                eventClick: this.mostrarDetalhesEvento()
             });
             calendar.render();
         },
-        mostrarDetalhesReserva(info) {
-            const reserva = this.reservas.find(reserva => reserva.titulo === info.event.title);
-            this.reservaselecionado = reserva;
+        mostrarDetalhesEvento(info) {
+            const evento = this.eventos.find(evento => evento.titulo === info.event.title);
+            this.eventoselecionado = evento;
         },
         fecharModal() {
-            this.reservaselecionado = null;
+            this.eventoselecionado = null;
         },
         carregarUsuarios() {
-            const nomes = this.reservas.map(reserva => reserva.nome);
+            const nomes = this.eventos.map(evento => evento.nome);
             this.usuarios = [...new Set(nomes)];
         }
     },
 
     async mounted() {
-        await this.buscaReserva()
+        await this.buscaEvento()
          this.carregarUsuarios();
-         this.renderCalendar(this.reservas);
+         this.renderCalendar(this.eventos);
      },
     
 
 
     template: `
         <div>
-        <select v-model="filtroNome" @change="buscarReservas">
+        <select v-model="filtroNome" @change="buscarEventos">
                 <option value="">Todos Usuários</option>
                 <option v-for="usuario in usuarios" :key="usuario" :value="usuario">{{ usuario }}</option>
             </select>
 
             <div id="calendar"> </div>
 
-            <div v-if="reservaselecionado" class="modal">
+            <div v-if="eventoselecionado" class="modal">
                 <div class="modal-content">
-                    <h3>Detalhes do reserva</h3>
-                    <p><strong>ID:</strong> {{ reservaselecionado.reserva_base_id }}</p>
-                    <p><strong>Título:</strong> {{ reservaselecionado.titulo }}</p>
-                    <p><strong>Descrição:</strong> {{ reservaselecionado.descricao }}</p>
-                    <p><strong>Data Inicial:</strong> {{ reservaselecionado.datainicial }}</p>
-                    <p><strong>Data Final:</strong> {{ reservaselecionado.datafinal }}</p>
+                    <h3>Detalhes do evento</h3>
+                    <p><strong>ID:</strong> {{ eventoselecionado.evento_base_id }}</p>
+                    <p><strong>Título:</strong> {{ eventoselecionado.titulo }}</p>
+                    <p><strong>Descrição:</strong> {{ eventoselecionado.descricao }}</p>
+                    <p><strong>Data Inicial:</strong> {{ eventoselecionado.datainicial }}</p>
+                    <p><strong>Data Final:</strong> {{ eventoselecionado.datafinal }}</p>
                     <button @click="fecharModal">Fechar</button>
                 </div>
             </div>
