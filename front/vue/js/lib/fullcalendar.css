@@ -2,8 +2,12 @@
     position: absolute;
     z-index: 1;
     vertical-align: middle;
-    width: 90%;
+    width: 80%;
     height: 80%;
+}
+
+.criar-reserva-btn {
+    color: blue
 }
 
 .fc-icon,.fc-unselectable {

@@ -5,13 +5,16 @@ import { Home } from './components/home.js';
 import { Laboratorio } from './components/laboratorio.js';
 import { Calendario } from './components/calendario.js';
 import { Usuarios } from './components/usuarios.js';
+import { criarReserva } from './components/criarReserva.js';
 
 const routes = [
     { path: '/', component: Login },
     { path: '/home', component: Home },
     { path: '/laboratorio', component: Laboratorio },
     { path: '/calendario', component: Calendario },
-    { path: '/usuarios', component: Usuarios }
+    { path: '/usuarios', component: Usuarios },
+    { path: '/criarReserva', component: criarReserva }
+    
 ];
 
 const router = VueRouter.createRouter({

@@ -1,6 +1,5 @@
 export const Laboratorio = {
   template: `
-
   <h1 id="titulo" v-if="!isProfessor"> *Adicione um novo andar</h1>
 
   <div id="container-center">
@@ -72,13 +71,84 @@ export const Laboratorio = {
 
   <!-- Carrossel de andares -->
 
-    <div v-for="(andar, index) in andares" :key="index" class="container-andares">
-      <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
-        <p class="andar-name">
-          {{ andar.nome }}
-        </p>
+  <div v-for="(andar, index) in andares" :key="index" class="container-andares" :style="{ '--cor-andar': andar.cor }">
+  <!-- Andar Card -->
+  <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
+    <p class="andar-name">{{ andar.nome }}</p>
+  </div>
+
+  <!-- Card cinza para adicionar laboratório -->
+  <div id="card-cinza-laboratorio" v-if="!isProfessor" @click="openLabModal(andar)">
+    <div class="button-circle">+</div>
+  </div>
+
+  <!-- Renderizar os laboratórios do andar -->
+  <div v-if="andar.laboratorios.length > 0" v-for="(laboratorio, labIndex) in andar.laboratorios" :key="labIndex" class="card-lab">
+  <!-- Barra superior do card -->
+  <span id="barra-card"></span>
+
+  <!-- Nome do laboratório -->
+  <h3 id="nome-lab">{{ laboratorio.nome }}</h3>
+
+  <!-- Conteúdo do laboratório -->
+  <div class="lab-content">
+    <!-- Imagem do laboratório -->
+    <img id="img-lab" src="../../Images/lab.png" alt="Imagem de laboratório">
+
+    <!-- Descrição do laboratório -->
+    <div class="descricao-lab">
+      <ul>
+        <li id="capacidade"><strong>Capacidade:</strong><br> {{ laboratorio.capacidade }} alunos</li>
+        <li id="equipamento"><strong>Equipamentos:</strong><br> {{ laboratorio.equipamento }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Botão de calendário -->
+  <button class="btn-calendario" 
+          :data-laboratorio-id="laboratorio.id" 
+          @click="verCalendario(laboratorio.id)">
+    Ver calendário
+  </button>
+</div>
+
+
+  <div v-if="isLabModalOpen" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>ADICIONAR LABORATÓRIO</h3>
+      </div>
+      <form id="formulario-1">
+        <div class="p">
+          <h2>NOME:</h2>
+        </div>
+        <div class="box-input-nome">
+          <input type="text" class="input-nome" v-model="labName" placeholder="Ex: Sala 32">
+        </div>
+        <div class="p">
+          <h2>CAPACIDADE:</h2>
+        </div>
+        <div class="box-input-nome">
+          <input type="text" class="input-nome" v-model="labCap" placeholder="Ex: 23">
+        </div>
+        <div class="p">
+          <h2>EQUIPAMENTOS:</h2>
+        </div>
+
+        <div class="box-input-equipamento">
+          <select name="select-equipamento" id="select-equipamento" v-model="selectedEquipamento">
+            <option v-for="(equipamento, index) in equipamentos" :key="index" :value="equipamento.id">
+              {{ equipamento.nome }}
+            </option>
+          </select>
+        </div>
+      </form>
+      <div class="modal-actions">
+        <button @click="closeLabModal" class="cancel-btn">Cancelar</button>
+        <button @click="addLaboratorio" @click="handlelClick" class="create-btn">Adicionar</button>
       </div>
     </div>
+  </div>
   `,
   setup() {
     const isProfessor = Vue.inject('isProfessor');
@@ -87,8 +157,13 @@ export const Laboratorio = {
   data() {
     return {
       isModalOpen: false, // Controla se o modal está aberto
+      isLabModalOpen: false,
       andarName: '', // Armazena o nome do andar
       selectedColor: '', // Armazena a cor selecionada
+      labName: null,
+      labCap: null,
+      selectedAndar:'',
+      selectedEquipamento:'',
       message: null, // Mensagem de erro ou sucesso
       cores: [
         { nome: 'Vermelho', hex: '#B03648' },
@@ -99,7 +174,7 @@ export const Laboratorio = {
         { nome: 'Laranja', hex: '#FFA500' },
         { nome: 'Roxo', hex: '#5A3168' },
       ],
-      andares: [] // Armazena os andares criados
+      andares: [], // Armazena os andares criados
     };
   },
   methods: {
@@ -154,12 +229,14 @@ export const Laboratorio = {
         this.showMessage('error', 'Por favor, adicione o nome do andar e selecione uma cor!');
       }
     },
-    // Função para mostrar mensagens de erro ou sucesso
+    handlelClick(){
+      location.reload(); 
+      this.closeLabModal();
+    },
     showMessage(type, text) {
       this.message = { type, text };
-      setTimeout(() => this.message = null, 3000); // Mensagem desaparece após 3 segundos
+      setTimeout(() => this.message = null, 3000);
     },
-    // Função para carregar os andares do banco de dados
     loadAndares() {
       const token = localStorage.getItem('token');
       fetch('http://localhost:3000/andar', {
@@ -171,14 +248,94 @@ export const Laboratorio = {
       })
       .then(response => response.json())
       .then(data => {
-        this.andares = data;
+        this.andares = data.map(andar => ({
+          ...andar, 
+          laboratorios: []
+        }));
+        this.andares.forEach(andar => {
+          this.loadLabsByAndar(andar.id_andar);
+        });
       })
       .catch(error => {
         console.error('Erro ao carregar os andares:', error);
       });
+    },
+    openLabModal(andar) {
+      this.selectedAndar = andar;
+      this.isLabModalOpen = true;
+      console.log(this.selectedAndar);
+    },
+    closeLabModal() {
+      this.isLabModalOpen = false;
+      this.labName = '';
+    },
+    addLaboratorio() {
+      if (!this.labName || !this.selectedAndar) {
+        this.showMessage('error', 'Preencha o nome do laboratório');
+        return;
+      }
     
-    }
+      if (!this.labCap || isNaN(this.labCap)) {
+        this.showMessage('error', 'Preencha a capacidade do laboratório com um número válido!');
+        return;
+      }
+    
+      const token = localStorage.getItem('token');
+      fetch(`http://localhost:3000/labs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          nome: this.labName,
+          capacidade: this.labCap,
+          andar: this.selectedAndar.id_andar,
+          id_equipamento: this.selectedEquipamento
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === 'Laboratório criado com sucesso') {
+            this.showMessage('success', 'Laboratório adicionado com sucesso!');
+            this.labName = '';
+            this.labCap = '';
+            this.selectedEquipamento = null;
+          } else {
+            this.showMessage('error', 'Erro ao adicionar laboratório!');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao adicionar laboratório:', error);
+          this.showMessage('error', 'Erro ao adicionar laboratório! Tente novamente.');
+        });
+    },
+    loadLabsByAndar(andarId) {
+      const token = localStorage.getItem('token');
+      fetch(`http://localhost:3000/labs/andar/${andarId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Encontre o andar correspondente
+          const andar = this.andares.find(a => a.id_andar === andarId);
+          if (andar) {
+            andar.laboratorios = data;
+            console.log(`Laboratórios carregados para o andar ${andarId}:`, andar.laboratorios);
+          } else {
+            console.log(`Andar com ID ${andarId} não encontrado!`);
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao carregar laboratórios:', error);
+        });
+    },
   },
+
   created() {
     this.loadAndares();
   }
