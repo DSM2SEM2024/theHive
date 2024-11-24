@@ -182,7 +182,7 @@ class Reserva {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_laboratorio", $lab);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function obterReservaPorProf($prof) {

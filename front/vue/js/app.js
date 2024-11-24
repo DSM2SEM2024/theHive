@@ -11,7 +11,7 @@ const routes = [
     { path: '/', component: Login },
     { path: '/home', component: Home },
     { path: '/laboratorio', component: Laboratorio },
-    { path: '/calendario', component: Calendario },
+    {path: '/calendario/:idLab', name: 'Calendario', component: Calendario, props: true},
     { path: '/usuarios', component: Usuarios },
     { path: '/criarReserva', component: criarReserva }
     
