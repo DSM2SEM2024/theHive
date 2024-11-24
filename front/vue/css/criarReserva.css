@@ -1,4 +1,4 @@
-.formularioReserva{
+ .formularioReserva{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,9 +22,6 @@ select {
     margin-bottom: 15px;
 }
 
-/* input {
-   
-} */
 
 button {
     border-style: solid;
@@ -50,7 +47,6 @@ button {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    /* margin-left: 5px; */
     margin-right: 5px;
     margin-bottom: 15px;
     width: 97%;
@@ -74,4 +70,4 @@ button {
     width: 97%;
     margin-right: 10px;
     margin-bottom: 15px;
-}
+} 
