@@ -44,7 +44,7 @@ class UsuarioController {
             echo json_encode(["message" => "Login bem-sucedido.",
             "token" => $token,
             "userId" => $usuario['id_usuario'],
-            "primeiro_login" => $usuario['primeiro_login'] // Adicionado aqui
+            //"primeiro_login" => $usuario['primeiro_login'] // Adicionado aqui
             ]);
             
             exit();
