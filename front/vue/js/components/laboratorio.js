@@ -67,9 +67,10 @@ export const Laboratorio = {
             </div>
         </div>
     </div>
-
     <!-- Carrossel de andares -->
+    
     <div class="andar" v-for="(andar, index) in andares" :key="index" :style="{ '--cor-andar': andar.cor }">
+   
     
         <!-- Andar Card -->
         <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
@@ -77,7 +78,7 @@ export const Laboratorio = {
         </div>
 
         <!-- Botão de exclusão para deletar o andar e os laboratórios -->
-        <button class="delete-btn" @click="deleteAndar(andar.id_andar)">
+        <button class="delete-btn" v-if="!isProfessor" @click="deleteAndar(andar.id_andar)">
             Deletar
         </button>
        

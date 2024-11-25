@@ -139,6 +139,7 @@
 
 .modal-overlay {
     position: fixed;
+    z-index: 9998;
     top: 0;
     left: 0;
     width: 100%;
@@ -153,7 +154,8 @@
     background-color: #e2e2e2;
     border-radius: 17px;
     padding: 35px;
-    position: relative;
+    position: fixed;
+    z-index: 9999;
     align-items: center;
     height: 30rem;
     width: 30rem;
@@ -363,11 +365,13 @@ span {
 }
 
 .card-lab {
-    width: 11%;
-    height: 11%;
+    min-width: 13rem;
+    min-height: 18rem;
     background-color: var(--gray-color);
     border-radius: 15px;
     display: flex;
+    position: relative;
+    z-index: 1;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
@@ -467,8 +471,8 @@ span {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 150px;
-    height: 150px;
+    min-width: 15rem;
+    height: 15rem;
     background-color: var(--gray-color);
     border-radius: 17px;
     cursor: pointer;
@@ -532,7 +536,9 @@ span {
     gap: 2rem;
     overflow-x: auto;
     min-width: 79%;
-    max-width: 80%;
+    max-width: 100%;
+    margin-bottom: 2rem;
+    height: 22rem;
   }
   
   .andar::-webkit-scrollbar {
@@ -542,7 +548,7 @@ span {
   }
   
   .andar::-webkit-scrollbar-thumb {
-    background-color: var(--blue-color);
+    background-color: var(--gray-color);
     border-radius: 5px;
     cursor: grab;
   }
