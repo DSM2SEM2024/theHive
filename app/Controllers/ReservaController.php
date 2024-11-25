@@ -110,7 +110,7 @@ class ReservaController {
 
     public function criarReserva($data)
     {
-        $this->helper->criar();
+        
         if ($data->recorrencia === 'nenhuma') {
             $ReservaAtual = new Reserva();
             $ReservaAtual->setUsuarioId($data->usuarioId);
