@@ -30,6 +30,7 @@
     --gray-color: #e2e2e2;
     --white-color: #f6f6f6;
     --black-gray-color: #2c2c2c;
+    --cor-andar: null;
     font-family: "Inter", sans-serif;
 }
 
@@ -330,6 +331,127 @@ span {
     font-weight: bold;
     color: var(--white-color);
     text-transform: capitalize;
+}
+
+.card-lab {
+    width: 11%;
+    height:11%;
+    background-color: var(--gray-color);
+    border-radius: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .card-lab #barra-card {
+    width: 100%;
+    height: 1.5rem;
+    background-color: var(--cor-andar);
+    border-radius: 20px 20px 0 0;
+    position: absolute;
+    top: 0;
+  }
+  
+  .card-lab #nome-lab {
+    color: var(--cor-andar);
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .lab-content {
+    background-color: var(--white-color);
+    width: 80%;
+    height: 10rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .lab-content #img-lab {
+    width: 100%;
+    height: 50%;
+    border-radius: 10px 10px 0 0;
+  
+  }
+  
+  .descricao-lab {
+    margin-top: 0.3rem;
+    width: 100%;
+    max-height: 5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .descricao-lab::-webkit-scrollbar {
+    background-color: var(--white-color);
+    width: 5px;
+  }
+  
+  .descricao-lab::-webkit-scrollbar-thumb {
+    background-color: var(--gray-color);
+    border-radius: 5px
+  }
+  
+  .descricao-lab::-webkit-scrollbar-button {
+    display: none;
+  }
+  
+  .descricao-lab ul {
+    line-height: 1.5;
+    font-size: 12px;
+    width: 96%;
+    max-height: 100%;
+    line-break: anywhere;
+    color: var(--text-color);
+    text-align: left;
+    border-radius: 0px 0px 10px 10px;
+  }
+  
+  .btn-calendario {
+    border: none;
+    font-size: 14px;
+    color: var(--white-color);
+    width: 7rem;
+    height: 2rem;
+    background-color:  var(--cor-andar);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-calendario:hover {
+    background-color: var(--cor-andar);
+  }
+  
+#card-cinza-laboratorio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    background-color: var(--gray-color);
+    border-radius: 17px;
+    cursor: pointer;
+    margin-top: 2rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+/* Ações do Modal */
+.modal-actions {
+  display: flex;
+  justify-content: space-between; /* Espaçar botões igualmente */
 }
 
 /* Carrossel para os laboratórios */

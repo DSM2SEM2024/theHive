@@ -2,24 +2,28 @@ export const Calendario = {
     props: ['urlbase'],
     data() {
         return {
-            reservas: '',
+            reservas: [],
             filtroNome: '',
             usuarios: [],
-            reservaselecionado: null
+            reservaselecionado: null,
         };
     },
+    props: ['idLab'],
     methods: {
         async buscaReserva() {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/reserve', {
+            const response = await fetch(`http://localhost:3000/reserve/lab/${this.idLab}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`  
                 }
             })
-            this.reservas = await response.json()
+            const data = await response.json();
+            console.log('API Response:', data);
+            this.reservas = Array.isArray(data) ? data : [];
         }, 
+
         buscarReservas() {
             const reservasFiltrados = this.filtroNome 
                 ? this.reservas.filter(reserva => reserva.nome === this.filtroNome) 
@@ -88,7 +92,7 @@ export const Calendario = {
     },
 
     async mounted() { 
-            await this.buscaReserva();
+            await this.buscaReserva(this.id_lab);
             this.carregarUsuarios();   
             this.renderCalendar(this.reservas);
      },

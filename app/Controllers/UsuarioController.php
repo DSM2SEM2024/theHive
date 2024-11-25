@@ -35,7 +35,7 @@ class UsuarioController {
                 "email" => $usuario['email'],
                 "perfil" => $usuario['perfil'],
                 "iat" => time(),
-                "exp" => time() + 3600
+                "exp" => time() + 3600000
             ];
 
             $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
@@ -145,7 +145,7 @@ class UsuarioController {
 
     public function update($id, $data) {
         $this->helper->atualizar();
-        if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {
+        if (!isset($data->nome, $data->email, $data->perfil)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do usuário."]);
             return;

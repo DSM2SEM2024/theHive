@@ -4,14 +4,17 @@ import { Login } from './components/login.js';
 import { Home } from './components/home.js';
 import { Laboratorio } from './components/laboratorio.js';
 import { Calendario } from './components/calendario.js';
+import { Usuarios } from './components/usuarios.js';
 import { criarReserva } from './components/criarReserva.js';
 
 const routes = [
     { path: '/', component: Login },
     { path: '/home', component: Home },
     { path: '/laboratorio', component: Laboratorio },
-    { path: '/calendario', component: Calendario },
+    {path: '/calendario/:idLab', name: 'Calendario', component: Calendario, props: true},
+    { path: '/usuarios', component: Usuarios },
     { path: '/criarReserva', component: criarReserva }
+    
 ];
 
 const router = VueRouter.createRouter({
@@ -328,8 +331,9 @@ const app = {
               <button v-show="pesquisa.length > 0" @click="limparPesquisa" class="btn-limpar" type="button">&times;</button>
           </div>
           <div id="icons" v-if="logado">
-              <i id="btn-notificacoes" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
-              <i id="btn-perfil" class="fi fi-ss-circle-user" ref="iconPerfil" @click="alteraPerfil"></i>
+                <i id="btn-usuario" class="fi fi-ss-bell" ref="iconUsuario" v-if="!isProfessor" @click="this.$router.push('/usuarios');"></i>
+                <i id="btn-notificacoes" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
+                <i id="btn-perfil" class="fi fi-ss-circle-user" ref="iconPerfil" @click="alteraPerfil"></i>
           </div>
       </header>
       <main>
