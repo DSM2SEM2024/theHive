@@ -132,6 +132,10 @@ export const criarReserva = {
                 this.mensagem = 'Data e horário inicial são obrigatórios.';
                 return false;
             }
+            if(!this.reserva.recorrencia){ 
+              this.mensagem = 'Recorrencia deve ser obrigatória.';
+              return false;
+            }
             if (
                 this.reserva.datafinal &&
                 new Date(this.reserva.datainicial) > new Date(this.reserva.datafinal)
