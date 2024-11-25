@@ -331,11 +331,11 @@ const app = {
               <input v-model="pesquisa" id="pesquisa" type="text" placeholder="O que está procurando?">
               <button v-show="pesquisa.length > 0" @click="limparPesquisa" class="btn-limpar" type="button">&times;</button>
           </div>
-          <div id="icons" v-if="logado && this.isProfessor">
+          <div id="icons" v-if="logado && this.professor">
                 <i id="btn-notificacoes" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
                 <i id="btn-perfil" class="fi fi-ss-circle-user" ref="iconPerfil" @click="alteraPerfil"></i>
           </div>
-          <div id="icons" v-if="logado && !this.isProfessor">
+          <div id="icons" v-if="logado && !this.professor">
                 <i id="btn-notificacoes" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
                 <i id="btn-usuario" ref="iconUsuario" @click="this.$router.push('/usuarios');" class="fi fi-ss-admin-alt"></i>
                 <i id="btn-perfil" class="fi fi-ss-circle-user" ref="iconPerfil" @click="alteraPerfil"></i>
