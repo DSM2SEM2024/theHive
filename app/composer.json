@@ -2,7 +2,7 @@
     "name": "conta/app",
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "./"
 
         }
     },
