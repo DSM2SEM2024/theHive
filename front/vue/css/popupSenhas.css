@@ -1,6 +1,6 @@
-/* Pop-up do primeiro login */
+/* Pop-up do primeiro login
 
-/* div abaixo do popup principal*/
+/* div abaixo do popup principal
 .subPopup{
     background-color: var(--white-color);
     color: var(--main-color);
@@ -14,7 +14,7 @@
     
 }
 
-/* Popup principal */
+/* Popup principal 
 .popup{
 
     display: flex;
@@ -30,7 +30,7 @@
     z-index: 2;
 }
 
-/* Primeiro input de digitar a senha nova */
+/* Primeiro input de digitar a senha nova 
 #input1{
     margin-top: 1.5rem;
     margin-bottom: 4.5rem;
@@ -42,7 +42,7 @@
     width: 215%;
 }
 
-/* Segundo input de confirmar a senha nova*/
+/* Segundo input de confirmar a senha nova
 #input2{
     margin-top: 1.5rem;
     margin-bottom: 5rem;
@@ -54,7 +54,7 @@
     
 }
 
-/* Botão de cancelar do popup */
+/* Botão de cancelar do popup 
 .botaoAlteraPopup{
     border-radius: 1.1rem;
     padding: 0.6rem;
@@ -71,7 +71,7 @@
    margin-left: 4.5rem;
 }
 
-/* Botão de cancelar do popup*/
+/* Botão de cancelar do popup
 .botaoCancelaPopup{
     border-radius: 1.1rem;
     padding: 0.6rem;
@@ -88,12 +88,12 @@
    margin-left: 6rem;
 }
 
-/* "Acontecimentos" dos botões Alterar e Cancelar */
+/* "Acontecimentos" dos botões Alterar e Cancelar 
 .botoesPopup:hover {
     background-color: var(--gray-color);
 }
 
-/* Textos de dentro dos inputs */
+/* Textos de dentro dos inputs 
 .textoSenhas{
     color: var(--white-color);
     font-size: 1.3rem;
@@ -102,46 +102,46 @@
     margin-left: -2.5rem;
 }
 
-/* Estilos para dispositivos com tela menor que 600px */
+/* Estilos para dispositivos com tela menor que 600px 
 @media (max-width: 600px) {
-    /* Popup principal */
+    /* Popup principal 
     .popup {
-        width: 90%; /* O popup vai ocupar 90% da largura da tela */
-        padding: 2rem; /* Menos padding em telas menores */
-        margin: 0 auto; /* Centraliza o popup */
+        width: 90%; /* O popup vai ocupar 90% da largura da tela 
+        padding: 2rem; /* Menos padding em telas menores 
+        margin: 0 auto; /* Centraliza o popup 
     }
 
-    /* Inputs de senha */
+    /* Inputs de senha 
     #input1, #input2 {
-        width: 100%; /* Os inputs vão ocupar toda a largura disponível */
-        padding: 1rem; /* Aumenta o padding para melhorar o conforto */
-        max-width: 100%; /* Garante que os inputs usem toda a largura disponível */
+        width: 100%; /* Os inputs vão ocupar toda a largura disponível 
+        padding: 1rem; /* Aumenta o padding para melhorar o conforto 
+        max-width: 100%; /* Garante que os inputs usem toda a largura disponível 
     }
 
-    /* Botões de Alterar e Cancelar */
+    /* Botões de Alterar e Cancelar 
     .botoesPopup {
-        width: 70%; /* O botão vai ocupar 70% da largura da tela */
-        font-size: 1.2rem; /* Ajusta o tamanho da fonte */
-        padding: 1rem; /* Mais espaço no botão */
+        width: 70%; /* O botão vai ocupar 70% da largura da tela 
+        font-size: 1.2rem; /* Ajusta o tamanho da fonte 
+        padding: 1rem; /* Mais espaço no botão 
     }
 }
 
-/* Para telas ainda menores (ex. celulares em modo retrato) */
+/* Para telas ainda menores (ex. celulares em modo retrato) 
 @media (max-width: 400px) {
     /* Popup principal */
-    .popup {
-        width: 95%; /* O popup ocupa quase toda a tela */
-        padding: 1.5rem; /* Menos padding */
+    /*.popup {
+        width: 95%; /* O popup ocupa quase toda a tela 
+        padding: 1.5rem; /* Menos padding 
     }
 
-    /* Inputs de senha */
+    /* Inputs de senha 
     #input1, #input2 {
-        padding: 0.8rem; /* Ajuste o padding para mais conforto */
+        padding: 0.8rem; /* Ajuste o padding para mais conforto 
     }
 
-    /* Botões de Alterar e Cancelar */
+    /* Botões de Alterar e Cancelar 
     .botoesPopup {
-        width: 80%; /* O botão ocupa mais largura */
-        font-size: 1.1rem; /* Ajuste o tamanho da fonte */
+        width: 80%; /* O botão ocupa mais largura 
+        font-size: 1.1rem; /* Ajuste o tamanho da fonte 
     }
-}
+} */

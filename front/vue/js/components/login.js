@@ -7,9 +7,9 @@ export const Login = {
             },
             mostrarSenha: false,
 
-            mostrarPopup: false, // Adicionado aqui para controlar a exibição do popup
-            novaSenha: '', // Adicionado aqui para armazenar a nova senha
-            confirmarSenha: '' // Adicionado aqui para armazenar a confirmação da senha
+            mostrarPopup: false,
+            novaSenha: '',
+            confirmarSenha: ''
 
         };
     },
@@ -29,15 +29,8 @@ export const Login = {
                 if (response.ok) {
                     localStorage.setItem('id_usuario', data.userId);
                     localStorage.setItem('token', data.token);
-                    
-                   if (data.primeiro_login) { // Adicionado aqui: Verifica se é o primeiro login
-                        this.mostrarPopup = true; // Adicionado aqui: Exibe o popup de alteração de senha
-                    } else {
-                        this.$emit('login-success'); // Adicionado de volta aqui
-                        this.$router.push('/home'); // Adicionado aqui: Redireciona para a home se não for primeiro login
-                    }
-
-
+                    this.$emit('login-success');
+                    this.$router.push('/home');
                 } else {
                     alert("Falha no login. Verifique suas credenciais.");
                 }
@@ -48,33 +41,33 @@ export const Login = {
             this.mostrarSenha = !this.mostrarSenha;
         },
 
-        alterarSenha() { // Adicionado aqui: Método para alterar a senha do usuário
-            const dados = {
-                id_usuario: localStorage.getItem('id_usuario'),
-                novaSenha: this.novaSenha
-            };
+        // alterarSenha() { // Adicionado aqui: Método para alterar a senha do usuário
+        //     const dados = {
+        //         id_usuario: localStorage.getItem('id_usuario'),
+        //         novaSenha: this.novaSenha
+        //     };
 
-            fetch('http://localhost:3000/alterar-senha', { // Adicionado aqui: URL do endpoint de alteração de senha
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
-            })
-            .then(async (response) => { // Adicionado aqui
-                const data = await response.json();
-                console.log("Resposta da alteração de senha:", data);
+        //     fetch(`http://localhost:3000/users/${id_usuario}/senha`, { // Adicionado aqui: URL do endpoint de alteração de senha
+        //         method: 'PUT',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify(dados)
+        //     })
+        //     .then(async (response) => { // Adicionado aqui
+        //         const data = await response.json();
+        //         console.log("Resposta da alteração de senha:", data);
 
-                if (response.ok) { // Adicionado aqui
-                    alert('Senha alterada com sucesso!');
-                    this.mostrarPopup = false; // Adicionado aqui: Fecha o popup após a alteração de senha
-                    this.$emit('login-success'); // Adicionado de volta aqui
-                    this.$router.push('/home'); // Adicionado aqui: Redireciona para a home após sucesso
-                } else {
-                    alert("Erro ao alterar a senha. Tente novamente.");
-                }
-            })
-            .catch(error => console.error("Erro na alteração de senha:", error));
+        //         if (response.ok) { // Adicionado aqui
+        //             alert('Senha alterada com sucesso!');
+        //             this.mostrarPopup = false; // Adicionado aqui: Fecha o popup após a alteração de senha
+        //             this.$emit('login-success'); // Adicionado de volta aqui
+        //             this.$router.push('/home'); // Adicionado aqui: Redireciona para a home após sucesso
+        //         } else {
+        //             alert("Erro ao alterar a senha. Tente novamente.");
+        //         }
+        //     })
+        //     .catch(error => console.error("Erro na alteração de senha:", error));
             
-        }
+        // }
     },
     created() {
         const style = document.createElement('style');

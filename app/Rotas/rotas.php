@@ -127,9 +127,8 @@ class rotas {
                 '/software/{id}/on' => [SoftwareController::class, 'ativar'],
                 //equipamento
                 '/equipamento/{id}/on' => [EquipamentoController::class, 'ativar'],
-
                 //Alterar senha (popup)
-                '/users/{id}/senha' => [UsuarioController::class, 'alterarSenha']
+                //'/users/{id}/senha' => [UsuarioController::class, 'alterarSenha']
             ],
             'DELETE' => [
                 //users

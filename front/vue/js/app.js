@@ -173,7 +173,7 @@ const app = {
                 this.usuario.perfil = data.perfil || "Não especificado";
                 localStorage.setItem('usuario_nome', this.usuario.nome);
 
-                if(this.usuario.perfil == 'professor'){
+                if(this.usuario.perfil == 'Professor'){
                     this.professor = true;
                 } else {
                     this.professor = false;

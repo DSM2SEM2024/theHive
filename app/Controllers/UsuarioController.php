@@ -53,31 +53,28 @@ class UsuarioController {
             echo json_encode(["error" => "Email ou senha inválidos."]);
         }
     }
-         // Função de alteração de senha
-    public function alterarSenha($data) {
-        // Passo 1: Verificar se os dados necessários foram fornecidos
-        if (!isset($data->id_usuario, $data->novaSenha)) {
-            http_response_code(400);
-            echo json_encode(["error" => "Dados incompletos."]);
-            return;
-        }
+    //      // Função de alteração de senha
+    // public function alterarSenha($id, $data) {
+    //     // Passo 1: Verificar se os dados necessários foram fornecidos
+    //     if (!isset($data->novaSenha)) {
+    //         http_response_code(400);
+    //         echo json_encode(["error" => "Dados incompletos."]);
+    //         return;
+    //     }
 
-        // Passo 2: Criar o hash da nova senha para atualizar no banco
-        $novaSenhaHash = password_hash($data->novaSenha, PASSWORD_BCRYPT);
-        $this->user->setSenha($novaSenhaHash);
+    //     $novaSenhaHash = ($data->novaSenha);
+    //     $this->user->setSenha($novaSenhaHash);
         
-        // Passo 3: Atualizar a senha no banco de dados
-        if ($this->user->updateSenha($data->id_usuario, $novaSenhaHash)) {
-            http_response_code(200);
-            echo json_encode(["message" => "Senha alterada com sucesso."]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["error" => "Erro ao alterar a senha."]);
-        }
-    }
+    //     // Passo 3: Atualizar a senha no banco de dados
+    //     if ($this->user->updateSenha($id, $novaSenhaHash)) {
+    //         http_response_code(200);
+    //         echo json_encode(["message" => "Senha alterada com sucesso."]);
+    //     } else {
+    //         http_response_code(500);
+    //         echo json_encode(["error" => "Erro ao alterar a senha."]);
+    //     }
+    // }
 
-    
-    
     public function create($data) {
         //$this->helper->criar();
         if (!isset($data->nome, $data->email, $data->senha, $data->perfil)) {

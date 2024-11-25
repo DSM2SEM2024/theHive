@@ -188,8 +188,6 @@ class Usuario {
         return $executar;
     }
 
-
-    
     public function deleteUsuario($id_usuario) {
         $query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
@@ -203,4 +201,17 @@ class Usuario {
 
         return $executar;
     }
+
+    // public function updateSenha($id_usuario, $novaSenha) {
+    //     $query = "UPDATE $this->table SET senha = :novaSenha WHERE id_usuario = :id_usuario";
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    //     $stmt->bindParam(':novaSenha', $novaSenha, PDO::PARAM_INT);
+    //     $executar = $stmt->execute();
+    //     if ($executar) {
+    //         $tokenUser = $this->helper->verificarTokenComPermissao();
+    //         $this->log->registrar($tokenUser['id_usuario'], "ACTIVATED", "Usuario");
+    //     }
+    //     return $executar;
+    // }
 }
