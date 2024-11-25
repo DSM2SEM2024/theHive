@@ -1,30 +1,26 @@
 export const criarReserva = {
     template: `
-<div class="geral">
-      <form @submit.prevent="criarEvento" id="formularioReserva">
-        <select v-model="evento.titulo" id ="selecionar-sala" required>
-        
-        // selecionar sala
-        <option disabled value="">Selecione uma sala</option>
-
-          // exibir salas
-          <option v-for="(cor, titulo) in salas" :key="titulo" :value="titulo">{{ titulo }}</option>
+      <form @submit.prevent="criarReserva">
+        <!-- Laboratório -->
+        <select v-model="reserva.laboratorioId" required>
+          <option disabled value="">Selecione um laboratório</option>
+          <option v-if="labs.length === 0" disabled value="">Nenhum laboratório disponível</option>
+          <option v-for="laboratorio in labs" :key="laboratorio.id" :value="laboratorio.id">{{ laboratorio.nome }}</option>
         </select>
+        
+        <!-- Descrição -->
+        <input v-model="reserva.descricao" placeholder="Descrição" />
 
-
-         <!--descrição do evento-->
-            <textarea v-model="evento.descricao" maxlength="500" rows="5" cols="40" placeholder="Descrição do evento" id="descricao"/>
-
-        <div id="data-horario">
-            <input v-model="evento.datainicial" type="date"  id="datainicial" class="inputData-Hora" required />
-            <input v-model="evento.horarioinicial" type="time" id="horainicial" class="inputData-Hora" required />
-<br>
-            <input v-model="evento.datafinal" type="date" id="datafinal" class="inputData-Hora" required />
-            <input v-model="evento.horariofinal" type="time" id ="horafinal" class="inputData-Hora" required />
+        <!-- Datas e horários -->
+        <div>
+          <input v-model="reserva.datainicial" type="date" required />
+          <input v-model="reserva.horarioinicial" type="time" required />
+          <input v-model="reserva.datafinal" type="date" />
+          <input v-model="reserva.horariofinal" type="time" required />
         </div>
 
-        <!-- recorrencia do evento -->
-        <select v-model="evento.recorrencia" id="recorrencia">
+        <!-- Recorrência -->
+        <select v-model="reserva.recorrencia">
           <option value="nenhuma">Recorrência</option>
           <option value="diaria">Diária</option>
           <option value="semanal">Semanal</option>
@@ -32,55 +28,56 @@ export const criarReserva = {
           <option value="semestral">Semestral</option>
         </select>
 
-
-        <select v-model="evento.nome" required>
+        <!-- Usuário -->
+        <select v-model="reserva.usuarioId" required>
           <option disabled value="">Nome do usuário</option>
-          <option v-for="user in usuarios" :key="user.nome" :value="user.nome">{{ user.nome }}</option>
+          <option v-if="usuarios.length === 0" disabled value="">Nenhum usuário disponível</option>
+          <option v-for="user in usuarios" :key="user.id" :value="user.id">{{ user.nome }}</option>
         </select>
 
-        <br>
-
-        <button type="submit" id='btnCria'>Criar Reserva</button>  
-        
-        
+        <!-- Botões -->
+        <button type="submit">Criar reserva</button>        
         <p v-if="mensagem">{{ mensagem }}</p>   
-        
-        
-        <button @click="this.$router.push('/Calendario')" class="calendar-btn">Ver Calendário</button>     
-        
-        <br>
-
+        <button @click="$router.push('/Calendario')" class="calendar-btn">Ver Calendário</button>     
       </form>
-      </div>
     `,
     props: ['urlbase'],
     data() {
         return { 
-            evento: {
-                titulo: '', 
-                descricao: '', 
+            reserva: {
+                usuarioId: null,
+                laboratorioId: null,
+                disciplinaId: null,
                 datainicial: '',
-                horarioinicial: '', 
                 datafinal: '',
-                horariofinal: '',  
-                recorrencia: 'nenhuma', 
-                nome: '',
-                cor: ''
+                horarioinicial: '',
+                horariofinal: '',
+                recorrencia: '',
+                descricao: '',
+                status: ''
             },
             mensagem: '',
-            salas: {
-                "Sala A": "#FF5733",
-                "Sala B": "#33FF57",
-                "Sala C": "#3357FF",
-                "Sala D": "#FF33A1",
-                "Sala E": "#A133FF"
-            },
-            usuarios:[]
+            labs: [],
+            usuarios: []
         };
     },
     methods: {
-        async criarEvento() {
-            this.evento.cor = this.salas[this.evento.titulo];
+        async criarReserva() {
+            // Validação dos campos obrigatórios
+            if (!this.reserva.usuarioId || !this.reserva.laboratorioId) {
+                this.mensagem = 'Usuário e laboratório são obrigatórios.';
+                return;
+            }
+            if (!this.reserva.datainicial || !this.reserva.horarioinicial) {
+                this.mensagem = 'Data e horário inicial são obrigatórios.';
+                return;
+            }
+            if (this.reserva.datafinal && new Date(this.reserva.datainicial) > new Date(this.reserva.datafinal)) {
+                this.mensagem = 'A data inicial deve ser anterior à data final.';
+                return;
+            }
+
+            // Envio para API
             const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:3000/reserve`, {
                 method: 'POST',
@@ -88,14 +85,17 @@ export const criarReserva = {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(this.evento)
+                body: JSON.stringify(this.reserva)
             });
             const result = await response.json();
+
+            // Exibir mensagem de sucesso ou erro
             if (result.status) {
-                this.mensagem = 'Evento(s) criado(s) com sucesso.';
-                this.$emit('eventoCriado');
+                this.mensagem = 'Reserva criada com sucesso.';
+                console.log(this.reserva);
+                this.$emit('reservaCriada');
             } else {
-                this.mensagem = 'Evento não criado.';
+                this.mensagem = result.message || 'Erro ao criar a reserva. Verifique os dados.';
             }
         },
         async buscaUsuarios() {
@@ -109,8 +109,21 @@ export const criarReserva = {
             });
             this.usuarios = await response.json();
         },
+        async buscaLabs() {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:3000/labs`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            this.labs = await response.json();
+        },
     },
-    async mounted() {
-       await this.buscaUsuarios()
+    mounted() {
+        // Buscar usuários e laboratórios em paralelo
+        Promise.all([this.buscaUsuarios(), this.buscaLabs()])
+            .catch(error => console.error('Erro ao carregar dados:', error));
     },
 };

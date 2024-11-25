@@ -105,9 +105,7 @@ export const Laboratorio = {
   </div>
 
   <!-- Botão de calendário -->
-  <button class="btn-calendario" 
-          :data-laboratorio-id="laboratorio.id" 
-          @click="verCalendario(laboratorio.id)">
+  <button class="btn-calendario" @click="verCalendario(laboratorio.id_laboratorio)">
     Ver calendário
   </button>
 </div>
@@ -178,6 +176,9 @@ export const Laboratorio = {
     };
   },
   methods: {
+    verCalendario(idLab) {
+      this.$router.push({ name: 'Calendario', params: { idLab } });
+    },
     handleClick() {
       this.submitInput();
       this.closeModal();
