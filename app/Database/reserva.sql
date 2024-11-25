@@ -1,5 +1,5 @@
 /*CREATE USER 'teste'@'localhost' IDENTIFIED BY 'teste';
-GRANT ALL PRIVILEGES ON reserva.* TO 'teste'@'localhost'; 
+GRANT ALL PRIVILEGES ON reservas.* TO 'teste'@'localhost'; 
 FLUSH PRIVILEGES;
 
 create database reservas;
@@ -100,6 +100,7 @@ CREATE TABLE LABORATORIO (
     data_cad timestamp default current_timestamp,
     FOREIGN KEY (equipamento) REFERENCES EQUIPAMENTO(id_equipamento),
     FOREIGN KEY (andar) REFERENCES ANDAR(id_andar)
+    ON DELETE CASCADE -- Exclui laboratórios ao excluir o andar
 );
 
 CREATE TABLE LABORATORIO_EQUIPAMENTO(
@@ -123,7 +124,8 @@ CREATE TABLE RESERVA(
 	descricao varchar(100),
 	data_cad timestamp default current_timestamp,
 	status_reserva varchar(10) not null default 'pendente',
-	FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario),
+	FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+    ON DELETE CASCADE, -- Exclui reservas ao excluir usuário
     FOREIGN KEY (id_laboratorio) REFERENCES LABORATORIO(id_laboratorio),
     FOREIGN KEY (id_disciplina) REFERENCES DISCIPLINA(id_disciplina)
 );   
@@ -135,4 +137,5 @@ CREATE TABLE LOG (
     tabela  VARCHAR(50) NOT NULL,
     data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+    ON DELETE CASCADE -- Exclui logs ao excluir usuário
 );

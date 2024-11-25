@@ -43,7 +43,7 @@ export const Laboratorio = {
       </div>
 
       <div class="box-input-cor">
-        <select name="select-cores" id="select-cores" v-model="selectedColor">
+        <select name="select-cores" v-model="selectedColor" id="select-cores">
           <option v-for="(cor, index) in cores" :key="index" :value="cor.hex">
             {{ cor.nome }}
           </option>
@@ -76,6 +76,11 @@ export const Laboratorio = {
   <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
     <p class="andar-name">{{ andar.nome }}</p>
   </div>
+
+   <!-- Botão de exclusão para deletar o andar e os laboratórios -->
+  <button class="delete-btn" @click="deleteAndar(andar.id_andar)">
+    Deletar
+  </button>
 
   <!-- Card cinza para adicionar laboratório -->
   <div id="card-cinza-laboratorio" v-if="!isProfessor" @click="openLabModal(andar)">
@@ -151,7 +156,7 @@ export const Laboratorio = {
   setup() {
     const isProfessor = Vue.inject('isProfessor');
     return { isProfessor };
-},
+  },
   data() {
     return {
       isModalOpen: false, // Controla se o modal está aberto
@@ -160,8 +165,8 @@ export const Laboratorio = {
       selectedColor: '', // Armazena a cor selecionada
       labName: null,
       labCap: null,
-      selectedAndar:'',
-      selectedEquipamento:'',
+      selectedAndar: '',
+      selectedEquipamento: '',
       message: null, // Mensagem de erro ou sucesso
       cores: [
         { nome: 'Vermelho', hex: '#B03648' },
@@ -208,30 +213,30 @@ export const Laboratorio = {
             cor: this.selectedColor
           })
         })
-        .then(response => response.json())
-        .then(data => {
-          if (data.message === 'Andar criado com sucesso') {
-            // Atualiza a lista de andares
-            this.andares.push({
-              nome: this.andarName,
-              cor: this.selectedColor
-            });
-            // Limpa os campos após a criação
-            this.andarName = '';
-            this.selectedColor = '';
-            this.showMessage('success', 'Andar criado com sucesso!');
-          }
-        })
-        .catch(error => {
-          console.error('Erro ao criar o andar:', error);
-          this.showMessage('error', 'Erro ao criar o andar. Tente novamente!');
-        });
+          .then(response => response.json())
+          .then(data => {
+            if (data.message === 'Andar criado com sucesso') {
+              // Atualiza a lista de andares
+              this.andares.push({
+                nome: this.andarName,
+                cor: this.selectedColor
+              });
+              // Limpa os campos após a criação
+              this.andarName = '';
+              this.selectedColor = '';
+              this.showMessage('success', 'Andar criado com sucesso!');
+            }
+          })
+          .catch(error => {
+            console.error('Erro ao criar o andar:', error);
+            this.showMessage('error', 'Erro ao criar o andar. Tente novamente!');
+          });
       } else {
         this.showMessage('error', 'Por favor, adicione o nome do andar e selecione uma cor!');
       }
     },
-    handlelClick(){
-      location.reload(); 
+    handlelClick() {
+      location.reload();
       this.closeLabModal();
     },
     showMessage(type, text) {
@@ -247,19 +252,19 @@ export const Laboratorio = {
           'Authorization': `Bearer ${token}`
         }
       })
-      .then(response => response.json())
-      .then(data => {
-        this.andares = data.map(andar => ({
-          ...andar, 
-          laboratorios: []
-        }));
-        this.andares.forEach(andar => {
-          this.loadLabsByAndar(andar.id_andar);
+        .then(response => response.json())
+        .then(data => {
+          this.andares = data.map(andar => ({
+            ...andar,
+            laboratorios: []
+          }));
+          this.andares.forEach(andar => {
+            this.loadLabsByAndar(andar.id_andar);
+          });
+        })
+        .catch(error => {
+          console.error('Erro ao carregar os andares:', error);
         });
-      })
-      .catch(error => {
-        console.error('Erro ao carregar os andares:', error);
-      });
     },
     openLabModal(andar) {
       this.selectedAndar = andar;
@@ -275,12 +280,12 @@ export const Laboratorio = {
         this.showMessage('error', 'Preencha o nome do laboratório');
         return;
       }
-    
+
       if (!this.labCap || isNaN(this.labCap)) {
         this.showMessage('error', 'Preencha a capacidade do laboratório com um número válido!');
         return;
       }
-    
+
       const token = localStorage.getItem('token');
       fetch(`http://localhost:3000/labs`, {
         method: 'POST',
@@ -334,6 +339,35 @@ export const Laboratorio = {
         .catch(error => {
           console.error('Erro ao carregar laboratórios:', error);
         });
+    },
+
+    // Método para deletar o andar e seus laboratórios
+    deleteAndar(idAndar) {
+      const token = localStorage.getItem('token');
+      if (confirm('Tem certeza que deseja deletar este andar e todos os laboratórios associados?')) {
+        fetch(`http://localhost:3000/andar/${idAndar}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              // Remove o andar da lista localmente
+              this.andares = this.andares.filter(andar => andar.id_andar !== idAndar);
+              this.showMessage('success', 'Andar e laboratórios deletados com sucesso!');
+            } else {
+              return response.json().then(data => {
+                throw new Error(data.message || 'Erro ao deletar o andar');
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Erro ao deletar o andar:', error);
+            this.showMessage('error', 'Erro ao deletar o andar. Tente novamente!');
+          });
+      }
     },
   },
 

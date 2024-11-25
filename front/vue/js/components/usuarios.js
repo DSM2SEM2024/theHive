@@ -47,7 +47,7 @@ export const Usuarios = {
                     <p class="user-perfil">{{ user.perfil }}</p>
 
                     <!-- Botão de exclusão -->
-                    <button @click="confirmDelete(user.id_usuario)" class="delete-user-btn">Excluir</button>
+                    <button @click.stop="confirmDelete(user.id_usuario)" class="delete-user-btn">Excluir</button>
 
                 </div>
             </div>
