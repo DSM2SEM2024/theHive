@@ -367,7 +367,6 @@ span {
     height: 11%;
     background-color: var(--gray-color);
     border-radius: 15px;
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -522,5 +521,33 @@ span {
     background-color: var(--white-color);
     color: var(--red-color);
     border: 1px solid var(--red-color);
+  }
+
+  .andar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding-bottom: 1rem;
+    gap: 2rem;
+    overflow-x: auto;
+    min-width: 79%;
+    max-width: 80%;
+  }
+  
+  .andar::-webkit-scrollbar {
+    background-color: var(--white-color);
+    height: 12px;
+    
+  }
+  
+  .andar::-webkit-scrollbar-thumb {
+    background-color: var(--blue-color);
+    border-radius: 5px;
+    cursor: grab;
+  }
+  
+  .andar::-webkit-scrollbar-button {
+    display: none;
   }
   

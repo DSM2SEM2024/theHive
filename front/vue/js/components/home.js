@@ -291,12 +291,12 @@ export const Home = {
                         <p>{{ isProfessor ? reserva.nome_laboratorio : reserva.nome_usuario }}</p>
                         <i v-if="isProfessor" @click="excluirReserva(reserva.id_reserva)" @click="handleClick" class="fi fi-ss-trash"></i>
                     </div>
-                    <div id="txt-card">
-                        <div id="txt-card-1">
+                    <div id="txt-card-0">
+                        <div id="txt-card-3">
                             <p>Status da reserva: <strong id="status">{{ reserva.status_reserva }}</strong></p>
                             <p>Disciplina: {{ reserva.nome_disciplina }}</p>
                         </div>
-                        <div id="txt-card-2">
+                        <div id="txt-card-4">
                             <p>Data inicial: {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
                             <p>Data final: {{ formatarDataHora(reserva.data_final, reserva.horario_final).dataFormatada }}</p>
                             <p>{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }} às {{ formatarDataHora(reserva.data_final, reserva.horario_final).horaFormatada }}</p>

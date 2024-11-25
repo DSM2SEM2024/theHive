@@ -1,157 +1,159 @@
 export const Laboratorio = {
   template: `
-  <h1 id="titulo" v-if="!isProfessor"> *Adicione um novo andar</h1>
+    <h1 id="titulo" v-if="!isProfessor"> *Adicione um novo andar</h1>
 
-  <div id="container-center">
-    <div id="card-cinza" v-if="!isProfessor" @click="openModal">    
+    <div id="container-center">
+        <div id="card-cinza" v-if="!isProfessor" @click="openModal">
 
-        <!-- Botão que ao ser clicado abre o modal -->
-        <div 
-          class="button-circle" 
-          @click="openModal"> +
+            <!-- Botão que ao ser clicado abre o modal -->
+            <div class="button-circle" @click="openModal"> +
+            </div>
+
         </div>
-
     </div>
-  </div>
 
-  <!-- Modal (popup) com estilo de card -->
-  <div v-if="isModalOpen" class="modal-overlay">
-    <div class="modal-card">
-      <!-- Topo do Modal com fundo vermelho e título em branco -->
-      <div class="modal-header">
-        <h3>ADICIONAR ANDAR</h3>
-      </div>
+    <!-- Modal (popup) com estilo de card -->
+    <div v-if="isModalOpen" class="modal-overlay">
+        <div class="modal-card">
+            <!-- Topo do Modal com fundo vermelho e título em branco -->
+            <div class="modal-header">
+                <h3>ADICIONAR ANDAR</h3>
+            </div>
 
-      <!-- título "+andar" do pop-up -->
-      <div id="titulo-andar">
-        <span>+</span><h1>Andar</h1>
-      </div>
+            <!-- título "+andar" do pop-up -->
+            <div id="titulo-andar">
+                <span>+</span>
+                <h1>Andar</h1>
+            </div>
 
-    <form id="formulario-1">
-      <!-- Campo de entrada para o nome -->
-      <div class="p">
-      <h2>NOME:</h2>
-      </div>
+            <form id="formulario-1">
+                <!-- Campo de entrada para o nome -->
+                <div class="p">
+                    <h2>NOME:</h2>
+                </div>
 
-      <div class="box-input-nome">
-      <input type="text" class="input-nome" v-model="andarName" placeholder="Ex: Primeiro andar">
-      </div>
+                <div class="box-input-nome">
+                    <input type="text" class="input-nome" v-model="andarName" placeholder="Ex: Primeiro andar">
+                </div>
 
-      <!-- Espaçamento entre os elementos -->
-      <div class="p">
-      <h2>COR:</h2>
-      </div>
+                <!-- Espaçamento entre os elementos -->
+                <div class="p">
+                    <h2>COR:</h2>
+                </div>
 
-      <div class="box-input-cor">
-        <select name="select-cores" v-model="selectedColor" id="select-cores">
-          <option v-for="(cor, index) in cores" :key="index" :value="cor.hex">
-            {{ cor.nome }}
-          </option>
-        </select>
-      </div>
-    </form>
+                <div class="box-input-cor">
+                    <select name="select-cores" v-model="selectedColor" id="select-cores">
+                        <option v-for="(cor, index) in cores" :key="index" :value="cor.hex">
+                            {{ cor.nome }}
+                        </option>
+                    </select>
+                </div>
+            </form>
+
+            <!-- pequeno aviso em vermelho-->
+            <div id="aviso">
+                <h2>*Após criar o andar será possível personalizar os laboratórios</h2>
+            </div>
+
+            <!-- Mensagens de erro ou sucesso -->
+            <div v-if="message" :class="{'error': message.type === 'error', 'success': message.type === 'success'}">
+                <p>{{ message.text }}</p>
+            </div>
+
+            <!-- Botões de ação -->
+            <div class="modal-actions">
+                <button @click="this.closeModal" class="cancel-btn">Cancelar</button>
+                <button @click="handleClick" class="create-btn">Criar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrossel de andares -->
+    <div class="andar" v-for="(andar, index) in andares" :key="index" :style="{ '--cor-andar': andar.cor }">
     
-      <!-- pequeno aviso em vermelho-->
-      <div id="aviso">
-        <h2>*Após criar o andar será possível personalizar os laboratórios</h2>
-      </div>
+        <!-- Andar Card -->
+        <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
+            <p class="andar-name">{{ andar.nome }}</p>
+        </div>
 
-      <!-- Mensagens de erro ou sucesso -->
-      <div v-if="message" :class="{'error': message.type === 'error', 'success': message.type === 'success'}">
-        <p>{{ message.text }}</p>
-      </div>
+        <!-- Botão de exclusão para deletar o andar e os laboratórios -->
+        <button class="delete-btn" @click="deleteAndar(andar.id_andar)">
+            Deletar
+        </button>
+       
+        <!-- Card cinza para adicionar laboratório -->
+        <div id="card-cinza-laboratorio" v-if="!isProfessor" @click="openLabModal(andar)">
+            <div class="button-circle">+</div>
+        </div>
 
-      <!-- Botões de ação -->
-      <div class="modal-actions">
-        <button @click="this.closeModal" class="cancel-btn">Cancelar</button>
-        <button @click="handleClick" class="create-btn">Criar</button>
-      </div>
+        <!-- Renderizar os laboratórios do andar -->
+        <div v-if="andar.laboratorios.length > 0" v-for="(laboratorio, labIndex) in andar.laboratorios" :key="labIndex"
+            class="card-lab">
+            <!-- Barra superior do card -->
+            <span id="barra-card"></span>
+
+            <!-- Nome do laboratório -->
+            <h3 id="nome-lab">{{ laboratorio.nome }}</h3>
+
+            <!-- Conteúdo do laboratório -->
+            <div class="lab-content">
+                <!-- Imagem do laboratório -->
+                <img id="img-lab" src="../../Images/lab.png" alt="Imagem de laboratório">
+
+                <!-- Descrição do laboratório -->
+                <div class="descricao-lab">
+                    <ul>
+                        <li id="capacidade"><strong>Capacidade:</strong><br> {{ laboratorio.capacidade }} alunos</li>
+                        <li id="equipamento"><strong>Equipamentos:</strong><br> {{ laboratorio.equipamento }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Botão de calendário -->
+            <button class="btn-calendario" @click="verCalendario(laboratorio.id_laboratorio)">
+                Ver calendário
+            </button>
+        </div>
     </div>
-  </div>
-
-  <!-- Carrossel de andares -->
-
-  <div v-for="(andar, index) in andares" :key="index" class="container-andares" :style="{ '--cor-andar': andar.cor }">
-  <!-- Andar Card -->
-  <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
-    <p class="andar-name">{{ andar.nome }}</p>
-  </div>
-
-   <!-- Botão de exclusão para deletar o andar e os laboratórios -->
-  <button class="delete-btn" @click="deleteAndar(andar.id_andar)">
-    Deletar
-  </button>
-
-  <!-- Card cinza para adicionar laboratório -->
-  <div id="card-cinza-laboratorio" v-if="!isProfessor" @click="openLabModal(andar)">
-    <div class="button-circle">+</div>
-  </div>
-
-  <!-- Renderizar os laboratórios do andar -->
-  <div v-if="andar.laboratorios.length > 0" v-for="(laboratorio, labIndex) in andar.laboratorios" :key="labIndex" class="card-lab">
-  <!-- Barra superior do card -->
-  <span id="barra-card"></span>
-
-  <!-- Nome do laboratório -->
-  <h3 id="nome-lab">{{ laboratorio.nome }}</h3>
-
-  <!-- Conteúdo do laboratório -->
-  <div class="lab-content">
-    <!-- Imagem do laboratório -->
-    <img id="img-lab" src="../../Images/lab.png" alt="Imagem de laboratório">
-
-    <!-- Descrição do laboratório -->
-    <div class="descricao-lab">
-      <ul>
-        <li id="capacidade"><strong>Capacidade:</strong><br> {{ laboratorio.capacidade }} alunos</li>
-        <li id="equipamento"><strong>Equipamentos:</strong><br> {{ laboratorio.equipamento }}</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Botão de calendário -->
-  <button class="btn-calendario" @click="verCalendario(laboratorio.id_laboratorio)">
-    Ver calendário
-  </button>
-</div>
+    
 
 
-  <div v-if="isLabModalOpen" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>ADICIONAR LABORATÓRIO</h3>
-      </div>
-      <form id="formulario-1">
-        <div class="p">
-          <h2>NOME:</h2>
+        <div v-if="isLabModalOpen" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>ADICIONAR LABORATÓRIO</h3>
+                </div>
+                <form id="formulario-1">
+                    <div class="p">
+                        <h2>NOME:</h2>
+                    </div>
+                    <div class="box-input-nome">
+                        <input type="text" class="input-nome" v-model="labName" placeholder="Ex: Sala 32">
+                    </div>
+                    <div class="p">
+                        <h2>CAPACIDADE:</h2>
+                    </div>
+                    <div class="box-input-nome">
+                        <input type="text" class="input-nome" v-model="labCap" placeholder="Ex: 23">
+                    </div>
+                    <div class="p">
+                        <h2>EQUIPAMENTOS:</h2>
+                    </div>
+
+                    <div class="box-input-equipamento">
+                        <select name="select-equipamento" id="select-equipamento" v-model="selectedEquipamento">
+                            <option v-for="(equipamento, index) in equipamentos" :key="index" :value="equipamento.id">
+                                {{ equipamento.nome }}
+                            </option>
+                        </select>
+                    </div>
+                </form>
+                <div class="modal-actions">
+                    <button @click="closeLabModal" class="cancel-btn">Cancelar</button>
+                    <button @click="addLaboratorio" @click="handlelClick" class="create-btn">Adicionar</button>
+                </div>
+            </div>
         </div>
-        <div class="box-input-nome">
-          <input type="text" class="input-nome" v-model="labName" placeholder="Ex: Sala 32">
-        </div>
-        <div class="p">
-          <h2>CAPACIDADE:</h2>
-        </div>
-        <div class="box-input-nome">
-          <input type="text" class="input-nome" v-model="labCap" placeholder="Ex: 23">
-        </div>
-        <div class="p">
-          <h2>EQUIPAMENTOS:</h2>
-        </div>
-
-        <div class="box-input-equipamento">
-          <select name="select-equipamento" id="select-equipamento" v-model="selectedEquipamento">
-            <option v-for="(equipamento, index) in equipamentos" :key="index" :value="equipamento.id">
-              {{ equipamento.nome }}
-            </option>
-          </select>
-        </div>
-      </form>
-      <div class="modal-actions">
-        <button @click="closeLabModal" class="cancel-btn">Cancelar</button>
-        <button @click="addLaboratorio" @click="handlelClick" class="create-btn">Adicionar</button>
-      </div>
-    </div>
-  </div>
   `,
   setup() {
     const isProfessor = Vue.inject('isProfessor');
