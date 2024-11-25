@@ -33,14 +33,14 @@ export const criarReserva = {
             reserva: {
                 usuarioId: null,
                 laboratorioId: null,
-                disciplinaId: 1,
+                disciplinaId: null,
                 datainicial: '',
                 datafinal: '',
                 horarioinicial: '',
                 horariofinal: '',
                 recorrencia: '',
                 descricao: '',
-                status: ''
+                status: 'pendente'
             },
             mensagem: '',
             labs: [],
