@@ -110,7 +110,12 @@ class ReservaController {
 
     public function criarReserva($data)
     {
-        
+        $ReservaAtual = $this->reserva->verificarDisponibilidade($data->laboratorioId, $data->datainicial, $data->datafinal, $data->horarioinicial, $data->horariofinal);
+        if($ReservaAtual){
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Já existe reserva para este laboratório nesta data/horario']);
+            exit;
+        }
         if ($data->recorrencia === 'nenhuma') {
             $ReservaAtual = new Reserva();
             $ReservaAtual->setUsuarioId($data->usuarioId);
@@ -171,9 +176,8 @@ class ReservaController {
                 $dataRecorrenteFormatada = $dataRecorrente->format('Y-m-d');
                 $reservaRecorrente->setDataInicial($dataRecorrenteFormatada);
                 $reservaRecorrente->setDataFinal($dataRecorrenteFormatada);
-                $reservaRecorrente->setReservaId($reservaId);
     
-                if (!$this->reserva->criarReserva($reservaRecorrente)) {
+                if (!$this->reserva->create($reservaRecorrente)) {
                     return false;
                 }
             }

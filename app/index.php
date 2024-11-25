@@ -4,7 +4,7 @@ use App\Rotas\Router;
 use App\Http\HttpHeader;
 use App\Rotas\Rotas;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 HttpHeader::setDefaultHeaders();
 
