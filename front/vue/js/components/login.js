@@ -5,7 +5,12 @@ export const Login = {
                 email: '',
                 senha: ''
             },
-            mostrarSenha: false
+            mostrarSenha: false,
+
+            mostrarPopup: false, // Adicionado aqui para controlar a exibição do popup
+            novaSenha: '', // Adicionado aqui para armazenar a nova senha
+            confirmarSenha: '' // Adicionado aqui para armazenar a confirmação da senha
+
         };
     },
     methods: {
@@ -24,8 +29,15 @@ export const Login = {
                 if (response.ok) {
                     localStorage.setItem('id_usuario', data.userId);
                     localStorage.setItem('token', data.token);
-                    this.$emit('login-success');
-                    this.$router.push('/home');
+                    
+                   if (data.primeiro_login) { // Adicionado aqui: Verifica se é o primeiro login
+                        this.mostrarPopup = true; // Adicionado aqui: Exibe o popup de alteração de senha
+                    } else {
+                        this.$emit('login-success'); // Adicionado de volta aqui
+                        this.$router.push('/home'); // Adicionado aqui: Redireciona para a home se não for primeiro login
+                    }
+
+
                 } else {
                     alert("Falha no login. Verifique suas credenciais.");
                 }
@@ -34,6 +46,34 @@ export const Login = {
         },
         alternarMostrarSenha() {
             this.mostrarSenha = !this.mostrarSenha;
+        },
+
+        alterarSenha() { // Adicionado aqui: Método para alterar a senha do usuário
+            const dados = {
+                id_usuario: localStorage.getItem('id_usuario'),
+                novaSenha: this.novaSenha
+            };
+
+            fetch('http://localhost:3000/alterar-senha', { // Adicionado aqui: URL do endpoint de alteração de senha
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            })
+            .then(async (response) => { // Adicionado aqui
+                const data = await response.json();
+                console.log("Resposta da alteração de senha:", data);
+
+                if (response.ok) { // Adicionado aqui
+                    alert('Senha alterada com sucesso!');
+                    this.mostrarPopup = false; // Adicionado aqui: Fecha o popup após a alteração de senha
+                    this.$emit('login-success'); // Adicionado de volta aqui
+                    this.$router.push('/home'); // Adicionado aqui: Redireciona para a home após sucesso
+                } else {
+                    alert("Erro ao alterar a senha. Tente novamente.");
+                }
+            })
+            .catch(error => console.error("Erro na alteração de senha:", error));
+            
         }
     },
     created() {
@@ -54,6 +94,26 @@ export const Login = {
     },
     template: `
             <div class="login-container">
+
+                <!-- Popup de alteração de senha - Adicionado aqui -->
+                <div v-if="mostrarPopup" class="popup">
+                    <div class="subPopup">
+                        <h2>Alterar Senha</h2>
+                        <form @submit.prevent="alterarSenha">
+                            <div id="input1">
+                                <label class="textoSenhas" for="novaSenha">Nova Senha</label>
+                                <input type="password" v-model="novaSenha" id="novaSenha" name="novaSenha" placeholder="Digite a nova senha" required>
+                            </div>
+                            <div id="input2">
+                                <label class="textoSenhas" for="confirmarSenha">Confirmar Senha</label>
+                                <input type="password" v-model="confirmarSenha" id="confirmarSenha" name="confirmarSenha" placeholder="Confirme a nova senha" required>
+                            </div>
+                            <button class="botaoAlteraPopup" type="submit">Alterar</button>
+                            <button class="botaoCancelaPopup"type="button" @click="mostrarPopup = false">Cancelar</button>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Card branco -->
                 <div class="white-card">
                     <div class="pfp-container">
