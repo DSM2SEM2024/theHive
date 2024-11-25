@@ -12,6 +12,7 @@ const routes = [
     { path: '/home', component: Home },
     { path: '/laboratorio', component: Laboratorio },
     {path: '/calendario/:idLab', name: 'Calendario', component: Calendario, props: true},
+    {path: '/criarReserva/:idLab', name: 'Criar Reserva', component: criarReserva, props: true},
     { path: '/usuarios', component: Usuarios },
     { path: '/criarReserva', component: criarReserva }
     
