@@ -121,13 +121,11 @@ class Laboratorio {
 
     public function updateLaboratorio($idLaboratorio) {
         $nome = $this->getNome();
-        $andar = $this->getAndar();
         $equipamento = $this->getEquipamento();
         $capacidade = $this->getCapacidade();
-        $query = "UPDATE $this->table SET nome = :nome, andar = :andar, equipamento = :equipamento, capacidade = :capacidade WHERE id_laboratorio = :id_laboratorio";
+        $query = "UPDATE $this->table SET nome = :nome, equipamento = :equipamento, capacidade = :capacidade WHERE id_laboratorio = :id_laboratorio";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":andar", $andar);
         $stmt->bindParam(":equipamento", $equipamento);
         $stmt->bindParam(":capacidade", $capacidade);
         $stmt->bindParam(":id_laboratorio", $idLaboratorio);

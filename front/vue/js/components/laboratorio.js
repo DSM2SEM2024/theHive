@@ -1,14 +1,11 @@
 export const Laboratorio = {
   template: `
-    <h1 id="titulo" v-if="!isProfessor"> *Adicione um novo andar</h1>
+    <h1 id="titulo" v-if="!isProfessor">*Adicione um novo andar</h1>
 
     <div id="container-center">
         <div id="card-cinza" v-if="!isProfessor" @click="openModal">
-
             <!-- Botão que ao ser clicado abre o modal -->
-            <div class="button-circle" @click="openModal"> +
-            </div>
-
+            <div class="button-circle" @click="openModal">+</div>
         </div>
     </div>
 
@@ -31,7 +28,6 @@ export const Laboratorio = {
                 <div class="p">
                     <h2>NOME:</h2>
                 </div>
-
                 <div class="box-input-nome">
                     <input type="text" class="input-nome" v-model="andarName" placeholder="Ex: Primeiro andar">
                 </div>
@@ -40,7 +36,6 @@ export const Laboratorio = {
                 <div class="p">
                     <h2>COR:</h2>
                 </div>
-
                 <div class="box-input-cor">
                     <select name="select-cores" v-model="selectedColor" id="select-cores">
                         <option v-for="(cor, index) in cores" :key="index" :value="cor.hex">
@@ -62,16 +57,14 @@ export const Laboratorio = {
 
             <!-- Botões de ação -->
             <div class="modal-actions">
-                <button @click="this.closeModal" class="cancel-btn">Cancelar</button>
+                <button @click="closeModal" class="cancel-btn">Cancelar</button>
                 <button @click="handleClick" class="create-btn">Criar</button>
             </div>
         </div>
     </div>
+
     <!-- Carrossel de andares -->
-    
     <div class="andar" v-for="(andar, index) in andares" :key="index" :style="{ '--cor-andar': andar.cor }">
-   
-    
         <!-- Andar Card -->
         <div class="carousel-item" :style="{ backgroundColor: andar.cor }">
             <p class="andar-name">{{ andar.nome }}</p>
@@ -81,15 +74,14 @@ export const Laboratorio = {
         <button class="delete-btn" v-if="!isProfessor" @click="deleteAndar(andar.id_andar)">
             Deletar
         </button>
-       
+
         <!-- Card cinza para adicionar laboratório -->
         <div id="card-cinza-laboratorio" v-if="!isProfessor" @click="openLabModal(andar)">
             <div class="button-circle">+</div>
         </div>
 
         <!-- Renderizar os laboratórios do andar -->
-        <div v-if="andar.laboratorios.length > 0" v-for="(laboratorio, labIndex) in andar.laboratorios" :key="labIndex"
-            class="card-lab">
+        <div v-if="andar.laboratorios.length > 0" v-for="(laboratorio, labIndex) in andar.laboratorios" :key="labIndex" class="card-lab" @click="abrirModal(laboratorio)">
             <!-- Barra superior do card -->
             <span id="barra-card"></span>
 
@@ -116,45 +108,82 @@ export const Laboratorio = {
             </button>
         </div>
     </div>
-    
-
-
-        <div v-if="isLabModalOpen" class="modal-overlay">
-            <div class="modal-card">
-                <div class="modal-header">
-                    <h3>ADICIONAR LABORATÓRIO</h3>
+        <!-- Modal para Atualizar Laboratório -->
+    <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Atualizar Laboratório</h3>
+        </div>
+        <form @submit.prevent="atualizarLaboratorio">
+          <div id="formulario-1">
+                <div class="p">
+                    <h2>NOME:</h2>
                 </div>
-                <form id="formulario-1">
-                    <div class="p">
-                        <h2>NOME:</h2>
-                    </div>
-                    <div class="box-input-nome">
-                        <input type="text" class="input-nome" v-model="labName" placeholder="Ex: Sala 32">
-                    </div>
-                    <div class="p">
-                        <h2>CAPACIDADE:</h2>
-                    </div>
-                    <div class="box-input-nome">
-                        <input type="text" class="input-nome" v-model="labCap" placeholder="Ex: 23">
-                    </div>
-                    <div class="p">
-                        <h2>EQUIPAMENTOS:</h2>
-                    </div>
-
-                    <div class="box-input-equipamento">
-                        <select name="select-equipamento" id="select-equipamento" v-model="selectedEquipamento">
-                            <option v-for="(equipamento, index) in equipamentos" :key="index" :value="equipamento.id">
-                                {{ equipamento.nome }}
-                            </option>
-                        </select>
-                    </div>
-                </form>
-                <div class="modal-actions">
-                    <button @click="closeLabModal" class="cancel-btn">Cancelar</button>
-                    <button @click="addLaboratorio" @click="handlelClick" class="create-btn">Adicionar</button>
+            <div class="box-input-nome">
+            <input
+              id="nome"
+              class="input-nome"
+              v-model="labAtualizado.nome"
+              type="text"
+              placeholder="Novo Nome"
+            />
+            </div>
+                <div class="p">
+                    <h2>CAPACIDADE:</h2>
                 </div>
+            <input
+              id="capacidade"
+              class="input-nome"
+              v-model.number="labAtualizado.capacidade"
+              type="text"
+              placeholder="Nova Capacidade"
+            />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" @click="fecharModal">Cancelar</button>
+            <button type="submit" @click="atualizarLaboratorio" class="save-btn">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal (popup) para adicionar laboratório -->
+    <div v-if="isLabModalOpen" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>ADICIONAR LABORATÓRIO</h3>
+            </div>
+            <form id="formulario-1">
+                <div class="p">
+                    <h2>NOME:</h2>
+                </div>
+                <div class="box-input-nome">
+                    <input type="text" class="input-nome" v-model="labName" placeholder="Ex: Sala 32">
+                </div>
+                <div class="p">
+                    <h2>CAPACIDADE:</h2>
+                </div>
+                <div class="box-input-nome">
+                    <input type="text" class="input-nome" v-model="labCap" placeholder="Ex: 23">
+                </div>
+                <div class="p">
+                    <h2>EQUIPAMENTOS:</h2>
+                </div>
+
+                <div class="box-input-equipamento">
+                    <select name="select-equipamento" id="select-equipamento" v-model="selectedEquipamento">
+                        <option v-for="(equipamento, index) in equipamentos" :key="index" :value="equipamento.id">
+                            {{ equipamento.nome }}
+                        </option>
+                    </select>
+                </div>
+            </form>
+            <div class="modal-actions">
+                <button @click="closeLabModal" class="cancel-btn">Cancelar</button>
+                <button @click="addLaboratorio" @click="handlelClick" class="create-btn">Adicionar</button>
             </div>
         </div>
+    </div>
   `,
   setup() {
     const isProfessor = Vue.inject('isProfessor');
@@ -181,6 +210,14 @@ export const Laboratorio = {
         { nome: 'Roxo', hex: '#5A3168' },
       ],
       andares: [], // Armazena os andares criados
+      // Variáveis para controle do modal de atualização
+      modalAberto: false,
+      labAtualizado: {
+        nome: '',
+        capacidade: null
+      },
+      laboratorios: [], // A lista de laboratórios
+      // Adicionar outros dados que precisar
     };
   },
   methods: {
@@ -278,6 +315,7 @@ export const Laboratorio = {
       this.isLabModalOpen = false;
       this.labName = '';
     },
+    // Função para adicionar um novo laboratório
     addLaboratorio() {
       if (!this.labName || !this.selectedAndar) {
         this.showMessage('error', 'Preencha o nome do laboratório');
@@ -307,9 +345,30 @@ export const Laboratorio = {
         .then(data => {
           if (data.message === 'Laboratório criado com sucesso') {
             this.showMessage('success', 'Laboratório adicionado com sucesso!');
+
+            // Adicionar o laboratório recém-criado à lista de laboratórios
+            const novoLaboratorio = {
+              id_laboratorio: data.id_laboratorio,  // Certifique-se de que o ID do novo laboratório esteja sendo retornado pela API
+              nome: this.labName,
+              capacidade: this.labCap,
+              id_andar: this.selectedAndar.id_andar,
+              id_equipamento: this.selectedEquipamento
+            };
+
+            // Adicionar o novo laboratório à lista de laboratórios
+            const andar = this.andares.find(a => a.id_andar === this.selectedAndar.id_andar);
+            if (andar) {
+              andar.laboratorios.push(novoLaboratorio);
+              // Forçar Vue a reconhecer a mudança
+              this.andares = [...this.andares];
+            }
+
+            // Limpar os campos após a criação
             this.labName = '';
             this.labCap = '';
             this.selectedEquipamento = null;
+            this.closeLabModal();
+
           } else {
             this.showMessage('error', 'Erro ao adicionar laboratório!');
           }
@@ -319,6 +378,7 @@ export const Laboratorio = {
           this.showMessage('error', 'Erro ao adicionar laboratório! Tente novamente.');
         });
     },
+
     loadLabsByAndar(andarId) {
       const token = localStorage.getItem('token');
       fetch(`http://localhost:3000/labs/andar/${andarId}`, {
@@ -370,6 +430,59 @@ export const Laboratorio = {
             console.error('Erro ao deletar o andar:', error);
             this.showMessage('error', 'Erro ao deletar o andar. Tente novamente!');
           });
+      }
+    },
+
+    // Método para abrir o modal
+    abrirModal(lab) {
+      this.labAtualizado = { ...lab }; // Preenche os campos do modal com os dados do laboratório
+      this.modalAberto = true; // Exibe o modal
+    },
+    fecharModal() {
+      this.modalAberto = false; // Fechar o modal
+      this.labAtualizado = {}; // Limpar o formulário
+    },
+    async atualizarLaboratorio() {
+      const token = localStorage.getItem('token');
+
+      // Verificar se os campos nome e capacidade não estão vazios
+      if (!this.labAtualizado.nome || !this.labAtualizado.capacidade) {
+        alert('Por favor, preencha todos os campos');
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:3000/labs/${this.labAtualizado.id_laboratorio}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            nome: this.labAtualizado.nome,
+            capacidade: this.labAtualizado.capacidade,
+          }),
+        });
+
+        if (response.ok) {
+          // Atualizar o laboratório diretamente na lista de andares
+          const andar = this.andares.find(a => a.laboratorios.some(lab => lab.id_laboratorio === this.labAtualizado.id_laboratorio));
+          if (andar) {
+            const labIndex = andar.laboratorios.findIndex(lab => lab.id_laboratorio === this.labAtualizado.id_laboratorio);
+            if (labIndex !== -1) {
+              andar.laboratorios[labIndex] = { ...this.labAtualizado };  // Atualiza o laboratório na lista
+            }
+          }
+
+          // Fechar o modal após a atualização
+          this.fecharModal();
+
+          // Exibir mensagem de sucesso
+          this.showMessage('success', 'Laboratório atualizado com sucesso!');
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar o laboratório:', error);
+        this.showMessage('error', 'Erro ao atualizar o laboratório. Tente novamente!');
       }
     },
   },
