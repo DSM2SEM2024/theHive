@@ -18,7 +18,7 @@ export const criarReserva = {
 
             <div class="group-data-hora1">
               <div class="titulo">
-                <h2>DATA INICIAL:</h2>
+                <h2>INÍCIO:</h2>
               </div>
               <div class="box-data-hora1">
                 <input v-model="reserva.datainicial" type="date" required />
@@ -30,9 +30,9 @@ export const criarReserva = {
 
             <div class="group-data-hora2">
               <div class="titulo">
-                <h2>DATA FINAL:</h2>
+                <h2>FIM:</h2>
               </div>
-              <div class="box-data-hora2">
+              <div v-if="reserva.recorrencia !== 'nenhuma'" class="box-data-hora2">
                 <input v-model="reserva.datafinal" type="date" />
               </div>
               <div class="box-data-hora2">
@@ -45,13 +45,14 @@ export const criarReserva = {
                 <p class="mensagem-reserva" v-if="mensagem">{{ mensagem }}</p> 
               </div>
 
+              <div class="titulo">
+                <h2>FREQUÊNCIA:</h2>
+              </div>
               <div id="box-recorrencia">
                 <select v-model="reserva.recorrencia">
                   <option value="nenhuma">Nenhuma</option>
                   <option value="diaria">Diária</option>
                   <option value="semanal">Semanal</option>
-                  <option value="mensal">Mensal</option>
-                  <option value="semestral">Semestral</option>
                 </select>
               </div>
             </div>
@@ -134,7 +135,7 @@ export const criarReserva = {
                 return false;
             }
             if(!this.reserva.recorrencia){ 
-              this.mensagem = 'Recorrencia deve ser obrigatória.';
+              this.mensagem = 'Frequência deve ser obrigatória.';
               return false;
             }
             if (

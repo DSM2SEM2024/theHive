@@ -14,6 +14,8 @@ drop table disciplina;
 drop table equipamento;
 drop table curso;
 drop table log;
+drop table curso;
+drop table log;
 drop table usuarios;*/
 
 CREATE TABLE USUARIOS (
@@ -138,3 +140,4 @@ CREATE TABLE LOG (
     data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
 );
+
