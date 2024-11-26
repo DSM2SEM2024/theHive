@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'conta/app',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '4081e8ee289891dc9bb625f7b8ac34d0ce9639ff',
+        'pretty_version' => '2.x-dev',
+        'version' => '2.9999999.9999999.9999999-dev',
+        'reference' => '6b1a81bcd6983dba0f56a4dbd83520b7af83f2ec',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'conta/app' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '4081e8ee289891dc9bb625f7b8ac34d0ce9639ff',
+            'pretty_version' => '2.x-dev',
+            'version' => '2.9999999.9999999.9999999-dev',
+            'reference' => '6b1a81bcd6983dba0f56a4dbd83520b7af83f2ec',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
