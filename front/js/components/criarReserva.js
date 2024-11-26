@@ -99,7 +99,9 @@ export const criarReserva = {
         async criarEvento() {
             this.reserva.usuarioId = localStorage.getItem('id_usuario');
             this.reserva.laboratorioId = this.idLab;
-
+            if (this.reserva.recorrencia == 'nenhuma') {
+              this.reserva.datafinal =  this.reserva.datainicial;
+            }
             if (!this.validarDados()) return;
 
             const token = localStorage.getItem('token');
