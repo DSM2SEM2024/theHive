@@ -76,6 +76,7 @@ export const criarReserva = {
       </section>
     `,
     props: ['idLab'],
+    inject: ['urlBase'],
     data() {
         return { 
             reserva: {
@@ -102,7 +103,7 @@ export const criarReserva = {
 
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch(`http://localhost:3000/reserve`, {
+                const response = await fetch(`${this.urlBase}reserve`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

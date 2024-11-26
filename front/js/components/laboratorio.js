@@ -189,6 +189,7 @@ export const Laboratorio = {
     const isProfessor = Vue.inject('isProfessor');
     return { isProfessor };
   },
+  inject: ['urlBase'],
   data() {
     return {
       isModalOpen: false, // Controla se o modal está aberto
@@ -242,7 +243,7 @@ export const Laboratorio = {
       const token = localStorage.getItem('token');
       if (this.andarName && this.selectedColor) {
         // Envia os dados do novo andar para a API
-        fetch('http://localhost:3000/andar', {
+        fetch(`${this.urlBase}andar`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -285,7 +286,7 @@ export const Laboratorio = {
     },
     loadAndares() {
       const token = localStorage.getItem('token');
-      fetch('http://localhost:3000/andar', {
+      fetch(`${this.urlBase}andar`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -328,7 +329,7 @@ export const Laboratorio = {
       }
 
       const token = localStorage.getItem('token');
-      fetch(`http://localhost:3000/labs`, {
+      fetch(`${this.urlBase}labs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -381,7 +382,7 @@ export const Laboratorio = {
 
     loadLabsByAndar(andarId) {
       const token = localStorage.getItem('token');
-      fetch(`http://localhost:3000/labs/andar/${andarId}`, {
+      fetch(`${this.urlBase}labs/andar/${andarId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -408,7 +409,7 @@ export const Laboratorio = {
     deleteAndar(idAndar) {
       const token = localStorage.getItem('token');
       if (confirm('Tem certeza que deseja deletar este andar e todos os laboratórios associados?')) {
-        fetch(`http://localhost:3000/andar/${idAndar}`, {
+        fetch(`${this.urlBase}andar/${idAndar}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -452,7 +453,7 @@ export const Laboratorio = {
       }
 
       try {
-        const response = await fetch(`http://localhost:3000/labs/${this.labAtualizado.id_laboratorio}`, {
+        const response = await fetch(`${this.urlBase}labs/${this.labAtualizado.id_laboratorio}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

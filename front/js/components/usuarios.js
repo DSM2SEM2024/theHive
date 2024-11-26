@@ -111,6 +111,7 @@ export const Usuarios = {
             editUser: { id_usuario: null, nome: '', email: '', perfil: '' },
         };
     },
+    inject: ['urlBase'],
     created() {
         this.fetchUsers(); // Carregar usuários ao inicializar o componente
     },
@@ -126,7 +127,7 @@ export const Usuarios = {
             const token = localStorage.getItem('token');  // Recupera o token do localStorage
         
             try {
-                const response = await fetch('http://localhost:3000/users', {
+                const response = await fetch(`${this.urlBase}users`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -148,7 +149,7 @@ export const Usuarios = {
             const token = localStorage.getItem('token');  // Recupera o token do localStorage
         
             try {
-                const response = await fetch('http://localhost:3000/users', {
+                const response = await fetch(`${this.urlBase}users`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -207,7 +208,7 @@ export const Usuarios = {
         async deleteUser() {
             const token = localStorage.getItem('token');  // Recupera o token do localStorage
             try {
-                const response = await fetch(`http://localhost:3000/users/${this.userToDelete}`, {
+                const response = await fetch(`${this.urlBase}users/${this.userToDelete}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -235,7 +236,7 @@ export const Usuarios = {
         async updateUser() {
             const token = localStorage.getItem('token'); // Recupera o token do localStorage
             try {
-                const response = await fetch(`http://localhost:3000/users/${this.editUser.id_usuario}`, {
+                const response = await fetch(`${this.urlBase}users/${this.editUser.id_usuario}`, {
                     method: 'PUT',
                     headers: { 
                         'Content-Type': 'application/json',

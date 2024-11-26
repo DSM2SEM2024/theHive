@@ -34,6 +34,7 @@ class rotas {
                 '/reserve/data/{dataini}/{datafim}' => [ReservaController::class, 'obterReservaPorIntervaloDeData'],
                 '/reserve/estado/{estado}' => [ReservaController::class, 'obterReservaPorEstado'],
                 '/reserve/lab/{lab}' => [ReservaController::class, 'obterReservaPorLab'],
+                '/reserveaprovado/lab/{lab}' => [ReservaController::class, 'obterReservaAprovadoPorLab'],
                 '/reserve/prof/{prof}' => [ReservaController::class, 'obterReservaPorProf'],
                 '/reserve/profestado/{prof}/{estado}' => [ReservaController::class, 'obterReservaPorProfeEstado'],
                 //disciplina

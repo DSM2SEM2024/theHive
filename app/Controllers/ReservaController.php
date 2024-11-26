@@ -52,10 +52,23 @@ class ReservaController {
     public function obterReservaPorLab($lab)
     {
         $this->helper->visualizar();
-        $ReservaAtual = $this->reserva->obterReservaPorLab($lab);
-        if ($ReservaAtual) {
+        $reserva = $this->reserva->obterReservaPorLab($lab);
+        if ($reserva) {
             http_response_code(200);
-            echo json_encode($ReservaAtual);
+            echo json_encode($reserva);
+        } else {
+            http_response_code(404);
+            echo json_encode(['status' => false, 'message' => 'Reservas não encontradas']);
+        }
+    }
+
+    public function obterReservaAprovadoPorLab($lab)
+    {
+        $this->helper->visualizar();
+        $reserva = $this->reserva->obterReservaAprovadoPorLab($lab);
+        if ($reserva) {
+            http_response_code(200);
+            echo json_encode($reserva);
         } else {
             http_response_code(404);
             echo json_encode(['status' => false, 'message' => 'Reservas não encontradas']);
@@ -110,40 +123,40 @@ class ReservaController {
 
     public function criarReserva($data)
     {
-        $ReservaAtual = $this->reserva->verificarDisponibilidade($data->laboratorioId, $data->datainicial, $data->datafinal, $data->horarioinicial, $data->horariofinal);
-        if($ReservaAtual){
+        $reservaAtual = $this->reserva->verificarDisponibilidade($data->laboratorioId, $data->datainicial, $data->datafinal, $data->horarioinicial, $data->horariofinal);
+        if($reservaAtual){
             http_response_code(404);
             echo json_encode(['status' => false, 'message' => 'Já existe reserva para este laboratório nesta data/horario']);
             exit;
         }
         if ($data->recorrencia === 'nenhuma') {
-            $ReservaAtual = new Reserva();
-            $ReservaAtual->setUsuarioId($data->usuarioId);
-            $ReservaAtual->setLaboratorioId($data->laboratorioId);
-            $ReservaAtual->setDisciplinaId($data->disciplinaId);
-            $ReservaAtual->setDataInicial($data->datainicial);
-            $ReservaAtual->setDataFinal($data->datafinal);
-            $ReservaAtual->setDescricao($data->descricao);
-            $ReservaAtual->setHorarioInicial($data->horarioinicial);
-            $ReservaAtual->setHorarioFinal($data->horariofinal);
-            $ReservaAtual->setRecorrencia($data->recorrencia);
-            $ReservaAtual->setDescricao($data->descricao);
+            $reservar = new Reserva();
+            $reservar->setUsuarioId($data->usuarioId);
+            $reservar->setLaboratorioId($data->laboratorioId);
+            $reservar->setDisciplinaId($data->disciplinaId);
+            $reservar->setDataInicial($data->datainicial);
+            $reservar->setDataFinal($data->datafinal);
+            $reservar->setDescricao($data->descricao);
+            $reservar->setHorarioInicial($data->horarioinicial);
+            $reservar->setHorarioFinal($data->horariofinal);
+            $reservar->setRecorrencia($data->recorrencia);
+            $reservar->setDescricao($data->descricao);
 
-            $reservaCriada = $this->reserva->create($ReservaAtual);
+            $reservaCriada = $this->reserva->create($reservar);
         } else {
-            $ReservaAtual = new Reserva();
-            $ReservaAtual->setUsuarioId($data->usuarioId);
-            $ReservaAtual->setLaboratorioId($data->laboratorioId);
-            $ReservaAtual->setDisciplinaId($data->disciplinaId);
-            $ReservaAtual->setDataInicial($data->datainicial);
-            $ReservaAtual->setDataFinal($data->datafinal);
-            $ReservaAtual->setDescricao($data->descricao);
-            $ReservaAtual->setHorarioInicial($data->horarioinicial);
-            $ReservaAtual->setHorarioFinal($data->horariofinal);
-            $ReservaAtual->setRecorrencia($data->recorrencia);
-            $ReservaAtual->setDescricao($data->descricao);
+            $reserva = new Reserva();
+            $reserva->setUsuarioId($data->usuarioId);
+            $reserva->setLaboratorioId($data->laboratorioId);
+            $reserva->setDisciplinaId($data->disciplinaId);
+            $reserva->setDataInicial($data->datainicial);
+            $reserva->setDataFinal($data->datafinal);
+            $reserva->setDescricao($data->descricao);
+            $reserva->setHorarioInicial($data->horarioinicial);
+            $reserva->setHorarioFinal($data->horariofinal);
+            $reserva->setRecorrencia($data->recorrencia);
+            $reserva->setDescricao($data->descricao);
 
-            $reservaCriada = $this->criarReservasRecorrentes($ReservaAtual);
+            $reservaCriada = $this->criarReservasRecorrentes($reserva);
         }
 
         http_response_code(201);

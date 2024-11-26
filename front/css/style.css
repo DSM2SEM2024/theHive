@@ -704,10 +704,13 @@ main {
     justify-content: center;
     gap: 10px;
     margin-top: 12px;
+    position: absolute;
+    bottom: 0px;
 }
 
 .reserva {
     display: flex;
+    position: relative;
     flex-direction: column;
     gap: 4px;
 }
@@ -938,6 +941,7 @@ main {
     .card-pedido {
         width: 19rem;
         height: 3.7rem;
+        border-bottom: 2px solid red;
     }
 
     #txt-card-lab {
@@ -1524,3 +1528,51 @@ main {
     }
 
 }
+.modal{
+    display: flex;
+    position: fixed;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #b03648;
+    z-index: 50;
+    border-radius: 20px;
+    color: #ffffff;
+}
+.tabs {
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    width: 100%;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .tab {
+    padding: 10px;
+    background-color: #b03648;
+    color: white;
+    height: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    border-bottom: 2px solid transparent;
+  }
+
+  .tab.active {
+    border-bottom: 4px solid #2eeb19;
+    font-weight: bold;
+    color: #9aff70;
+  }
+
+  .tab-content {
+    display: none;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .tab-content.active {
+    display: block;
+  }

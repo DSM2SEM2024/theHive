@@ -1,4 +1,5 @@
 export const Home = {
+    inject: ['urlBase'],
     data() {
         return {
             nomeUsuario: null,
@@ -24,8 +25,8 @@ export const Home = {
             if (!id_usuarioss || !token) return;
         
             const url = this.isProfessor
-                ? `http://localhost:3000/reserve/prof/${id_usuarioss}` 
-                : `http://localhost:3000/reserve/estado/pendente`; 
+                ? `${this.urlBase}reserve/prof/${id_usuarioss}` 
+                : `${this.urlBase}reserve/estado/pendente`; 
         
             try {
                 const responseReservas = await fetch(url, {
@@ -61,7 +62,7 @@ export const Home = {
             if (!id_laboratorio || !token) return null;
     
             try {
-                const response = await fetch(`http://localhost:3000/labs/${id_laboratorio}`, {
+                const response = await fetch(`${this.urlBase}labs/${id_laboratorio}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ export const Home = {
             if (!id_usuario || !token) return null;
     
             try {
-                const response = await fetch(`http://localhost:3000/users/${id_usuario}`, {
+                const response = await fetch(`${this.urlBase}users/${id_usuario}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -112,7 +113,7 @@ export const Home = {
             if (!id_disciplina || !token) return null;
     
             try {
-                const response = await fetch(`http://localhost:3000/disciplina/${id_disciplina}`, {
+                const response = await fetch(`${this.urlBase}disciplina/${id_disciplina}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -153,7 +154,7 @@ export const Home = {
             if (!id_reserva || !token) return null;
     
             try {
-                const response = await fetch(`http://localhost:3000/reserve/${id_reserva}/cancel`, {
+                const response = await fetch(`${this.urlBase}reserve/${id_reserva}/cancel`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -177,7 +178,7 @@ export const Home = {
             if (!id_reserva || !token) return null;
     
             try {
-                const response = await fetch(`http://localhost:3000/reserve/${id_reserva}/approve`, {
+                const response = await fetch(`${this.urlBase}reserve/${id_reserva}/approve`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -204,7 +205,7 @@ export const Home = {
             if (!id_reserva || !token) return null;
     
             try {
-                const response = await fetch(`http://localhost:3000/reserve/${id_reserva}/deny`, {
+                const response = await fetch(`${this.urlBase}reserve/${id_reserva}/deny`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -246,27 +247,6 @@ export const Home = {
     <p id="titulo-ola" v-else>
         Carregando...
     </p>
-
-    <div class="card-pesquisa">
-        <div class="busca-2">
-            <img src="Images/search.png" alt="Ícone de pesquisa">
-            <input 
-                id="pesquisa-2" 
-                type="text" 
-                placeholder="O que está procurando?" 
-                v-model="pesquisa"
-            >
-            <button 
-                id="limpa-input2" 
-                class="btn-limpar2" 
-                type="button" 
-                v-if="pesquisa" 
-                @click="limparPesquisa"
-            >
-                &times;
-            </button>
-        </div>
-    </div>
 
     <div id="container-reservas">
         <div id="sup-reservas">

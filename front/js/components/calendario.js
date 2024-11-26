@@ -1,5 +1,6 @@
 export const Calendario = {
     props: ['idLab'],
+    inject: ['urlBase'],
     data() {
         return {
             reservas: [],
@@ -11,7 +12,7 @@ export const Calendario = {
     methods: {
         async buscaReserva() {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/reserve/lab/${this.idLab}`, {
+            const response = await fetch(`${this.urlBase}reserveaprovado/lab/${this.idLab}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

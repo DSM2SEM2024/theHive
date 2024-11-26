@@ -194,6 +194,14 @@ class Reserva {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obterReservaAprovadoPorLab($lab) {
+        $query = "SELECT * FROM $this->table WHERE id_laboratorio = :id_laboratorio AND status_reserva = 'aprovada'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_laboratorio", $lab);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obterReservaPorProf($prof) {
         $query = "SELECT * FROM $this->table WHERE id_usuario = :id_usuario AND status_reserva != 'cancelada'";
         $stmt = $this->conn->prepare($query);
@@ -247,15 +255,25 @@ class Reserva {
     }
 
     public function verificarDisponibilidade($idlaboratorio, $dataini, $datafim, $horaioini, $horafim ) {
-        // var_dump($datafim);
-        // var_dump($horaioini);
-        // var_dump($horafim);exit;
-        $query = "SELECT * FROM reservas.reserva where id_laboratorio = :idlaboratorio and status_reserva='aprovada' and data_inicial between :data_inicial and :data_final and horario_inicial between :horaioini and :horafim";
+        $query = "
+            SELECT *
+            FROM reserva
+            WHERE id_laboratorio = :idlaboratorio
+            AND status_reserva = 'aprovada'
+            AND (
+                (:data_inicial BETWEEN data_inicial AND data_final OR :data_final BETWEEN data_inicial AND data_final)
+                OR (data_inicial BETWEEN :data_inicial AND :data_final OR data_final BETWEEN :data_inicial AND :data_final)
+            )
+            AND (
+                (:horarioini BETWEEN horario_inicial AND horario_final OR :horafim BETWEEN horario_inicial AND horario_final)
+                OR (horario_inicial BETWEEN :horarioini AND :horafim OR horario_final BETWEEN :horarioini AND :horafim)
+            );
+        ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":idlaboratorio", $idlaboratorio, PDO::PARAM_INT);
         $stmt->bindParam(":data_final", $datafim);
         $stmt->bindParam(":data_inicial", $dataini);
-        $stmt->bindParam(":horaioini", $horaioini);
+        $stmt->bindParam(":horarioini", $horaioini);
         $stmt->bindParam(":horafim", $horafim);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

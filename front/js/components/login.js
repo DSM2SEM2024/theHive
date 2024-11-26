@@ -13,11 +13,12 @@ export const Login = {
 
         };
     },
+    inject: ['urlBase'],
     methods: {
         login() {
             console.log("Tentando login com:", this.usuario.email, this.usuario.senha);
 
-            fetch('http://localhost:3000/login', {
+            fetch(`${this.urlBase}login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.usuario)
