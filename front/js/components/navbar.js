@@ -281,8 +281,8 @@ export const Navbar = {
         template: `
           <header>
             <h1 v-if="!logado">Fatec - SALA</h1>
-            <a v-if="logado" @click="this.$router.push('/home');"><h1 id="tituloFatec">Fatec - SALA</h1></a>
-              
+              <a v-if="logado" @click="this.$router.push('/home');"><h1 id="tituloFatec">Fatec - SALA</h1></a>
+              <i v-if="logado" id="btn-notificacoes" class="fi fi-ss-home"  @click="this.$router.push('/home');"></i>
               <div id="icons" v-if="logado && this.professor">
                     <i id="btn-notificacoes" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
                     <i id="btn-perfil" class="fi fi-ss-circle-user" ref="iconPerfil" @click="alteraPerfil"></i>
