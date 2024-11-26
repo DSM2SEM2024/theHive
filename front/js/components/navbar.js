@@ -291,6 +291,7 @@ export const Navbar = {
                    <i id="btn-notificacoes" class="fi fi-br-list-check" ref="iconNotificacoes" @click="this.$router.push('/notificacoes');"></i>
                     <i id="btn-notificacoes" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
                     <i id="btn-usuario" ref="iconUsuario" @click="this.$router.push('/usuarios');" class="fi fi-ss-admin-alt"></i>
+                    <i id="btn-equipamentos" ref="iconEquipamentos" @click="this.$router.push('/equipamentos');" class="fi fi-ss-admin-alt"></i>
                     <i id="btn-perfil" class="fi fi-ss-circle-user" ref="iconPerfil" @click="alteraPerfil"></i>
               </div>
           </header>
