@@ -70,8 +70,11 @@
 }
 
 .carousel-item {
-    border-radius: 0rem 4rem 4rem 0rem;
+    border-radius: 0rem 0rem 2rem 0rem;
     font-size: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
     height: auto;
     /* Ajusta a altura conforme o conteúdo */
     display: inline-flex;
@@ -547,12 +550,16 @@ span {
     align-items: center;
     justify-content: start;
     padding-bottom: 1rem;
+    position: relative;
     gap: 2rem;
     overflow-x: auto;
     min-width: 79%;
     max-width: 100%;
     margin-bottom: 2rem;
-    height: 22rem;
+    height: 24rem;
+    padding-top: 3rem;
+    padding-left: 1rem;
+    border: solid 2px var(--cor-andar);
   }
   
   .andar::-webkit-scrollbar {
@@ -562,7 +569,7 @@ span {
   }
   
   .andar::-webkit-scrollbar-thumb {
-    background-color: var(--gray-color);
+    background-color: var(--cor-andar);
     border-radius: 5px;
     cursor: grab;
   }
