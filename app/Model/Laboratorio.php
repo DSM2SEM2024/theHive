@@ -39,7 +39,7 @@ class Laboratorio {
         $id= $this->conn->lastInsertId();
         if ($id) {
             $tokenUser = $this->helper->verificarTokenComPermissao();
-            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Laboratório"); 
+            //$this->log->registrar($tokenUser['id_usuario'], "INSERT", "Laboratório"); 
         }
         return $id;
     }

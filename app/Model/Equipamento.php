@@ -53,19 +53,14 @@ class Equipamento {
         $nome = $equipamento->getNome();
         $software = $equipamento->getSoftware();
         $numero = $equipamento->getNumero();
-        $query = "INSERT INTO $this->table (nome,numero, id_software) VALUES (:nome,:numero, :id_software)";
+        $query = "INSERT INTO $this->table (nome, numero, software) VALUES (:nome,:numero, :software)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":numero", $numero, PDO::PARAM_INT);
-        $stmt->bindParam(":id_software", $software);
+        $stmt->bindParam(":software", $software);
 
-        $executar = $stmt->execute();
-        if ($executar) {
-            $tokenUser = $this->helper->verificarTokenComPermissao();
-            $this->log->registrar($tokenUser['id_usuario'], "INSERT", "Equipamento"); 
-        }
-        return $executar;
+        return $stmt->execute();
     }
 
     public function updateEquipamento($idEquipamento) {

@@ -97,17 +97,17 @@ export const Laboratorio = {
                 <div class="descricao-lab">
                     <ul>
                         <li id="capacidade"><strong>Capacidade:</strong><br> {{ laboratorio.capacidade }} alunos</li>
-                        <li id="equipamento"><strong>Equipamentos:</strong><br> {{ laboratorio.equipamento }}</li>
+                        <!-- <li id="equipamento"><strong>Equipamentos:</strong><br> {{ laboratorio.equipamento }}</li>
                     </ul>
                 </div>
             </div>
 
             <!-- Botão de calendário -->
-            <button class="btn-calendario" @click="verCalendario(laboratorio.id_laboratorio)">
-                Ver calendário
-            </button>
         </div>
     </div>
+    <button class="btn-calendario" @click="verCalendario(laboratorio.id_laboratorio)">
+    Ver calendário
+</button>
         <!-- Modal para Atualizar Laboratório -->
     <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
       <div class="modal-card">
