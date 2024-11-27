@@ -142,8 +142,10 @@ export const Laboratorio = {
           <div class="modal-actions">
             <button type="button" class="cancel-btn" @click="fecharModal">Cancelar</button>
             <button type="submit" @click="atualizarLaboratorio" class="salvar-btn">Salvar</button>
+            
           </div>
         </form>
+        <button @click="deltarlab(labAtualizado.id_laboratorio)" class="cancel-btn">Excluir</button>
       </div>
     </div>
 
@@ -171,17 +173,19 @@ export const Laboratorio = {
                 </div>
 
                 <div class="box-input-equipamento">
-                    <select name="select-equipamento" id="select-equipamento" v-model="selectedEquipamento">
-                        <option v-for="(equipamento, index) in equipamentos" :key="index" :value="equipamento.id">
+                    <select name="select-equipamento" id="select-equipamento" v-model="selectedEquipamento" multiple>
+                        <option v-for="(equipamento, index) in equipamentos" :key="index" :value="equipamento.id_equipamento">
                             {{ equipamento.nome }}
                         </option>
                     </select>
+                   {{selectedEquipamento}}
                 </div>
             </form>
             <div class="modal-actions">
                 <button @click="closeLabModal" class="cancel-btn">Cancelar</button>
-                <button @click="addLaboratorio" @click="handlelClick" class="create-btn">Adicionar</button>
+                <button @click="addLaboratorio"  class="create-btn">Adicionar</button>
             </div>
+            
         </div>
     </div>
   `,
@@ -199,7 +203,8 @@ export const Laboratorio = {
       labName: null,
       labCap: null,
       selectedAndar: '',
-      selectedEquipamento: '',
+      selectedEquipamento: [],
+      equipamentos: [],
       message: null, // Mensagem de erro ou sucesso
       cores: [
         { nome: 'Vermelho', hex: '#B03648' },
@@ -222,6 +227,28 @@ export const Laboratorio = {
     };
   },
   methods: {
+    loadEquipments() {
+      const token = localStorage.getItem('token'); // Recupera o token
+      fetch(`${this.urlBase}equipamento`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}` // Utiliza o token na requisição
+          }
+      })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Erro ao carregar equipamentos');
+              }
+              return response.json();
+          })
+          .then(data => {
+              this.equipamentos = data;
+          })
+          .catch(error => {
+              console.error('Erro ao carregar os equipamentos:', error);
+          });
+  },
     verCalendario(idLab) {
       this.$router.push({ name: 'Calendario', params: { idLab } });
     },
@@ -237,6 +264,29 @@ export const Laboratorio = {
     // Função para fechar o modal
     async closeModal() {
       this.isModalOpen = false;
+    },
+    deltarlab($id){
+      const token = localStorage.getItem('token');
+        // Envia os dados do novo andar para a API
+        fetch(`${this.urlBase}labs/${$id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status) {
+              this.showMessage('success', 'Laboratório excluido!');
+            }
+          })
+          .catch(error => {
+            console.error('Erro ao criar o andar:', error);
+            this.showMessage('error', 'Erro ao criar o andar. Tente novamente!');
+          });
+     
     },
     // Função para enviar o novo andar
     submitInput() {
@@ -308,6 +358,7 @@ export const Laboratorio = {
         });
     },
     openLabModal(andar) {
+      this.loadEquipments();
       this.selectedAndar = andar;
       this.isLabModalOpen = true;
       console.log(this.selectedAndar);
@@ -367,9 +418,9 @@ export const Laboratorio = {
             // Limpar os campos após a criação
             this.labName = '';
             this.labCap = '';
-            this.selectedEquipamento = null;
+            this.selectedEquipamento = [];
             this.closeLabModal();
-
+            this.handlelClick();
           } else {
             this.showMessage('error', 'Erro ao adicionar laboratório!');
           }
