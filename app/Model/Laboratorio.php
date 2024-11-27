@@ -93,6 +93,15 @@ class Laboratorio {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getLaboratorioByEstado($estado) {
+        $query = "SELECT * FROM $this->table WHERE estado = :estado";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":estado", $estado);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     //método para buscar laboratórios por andar
     public function getLaboratorioByAndar($andar) {
         $query = "SELECT * FROM $this->table WHERE andar = :andar AND estado = 1";

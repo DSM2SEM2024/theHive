@@ -1,91 +1,32 @@
 export const Home = {
-    inject: ['urlBase'],
+    inject: ['urlBase'], // Corrigido para usar inject corretamente
     data() {
         return {
             nomeUsuario: null,
             pesquisa: '',
             reservas: [],
+            filtro: 'Mais recentes',
+            professor: false, // Adicionado para manipular filtros no select
         };
     },
     methods: {
         handleClick() {
-            location.reload();
+            this.getReservas(); // Atualiza as reservas sem recarregar a página
         },
 
         limparPesquisa() {
-            this.pesquisa = ''; // Limpa o campo de pesquisa
+            this.pesquisa = '';
         },
+
         fazerReserva() {
-            this.$router.push('/laboratorio'); 
+            this.$router.push('/laboratorio');
         },
 
-        async getReservas() {
-            const id_usuarioss = localStorage.getItem('id_usuario');
+        async getUserInfo() {
+            const id_usuario = localStorage.getItem('id_usuario');
             const token = localStorage.getItem('token');
-            if (!id_usuarioss || !token) return;
-        
-            const url = this.isProfessor
-                ? `${this.urlBase}reserve/prof/${id_usuarioss}` 
-                : `${this.urlBase}reserve/estado/pendente`; 
-        
-            try {
-                const responseReservas = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-        
-                const reservas = await responseReservas.json();
-                
-                // Verifica se reservas é um array e se contém elementos
-                this.reservas = Array.isArray(reservas) && reservas.length > 0 ? reservas : [];
-        
-                // Preenche as informações de cada reserva (nome do laboratório, disciplina e usuário)
-                for (const reserva of this.reservas) {
-                    reserva.nome_laboratorio = await this.getLaboratorioName(reserva.id_laboratorio);
-                    reserva.nome_disciplina = await this.getDisciplinaName(reserva.id_disciplina);
-                    reserva.nome_usuario = await this.getUsuarioName(reserva.id_usuario);
-                }
-        
-                console.log("Reservas:", this.reservas); // Mostra todas as reservas e seus dados
-        
-            } catch (error) {
-                console.error('Erro ao obter reservas:', error); // Trata erros
-            }
-        },
-    
-        //obter nome do laboratório reservado
-        async getLaboratorioName(id_laboratorio) {
-            const token = localStorage.getItem('token');
-            if (!id_laboratorio || !token) return null;
-    
-            try {
-                const response = await fetch(`${this.urlBase}labs/${id_laboratorio}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Erro ao obter o nome do laboratório');
-                }
-    
-                const data = await response.json();
-                return data.nome || "Laboratório desconhecido";
-            } catch (error) {
-                console.error('Erro ao buscar laboratório:', error);
-                return "Laboratório desconhecido";
-            }
-        },
+            if (!id_usuario) return;
 
-        async getUsuarioName(id_usuario) {
-            const token = localStorage.getItem('token');
-            if (!id_usuario || !token) return null;
-    
             try {
                 const response = await fetch(`${this.urlBase}users/${id_usuario}`, {
                     method: 'GET',
@@ -94,145 +35,212 @@ export const Home = {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-    
                 if (!response.ok) {
-                    throw new Error('Erro ao obter o nome do professor');
+                    throw new Error('Erro ao obter informações do usuário');
                 }
-    
+
                 const data = await response.json();
-                return data.nome || "Professor desconhecido";
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+                this.usuario = {
+                    nome: data.nome || "Não especificado",
+                    email: data.email || "Não especificado",
+                    perfil: data.perfil || "Não especificado"
+                };
+                localStorage.setItem('usuario_nome', this.usuario.nome);
+                if (this.usuario.perfil === 'Professor') {
+                    this.professor = true;
+                } else {
+                    this.professor = false;
+                }
+                this.getReservas();
             } catch (error) {
-                console.error('Erro ao buscar professor:', error);
-                return "Professor desconhecido";
+                console.error('Erro ao buscar informações do usuário:', error);
             }
         },
 
-        //obter nome da disciplina que o professor ministrará nas reservas
+        async getReservas() {
+            const id_usuarioss = localStorage.getItem('id_usuario');
+            const token = localStorage.getItem('token');
+            if (!id_usuarioss || !token) return;
+
+            let url;
+            if (this.professor) {
+                url = `${this.urlBase}reserve/prof/${id_usuarioss}`;
+            } else {
+                url = `${this.urlBase}reserve/estado/pendente`;
+            }
+
+            try {
+                const responseReservas = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const reservas = await responseReservas.json();
+                this.reservas = Array.isArray(reservas) ? reservas : [];
+
+                for (const reserva of this.reservas) {
+                    reserva.nome_laboratorio = await this.getLaboratorioName(reserva.id_laboratorio);
+                    reserva.nome_disciplina = await this.getDisciplinaName(reserva.id_disciplina);
+                    reserva.nome_usuario = await this.getUsuarioName(reserva.id_usuario);
+                }
+            } catch (error) {
+                console.error('Erro ao obter reservas:', error);
+            }
+        },
+
+        async getLaboratorioName(id_laboratorio) {
+            const token = localStorage.getItem('token');
+            if (!id_laboratorio || !token) return null;
+
+            try {
+                const response = await fetch(`${this.urlBase}labs/${id_laboratorio}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) throw new Error('Erro ao obter o nome do laboratório');
+                const data = await response.json();
+                return data.nome || 'Laboratório desconhecido';
+            } catch (error) {
+                console.error('Erro ao buscar laboratório:', error);
+                return 'Laboratório desconhecido';
+            }
+        },
+
+        async getUsuarioName(id_usuario) {
+            const token = localStorage.getItem('token');
+            if (!id_usuario || !token) return null;
+
+            try {
+                const response = await fetch(`${this.urlBase}users/${id_usuario}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) throw new Error('Erro ao obter o nome do professor');
+                const data = await response.json();
+                return data.nome || 'Professor desconhecido';
+            } catch (error) {
+                console.error('Erro ao buscar professor:', error);
+                return 'Professor desconhecido';
+            }
+        },
+
         async getDisciplinaName(id_disciplina) {
             const token = localStorage.getItem('token');
             if (!id_disciplina || !token) return null;
-    
+
             try {
                 const response = await fetch(`${this.urlBase}disciplina/${id_disciplina}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                        'Authorization': `Bearer ${token}`,
+                    },
                 });
-    
-                if (!response.ok) {
-                    throw new Error('Erro ao obter o nome da disciplina');
-                }
-    
+
+                if (!response.ok) throw new Error('Erro ao obter o nome da disciplina');
                 const data = await response.json();
-                return data.nome || "Disciplina desconhecida";
+                return data.nome || 'Disciplina desconhecida';
             } catch (error) {
                 console.error('Erro ao buscar disciplina:', error);
-                return "Disciplina desconhecida";
+                return 'Disciplina desconhecida';
             }
         },
-    
+
         formatarDataHora(data, hora) {
-            // Formata data no formato DD/MM/AAAA
+            if (!data || !hora) return { dataFormatada: 'Data inválida', horaFormatada: 'Hora inválida' };
+
             const dateObj = new Date(data);
+            if (isNaN(dateObj.getTime())) return { dataFormatada: 'Data inválida', horaFormatada: 'Hora inválida' };
+
             const dia = String(dateObj.getDate()).padStart(2, '0');
             const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
             const ano = dateObj.getFullYear();
-    
-            // Hora já está no formato HH:MM:SS, pegamos os dois primeiros
+
             const [horas, minutos] = hora.split(':');
-    
             return {
                 dataFormatada: `${dia}/${mes}/${ano}`,
-                horaFormatada: `${horas}:${minutos}`
+                horaFormatada: `${horas}:${minutos}`,
             };
         },
 
         async excluirReserva(id_reserva) {
             const token = localStorage.getItem('token');
-            if (!id_reserva || !token) return null;
-    
+            if (!id_reserva || !token) return;
+
             try {
                 const response = await fetch(`${this.urlBase}reserve/${id_reserva}/cancel`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                        'Authorization': `Bearer ${token}`,
+                    },
                 });
-    
-                if (!response.ok) {
-                    throw new Error('Erro ao cancelar');
-                }
-    
-                const data = await response.json();
-                return data.nome || "Reserva cancelada";
+
+                if (!response.ok) throw new Error('Erro ao cancelar');
+                this.getReservas(); // Atualiza reservas após exclusão
             } catch (error) {
                 console.error('Erro ao cancelar:', error);
-                return "Reserva desconhecida";
             }
         },
+
         async aprovarReserva(id_reserva) {
             const token = localStorage.getItem('token');
-            if (!id_reserva || !token) return null;
-    
+            if (!id_reserva || !token) return;
+
             try {
                 const response = await fetch(`${this.urlBase}reserve/${id_reserva}/approve`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                        'Authorization': `Bearer ${token}`,
+                    },
                 });
-    
-                if (!response.ok) {
-                    throw new Error('Erro ao aprovar a reserva');
-                }
-    
-                const data = await response.json();
-                console.log('Reserva aprovada:', data);
 
-                location.reload();
-                if (reserva) reserva.status_reserva = 'Aprovada';
+                if (!response.ok) throw new Error('Erro ao aprovar a reserva');
+                this.getReservas();
             } catch (error) {
                 console.error('Erro ao aprovar a reserva:', error);
             }
         },
-    
+
         async negarReserva(id_reserva) {
             const token = localStorage.getItem('token');
-            if (!id_reserva || !token) return null;
-    
+            if (!id_reserva || !token) return;
+
             try {
                 const response = await fetch(`${this.urlBase}reserve/${id_reserva}/deny`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                        'Authorization': `Bearer ${token}`,
+                    },
                 });
-    
-                if (!response.ok) {
-                    throw new Error('Erro ao negar a reserva');
-                }
-    
-                const data = await response.json();
-                console.log('Reserva negada:', data);
 
-                location.reload();
-                if (reserva) reserva.status_reserva = 'Negada';
+                if (!response.ok) throw new Error('Erro ao negar a reserva');
+                this.getReservas();
             } catch (error) {
                 console.error('Erro ao negar a reserva:', error);
             }
-        }
+        },
     },
     mounted() {
-        setTimeout(() => {
-            const nome = localStorage.getItem('usuario_nome');
-            this.nomeUsuario = nome;
-        }, 100);
-        this.getReservas();
+        this.nomeUsuario = localStorage.getItem('usuario_nome');
+        this.getUserInfo(); 
     },
     setup() {
         const isProfessor = Vue.inject('isProfessor');

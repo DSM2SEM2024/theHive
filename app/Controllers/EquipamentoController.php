@@ -16,13 +16,13 @@ class EquipamentoController {
     public function create($data) {
         $this->helper->criar();
 
-        if (!isset($data->nome, $data->numero)) {
+        if (!isset($data->nome)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para a criação do equipamento."]);
             return;
         }
 
-        $this->equip->setNome($data->nome)->setNumero($data->numero)->setSoftware($data->software);
+        $this->equip->setNome($data->nome)->setSoftware($data->software);
         if ($this->equip->insertEquipamento($this->equip)) {
             http_response_code(201);
             echo json_encode(["success"=> true,"message" => "Equipamento criado com sucesso."]);
@@ -55,13 +55,13 @@ class EquipamentoController {
     public function update($id, $data) {
         $this->helper->atualizar();
         
-        if (!isset($data->nome, $data->numero)) {
+        if (!isset($data->nome)) {
             http_response_code(400);
             echo json_encode(["error" => "Dados incompletos para atualização do equipamento."]);
             return;
         }
     
-    $this->equip->setNome($data->nome)->setNumero($data->numero)->setSoftware($data->software);
+    $this->equip->setNome($data->nome)->setSoftware($data->software);
     
         if ($this->equip->updateEquipamento($id)) {
             http_response_code(200);
@@ -69,6 +69,18 @@ class EquipamentoController {
         } else {
             http_response_code(500);
             echo json_encode(["error" => "Erro ao atualizar equipamento."]);
+        }
+    }
+
+    public function filterByEstado($estado){
+        $this->helper->visualizar();
+        $result = $this->equip->getEquipamentoByEstado($estado);
+        if ($result) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Nenhum equipamento encontrado com o estado: $estado"]);
         }
     }
 

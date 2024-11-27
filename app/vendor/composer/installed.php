@@ -3,7 +3,7 @@
         'name' => 'conta/app',
         'pretty_version' => '2.x-dev',
         'version' => '2.9999999.9999999.9999999-dev',
-        'reference' => '6b1a81bcd6983dba0f56a4dbd83520b7af83f2ec',
+        'reference' => '2ce89a697e7af82d14951884efea47d1e652e125',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'conta/app' => array(
             'pretty_version' => '2.x-dev',
             'version' => '2.9999999.9999999.9999999-dev',
-            'reference' => '6b1a81bcd6983dba0f56a4dbd83520b7af83f2ec',
+            'reference' => '2ce89a697e7af82d14951884efea47d1e652e125',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -138,6 +138,16 @@ class Usuario {
     }
 
 
+    public function getUsuarioByEstado($estado) {
+        $query = "SELECT * FROM $this->table WHERE estado = :estado";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":estado", $estado);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function updateUsuario($id_usuario) {
         $nome = $this->getNome();
         $email = $this->getEmail();

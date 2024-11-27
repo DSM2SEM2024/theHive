@@ -8,6 +8,7 @@ import { Laboratorio } from './components/laboratorio.js';
 import { Calendario } from './components/calendario.js';
 import { Usuarios } from './components/usuarios.js';
 import { criarReserva } from './components/criarReserva.js';
+import { Lixeira } from './components/lixeira.js';
 import { Equipamentos } from './components/equipamentos.js';
 
 const routes = [
@@ -20,7 +21,7 @@ const routes = [
     { path: '/usuarios', component: Usuarios },
     { path: '/criarReserva', component: criarReserva },
     { path: '/equipamentos', component: Equipamentos },
-    
+    { path: '/lixeira', component: Lixeira }
 ];
 
 const router = VueRouter.createRouter({

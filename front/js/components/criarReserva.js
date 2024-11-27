@@ -15,36 +15,9 @@ export const criarReserva = {
                 <input v-model="reserva.descricao" placeholder="Descrição" />
               </div>
             </div>
-
-            <div class="group-data-hora1">
-              <div class="titulo">
-                <h2>INÍCIO:</h2>
-              </div>
-              <div class="box-data-hora1">
-                <input v-model="reserva.datainicial" type="date" required />
-              </div>
-              <div class="box-data-hora1">
-                <input v-model="reserva.horarioinicial" type="time" required />
-              </div>
-            </div>
-
-            <div class="group-data-hora2">
-              <div class="titulo">
-                <h2>FIM:</h2>
-              </div>
-              <div v-if="reserva.recorrencia !== 'nenhuma'" class="box-data-hora2">
-                <input v-model="reserva.datafinal" type="date" />
-              </div>
-              <div class="box-data-hora2">
-                <input v-model="reserva.horariofinal" type="time" required />
-              </div>
-            </div>
-              
-            <div id="group-mensagem"> 
-              <div id="box-mensagem-reserva">
-                <p class="mensagem-reserva" v-if="mensagem">{{ mensagem }}</p> 
-              </div>
-
+                          
+            <div id="group-recorrencia"> 
+            
               <div class="titulo">
                 <h2>FREQUÊNCIA:</h2>
               </div>
@@ -55,6 +28,39 @@ export const criarReserva = {
                   <option value="semanal">Semanal</option>
                 </select>
               </div>
+            </div>
+
+
+            <div class="group-data-hora1">
+              <div class="titulo">
+                <h2>INÍCIO:</h2>
+              </div>
+              <div class="group-inputs-data1">
+              <div class="box-data-hora1">
+                <input v-model="reserva.datainicial" type="date" required />
+              </div>
+              <div class="box-data-hora1">
+                <input v-model="reserva.horarioinicial" type="time" required />
+              </div>
+              </div>
+            </div>
+
+            <div class="group-data-hora2">
+              <div class="titulo">
+                <h2>FIM:</h2>
+              </div>
+              <div class="group-inputs-data2">
+              <div v-if="reserva.recorrencia !== 'nenhuma'" class="box-data-hora2">
+                <input v-model="reserva.datafinal" type="date" />
+              </div>
+              <div class="box-data-hora2">
+                <input v-model="reserva.horariofinal" type="time" required />
+              </div>
+              </div>
+            </div>
+
+            <div id="box-mensagem-reserva">
+              <p class="mensagem-reserva" v-if="mensagem">{{ mensagem }}</p> 
             </div>
             
             <div id="group-button">

@@ -20,6 +20,7 @@ class rotas {
                 '/users' => [UsuarioController::class, 'read'],
                 '/users/{id}' => [UsuarioController::class, 'read'],
                 '/users/nome/{nomeUsuario}' => [UsuarioController::class, 'filterByNome'],
+                '/users/estado/{estado}' => [UsuarioController::class, 'filterByEstado'],
                 //andar
                 '/andar' => [AndarController::class, 'readAll'],
                 '/andar/{id}' => [AndarController::class, 'readId'],
@@ -28,6 +29,7 @@ class rotas {
                 '/labs/{id}' => [LaboratorioController::class, 'read'],
                 '/labs/nome/{nomeLaboratorio}' => [LaboratorioController::class, 'filterByNome'],
                 '/labs/andar/{andar}' => [LaboratorioController::class, 'filterLaboratorioByAndar'],
+                '/labs/estado/{estado}' => [LaboratorioController::class, 'filterByEstado'],
                 //reserva
                 '/reserve' => [ReservaController::class, 'obterTodasReservas'],
                 '/reserve/{id}' => [ReservaController::class, 'obterReservaPorId'],
@@ -47,6 +49,7 @@ class rotas {
                 '/software' => [SoftwareController::class, 'read'],
                 //equipamento
                 '/equipamento' => [EquipamentoController::class, 'read'],
+                '/equipamento/estado/{estado}' => [EquipamentoController::class, 'filterByEstado'],
                 //logs
                 '/logs' => [Log::class, 'read'],
                 '/logs/prof/{prof}' => [Log::class, 'obterLogPorProf'],

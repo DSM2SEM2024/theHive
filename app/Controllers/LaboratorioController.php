@@ -69,6 +69,18 @@ class LaboratorioController {
         return '%' . trim($param) . '%';
     }    
 
+    public function filterByEstado($estado){
+        $this->helper->visualizar();
+        $result = $this->lab->getLaboratorioByEstado($estado);
+        if ($result) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Nenhum Laboratorio encontrado com o estado: $estado"]);
+        }
+    }
+
     public function filterLaboratorioByAndar($andar) {
         $this->helper->visualizar();
         if (empty($andar)) {
