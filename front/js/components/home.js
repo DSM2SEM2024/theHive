@@ -56,7 +56,6 @@ export const Home = {
                 console.error('Erro ao buscar informações do usuário:', error);
             }
         },
-
         
         async getUsuarioName(id_usuario) {
             const token = localStorage.getItem('token');
@@ -70,12 +69,10 @@ export const Home = {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-    
+                const data = await response.json();
                 if (!response.ok) {
                     throw new Error('Erro ao obter o nome do professor');
                 }
-    
-                const data = await response.json();
                 return data.nome || "Professor desconhecido";
             } catch (error) {
                 console.error('Erro ao buscar professor:', error);
@@ -109,6 +106,7 @@ export const Home = {
 
                 for (const reserva of this.reservas) {
                     reserva.nome_laboratorio = await this.getLaboratorioName(reserva.id_laboratorio);
+                    reserva.nome_usuario = await this.getUsuarioName(reserva.id_usuario);
                 }
             } catch (error) {
                 console.error('Erro ao obter reservas:', error);
@@ -253,7 +251,7 @@ export const Home = {
                             <p>Descrição: {{ reserva.descricao || 'Sem descrição disponível' }}</p>
                         </div>
                         <div id="txt-card-4">
-                            <p>Data inicial: {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
+                            <p>Data: {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
                         </div>
                     </div>
                     <div v-if="!isProfessor" id="acoes-card-reserva">
