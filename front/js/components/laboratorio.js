@@ -141,7 +141,7 @@ export const Laboratorio = {
           </div>
           <div class="modal-actions">
             <button type="button" class="cancel-btn" @click="fecharModal">Cancelar</button>
-            <button type="submit" @click="atualizarLaboratorio" class="save-btn">Salvar</button>
+            <button type="submit" @click="atualizarLaboratorio" class="salvar-btn">Salvar</button>
           </div>
         </form>
       </div>

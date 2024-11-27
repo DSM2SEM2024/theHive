@@ -1,188 +1,226 @@
 export const Equipamentos = {
-    inject: ['urlBase'],
     data() {
-      return {
-        showPopup: false,
-        equipmentName: "",
-        equipmentNumber: null,
-        softwareList: [],
-        selectedSoftwares: [],
-        equipmentCollection: [], // Equipamentos carregados do banco
-        allSoftwares: [], // Todos os softwares disponíveis
-        errors: {
-          equipmentName: false,
-          equipmentNumber: false,
-        },
-      };
+        return {
+            showEquipmentPopup: false,
+            showSoftwarePopup: false,
+            equipmentName: "",
+            newSoftware: "",
+            currentEquipmentIndex: null,
+            equipmentCollection: [], // Lista de equipamentos criados
+            errors: {
+                equipmentName: false,
+                newSoftware: false,
+            },
+        };
     },
+    inject: ['urlBase'], // Injecta a urlBase
+
     methods: {
-      // Abre o popup
-      openPopup() {
-        this.showPopup = true;
-      },
-      // Fecha o popup e reseta os campos
-      closePopup() {
-        this.showPopup = false;
-        this.equipmentName = "";
-        this.equipmentNumber = null;
-        this.selectedSoftwares = [];
-        this.errors.equipmentName = false;
-        this.errors.equipmentNumber = false;
-      },
-      // Valida o formulário antes de enviar
-      validateForm() {
-        this.errors.equipmentName = !this.equipmentName.trim();
-        this.errors.equipmentNumber = !this.equipmentNumber || isNaN(this.equipmentNumber);
-  
-        return !this.errors.equipmentName && !this.errors.equipmentNumber;
-      },
-      // Salva um novo equipamento no banco via POST
-      async saveEquipment() {
-        if (!this.validateForm()) {
-          return;
-        }
-  
-        try {
-          // Envia o equipamento para o servidor
-          const response = await fetch(`${this.urlBase}equipamento`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: JSON.stringify({
-              name: this.equipmentName,
-              number: this.equipmentNumber,
-              softwares: this.selectedSoftwares, // IDs dos softwares selecionados
-            }),
-          });
-  
-          if (!response.ok) {
-            throw new Error('Falha ao salvar equipamento.');
-          }
-  
-          // Atualiza a lista local após o salvamento bem-sucedido
-          const newEquipment = await response.json();
-          this.equipmentCollection.push(newEquipment);
-  
-          // Fecha o popup e reseta os campos
-          this.closePopup();
-        } catch (error) {
-          console.error('Erro ao salvar equipamento:', error);
-          alert('Não foi possível salvar o equipamento.');
-        }
-      },
-      // Carrega os equipamentos existentes via GET
-      async fetchEquipments() {
-        try {
-          const response = await fetch(`${this.urlBase}equipamento`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-          });
-  
-          if (!response.ok) {
-            throw new Error('Falha ao carregar equipamentos.');
-          }
-  
-          this.equipmentCollection = await response.json();
-        } catch (error) {
-          console.error('Erro ao carregar equipamentos:', error);
-        }
-      },
-      // Carrega os softwares existentes via GET
-      async fetchSoftwares() {
-        try {
-          const response = await fetch(`${this.urlBase}software`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-          });
-  
-          if (!response.ok) {
-            throw new Error('Falha ao carregar softwares.');
-          }
-  
-          this.allSoftwares = await response.json();
-        } catch (error) {
-          console.error('Erro ao carregar softwares:', error);
-        }
-      },
+        // Recarregar todos os equipamentos e softwares (GET)
+        loadEquipments() {
+            const token = localStorage.getItem('token'); // Recupera o token
+            fetch(`${this.urlBase}equipamento`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Utiliza o token na requisição
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar equipamentos');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Associa os equipamentos e seus softwares
+                    this.equipmentCollection = data.map(equipment => ({
+                        ...equipment,
+                        softwares: equipment.softwares || [] // Garantir que softwares seja um array
+                    }));
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar os equipamentos:', error);
+                });
+        },
+
+        // Salvar novo equipamento (POST)
+        saveEquipment() {
+            const token = localStorage.getItem('token'); // Recupera o token
+            if (!this.equipmentName.trim()) {
+                this.errors.equipmentName = true;
+                return;
+            }
+            this.errors.equipmentName = false;
+
+            const newEquipment = {
+                name: this.equipmentName,
+                softwares: []
+            };
+
+            fetch(`${this.urlBase}equipamento`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Utiliza o token na requisição
+                },
+                body: JSON.stringify({
+                    nome: this.equipmentName, // Nome do equipamento que o usuário está criando
+                    softwares: [] // Inicialmente, o equipamento pode não ter nenhum software
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao criar equipamento');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Adiciona o novo equipamento à coleção
+                    this.equipmentCollection.push(data);
+                    this.closeEquipmentPopup(); // Fecha o popup
+                    this.equipmentName = ""; // Limpa o campo
+                })
+                .catch(error => {
+                    console.error('Erro ao criar equipamento:', error);
+                });
+        },
+
+        // Adicionar software a um equipamento existente (POST)
+        addSoftware() {
+            const token = localStorage.getItem('token'); // Recupera o token
+            if (!this.newSoftware.trim()) {
+                this.errors.newSoftware = true;
+                return;
+            }
+            this.errors.newSoftware = false;
+
+            const softwareData = {
+                name: this.newSoftware.trim()
+            };
+
+            fetch(`${this.urlBase}software`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Utiliza o token na requisição
+                },
+                body: JSON.stringify({
+                    nome: this.newSoftware.trim() // Nome do software que o usuário está criando
+                })
+                
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao adicionar software');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Adiciona o software ao equipamento atual
+                    this.equipmentCollection[this.currentEquipmentIndex].softwares.push(data.name);
+                    this.closeSoftwarePopup(); // Fecha o popup
+                    this.newSoftware = ""; // Limpa o campo
+                })
+                .catch(error => {
+                    console.error('Erro ao adicionar software:', error);
+                });
+        },
+        // Métodos de manipulação do popup de equipamento
+        openEquipmentPopup() {
+            this.showEquipmentPopup = true;
+        },
+        closeEquipmentPopup() {
+            this.showEquipmentPopup = false;
+            this.equipmentName = "";
+            this.errors.equipmentName = false;
+        },
+
+        // Métodos de manipulação do popup de software
+        openSoftwarePopup(index) {
+            this.currentEquipmentIndex = index;
+            this.newSoftware = "";
+            this.errors.newSoftware = false;
+            this.showSoftwarePopup = true;
+        },
+        closeSoftwarePopup() {
+            this.showSoftwarePopup = false;
+            this.currentEquipmentIndex = null;
+            this.newSoftware = "";
+        },
+
     },
-    async mounted() {
-      // Carrega os equipamentos e softwares ao montar o componente
-      await Promise.all([this.fetchEquipments(), this.fetchSoftwares()]);
+
+    mounted() {
+        this.loadEquipments();
     },
+
     template: `
       <div>
         <h1 id="titulo">Equipamentos</h1>
-        <button @click="openPopup" class="create-user-button">Criar Equipamento</button>
+        <button @click="openEquipmentPopup" class="create-user-button">Criar Equipamento</button>
   
         <!-- Lista de Equipamentos -->
         <div class="equipment-container">
           <div v-for="(equipment, index) in equipmentCollection" :key="index" class="equipment-card">
-            <h3>{{ equipment.name }} (Número: {{ equipment.number }})</h3>
+            <h3>{{ equipment.equipmentName }}</h3>
             <ul>
-              <li v-for="(software, sIndex) in equipment.softwares" :key="sIndex">{{ software.name }}</li>
+              <li v-for="(software, sIndex) in equipment.softwares" :key="sIndex">{{ software }}</li>
             </ul>
+            <div class="modal-actions">
+              <button @click="equipmentCollection.splice(index, 1)" class="cancel-btn">Deletar</button>
+              <button @click="openSoftwarePopup(index)" class="create-btn"> + Software</button>
+            </div>
           </div>
         </div>
   
-        <!-- Popup -->
-        <div v-if="showPopup" class="popup-overlay">
+        <!-- Popup de Criação de Equipamento -->
+        <div v-if="showEquipmentPopup" class="popup-overlay">
           <div class="popup">
-            <h2 id="titulo">Criar Equipamento</h2>
+            <h2>Criar Equipamento</h2>
             <form>
               <div class="form-group">
                 <label for="equipmentName">Nome do Equipamento (Obrigatório):</label>
-                <input 
+                <input
                   placeholder="Nome do Equipamento"
                   type="text"
-                  id="equipmentName" 
-                  v-model="equipmentName" 
+                  id="equipmentName"
+                  v-model="equipmentName"
                   :class="{ 'input-error': errors.equipmentName }"
                 />
                 <p v-if="errors.equipmentName" class="error-text">Este campo é obrigatório.</p>
               </div>
-              <div class="form-group">
-                <label for="equipmentNumber">Número do Equipamento (Obrigatório):</label>
-                <input 
-                  placeholder="Número do Equipamento"
-                  type="number"
-                  id="equipmentNumber" 
-                  v-model="equipmentNumber" 
-                  :class="{ 'input-error': errors.equipmentNumber }"
-                />
-                <p v-if="errors.equipmentNumber" class="error-text">Este campo é obrigatório.</p>
+              <div class="modal-actions">
+                <button @click="closeEquipmentPopup" class="cancel-btn">Cancelar</button>
+                <button @click="saveEquipment" class="salvar-btn">Salvar</button>
               </div>
+            </form>
+          </div>
+        </div>
+  
+        <!-- Popup de Adição de Software -->
+        <div v-if="showSoftwarePopup" class="popup-overlay">
+          <div class="popup">
+            <h2>Adicionar Software</h2>
+            <form>
               <div class="form-group">
-                <label for="softwares">Softwares Associados:</label>
-                <select 
-                  id="softwares" 
-                  v-model="selectedSoftwares" 
-                  multiple
-                >
-                  <option 
-                    v-for="software in allSoftwares" 
-                    :key="software.id_software" 
-                    :value="software.id_software"
-                  >
-                    {{ software.nome }}
-                  </option>
-                </select>
+                <label for="newSoftware">Nome do Software (Obrigatório):</label>
+                <input
+                  placeholder="Nome do Software"
+                  type="text"
+                  id="newSoftware"
+                  v-model="newSoftware"
+                  :class="{ 'input-error': errors.newSoftware }"
+                />
+                <p v-if="errors.newSoftware" class="error-text">Este campo é obrigatório.</p>
               </div>
               <div class="modal-actions">
-                <button @click="closePopup" class="cancel-btn">Cancelar</button>
-                <button @click.prevent="saveEquipment" class="save-btn">Salvar</button>
+                <button @click="closeSoftwarePopup" class="cancel-btn">Cancelar</button>
+                <button @click="addSoftware" class="salvar-btn">Salvar</button>
               </div>
             </form>
           </div>
         </div>
       </div>
     `,
-  };
-  
+};

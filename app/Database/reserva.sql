@@ -70,7 +70,6 @@ CREATE TABLE SOFTWARE (
 CREATE TABLE EQUIPAMENTO (
 	id_equipamento int primary key auto_increment,
     nome varchar(50) not null,
-    numero int(3) not null,
     id_software int,
     estado boolean not null default 1,
     data_cad timestamp default current_timestamp,
