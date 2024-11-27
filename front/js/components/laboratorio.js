@@ -142,8 +142,10 @@ export const Laboratorio = {
           <div class="modal-actions">
             <button type="button" class="cancel-btn" @click="fecharModal">Cancelar</button>
             <button type="submit" @click="atualizarLaboratorio" class="salvar-btn">Salvar</button>
+            
           </div>
         </form>
+        <button @click="deltarlab(labAtualizado.id_laboratorio)" class="cancel-btn">Excluir</button>
       </div>
     </div>
 
@@ -183,6 +185,7 @@ export const Laboratorio = {
                 <button @click="closeLabModal" class="cancel-btn">Cancelar</button>
                 <button @click="addLaboratorio"  class="create-btn">Adicionar</button>
             </div>
+            
         </div>
     </div>
   `,
@@ -261,6 +264,29 @@ export const Laboratorio = {
     // Função para fechar o modal
     async closeModal() {
       this.isModalOpen = false;
+    },
+    deltarlab($id){
+      const token = localStorage.getItem('token');
+        // Envia os dados do novo andar para a API
+        fetch(`${this.urlBase}labs/${$id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status) {
+              this.showMessage('success', 'Laboratório excluido!');
+            }
+          })
+          .catch(error => {
+            console.error('Erro ao criar o andar:', error);
+            this.showMessage('error', 'Erro ao criar o andar. Tente novamente!');
+          });
+     
     },
     // Função para enviar o novo andar
     submitInput() {

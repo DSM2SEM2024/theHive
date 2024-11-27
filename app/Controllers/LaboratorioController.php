@@ -115,7 +115,7 @@ class LaboratorioController {
             return;
         }
 
-        $this->lab->setNome($data->nome)->setEquipamento($data->equipamento)->setCapacidade($data->capacidade);
+        $this->lab->setNome($data->nome)->setEquipamento($data->id_equipamento)->setCapacidade($data->capacidade);
 
         if ($this->lab->updateLaboratorio($id)) {
             http_response_code(200);
