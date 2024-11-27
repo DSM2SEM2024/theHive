@@ -14,14 +14,14 @@ export const Usuarios = {
                             <label>Nome:</label>
                             <input v-model="newUser.nome" type="text" maxlength="50" required />
                         </div>
+                            <div class="form-group">
+                            <label>Email:</label>
+                            <input v-model="newUser.email" type="email" maxlength="50" required />
+                        </div>
                         <div class="form-group">
                             <label>Senha:</label>
                             <input v-model="newUser.senha" type="text" maxlength="500" required /> <!-- Mostra a senha -->
                             <button class="create-btn random-password" type="button" @click="generateRandomPassword">Gerar Senha</button> <!-- Botão para gerar a senha -->
-                        </div>
-                        <div class="form-group">
-                            <label>Email:</label>
-                            <input v-model="newUser.email" type="email" maxlength="50" required />
                         </div>
                         <div class="form-group">
                             <label>Perfil:</label>
@@ -183,14 +183,14 @@ export const Usuarios = {
 
         // Gera uma senha aleatória
         generateRandomPassword() {
-            const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-            let password = "";
-            for (let i = 0; i < 12; i++) {  // 12 é o comprimento da senha gerada
-                const randomIndex = Math.floor(Math.random() * charset.length);
-                password += charset[randomIndex];
+            const randomNumbers = Math.floor(1000 + Math.random() * 9000); // Gera 4 números aleatórios
+            if (this.newUser.nome.trim() === '') {
+                alert('Por favor, insira o nome do usuário antes de gerar a senha.');
+                return;
             }
-            this.newUser.senha = password;  // Atribui a senha gerada ao campo de senha
-        },
+            const sanitizedName = this.newUser.nome.replace(/\s+/g, ''); // Remove os espaços do nome
+            this.newUser.senha = `${sanitizedName}${randomNumbers}`; // Concatena o nome sem espaços com os números
+        },       
 
         // Abre o popup de confirmação de exclusão
         confirmDelete(userId) {
