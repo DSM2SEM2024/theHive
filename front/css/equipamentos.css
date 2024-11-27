@@ -4,6 +4,11 @@
     gap: 15px;
     margin-top: 20px;
   }
+
+  .modal-actions {
+      display: flex;
+      justify-content: center;
+  }
   
   .equipment-card {
     background: #f9f9f9;

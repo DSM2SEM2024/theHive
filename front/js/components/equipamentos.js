@@ -33,10 +33,9 @@ export const Equipamentos = {
                     return response.json();
                 })
                 .then(data => {
-                    // Associa os equipamentos e seus softwares
                     this.equipmentCollection = data.map(equipment => ({
                         ...equipment,
-                        softwares: equipment.softwares || [] // Garantir que softwares seja um array
+                        name: equipment.nome || '', 
                     }));
                 })
                 .catch(error => {
@@ -86,46 +85,6 @@ export const Equipamentos = {
                 });
         },
 
-        // Adicionar software a um equipamento existente (POST)
-        addSoftware() {
-            const token = localStorage.getItem('token'); // Recupera o token
-            if (!this.newSoftware.trim()) {
-                this.errors.newSoftware = true;
-                return;
-            }
-            this.errors.newSoftware = false;
-
-            const softwareData = {
-                name: this.newSoftware.trim()
-            };
-
-            fetch(`${this.urlBase}software`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Utiliza o token na requisição
-                },
-                body: JSON.stringify({
-                    nome: this.newSoftware.trim() // Nome do software que o usuário está criando
-                })
-                
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erro ao adicionar software');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Adiciona o software ao equipamento atual
-                    this.equipmentCollection[this.currentEquipmentIndex].softwares.push(data.name);
-                    this.closeSoftwarePopup(); // Fecha o popup
-                    this.newSoftware = ""; // Limpa o campo
-                })
-                .catch(error => {
-                    console.error('Erro ao adicionar software:', error);
-                });
-        },
         // Métodos de manipulação do popup de equipamento
         openEquipmentPopup() {
             this.showEquipmentPopup = true;
@@ -135,20 +94,6 @@ export const Equipamentos = {
             this.equipmentName = "";
             this.errors.equipmentName = false;
         },
-
-        // Métodos de manipulação do popup de software
-        openSoftwarePopup(index) {
-            this.currentEquipmentIndex = index;
-            this.newSoftware = "";
-            this.errors.newSoftware = false;
-            this.showSoftwarePopup = true;
-        },
-        closeSoftwarePopup() {
-            this.showSoftwarePopup = false;
-            this.currentEquipmentIndex = null;
-            this.newSoftware = "";
-        },
-
     },
 
     mounted() {
@@ -163,13 +108,9 @@ export const Equipamentos = {
         <!-- Lista de Equipamentos -->
         <div class="equipment-container">
           <div v-for="(equipment, index) in equipmentCollection" :key="index" class="equipment-card">
-            <h3>{{ equipment.equipmentName }}</h3>
-            <ul>
-              <li v-for="(software, sIndex) in equipment.softwares" :key="sIndex">{{ software }}</li>
-            </ul>
+            <h3>{{ equipment.name }}</h3>
             <div class="modal-actions">
               <button @click="equipmentCollection.splice(index, 1)" class="cancel-btn">Deletar</button>
-              <button @click="openSoftwarePopup(index)" class="create-btn"> + Software</button>
             </div>
           </div>
         </div>
@@ -197,30 +138,5 @@ export const Equipamentos = {
             </form>
           </div>
         </div>
-  
-        <!-- Popup de Adição de Software -->
-        <div v-if="showSoftwarePopup" class="popup-overlay">
-          <div class="popup">
-            <h2>Adicionar Software</h2>
-            <form>
-              <div class="form-group">
-                <label for="newSoftware">Nome do Software (Obrigatório):</label>
-                <input
-                  placeholder="Nome do Software"
-                  type="text"
-                  id="newSoftware"
-                  v-model="newSoftware"
-                  :class="{ 'input-error': errors.newSoftware }"
-                />
-                <p v-if="errors.newSoftware" class="error-text">Este campo é obrigatório.</p>
-              </div>
-              <div class="modal-actions">
-                <button @click="closeSoftwarePopup" class="cancel-btn">Cancelar</button>
-                <button @click="addSoftware" class="salvar-btn">Salvar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
     `,
 };

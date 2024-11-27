@@ -1,5 +1,16 @@
 export const Lixeira = {
-    methods: {
+    data() {
+        return {
+          usuariosDesativados: [], // Armazenará a lista de usuários desativados
+          equipamentosDesativados: [], // Armazenará a lista de equipamentos desativados
+          laboratoriosDesativados: [], // Armazenará a lista de laboratórios desativados
+          pesquisa: '', // Para pesquisa
+          urlBase: 'http://localhost:3000/', // Substitua pela URL real da sua API
+          isProfessor: true, // Se é professor ou não
+        };
+      },
+      
+     methods: {
         handleClick() {
             location.reload();
         },
@@ -113,7 +124,6 @@ export const Lixeira = {
         },
         async getEquipamentosDesativados() {
             const token = localStorage.getItem('token');
-    
             try {
                 const response = await fetch(`${this.urlBase}equipamento/estado/0`, {
                     method: 'GET',
@@ -121,20 +131,18 @@ export const Lixeira = {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     }
-                    
                 });
-    
+        
                 if (!response.ok) {
                     throw new Error('Erro ao obter equipamentos desativados');
                 }
-    
+        
                 const data = await response.json();
-                return data.nome || "Erro ao obter equipamentos desativados";
+                this.equipamentosDesativados = data;  // Atualiza o estado com a resposta completa
             } catch (error) {
                 console.error('Erro ao buscar equipamentos desativado:', error);
-                return "Erro ao obter equipamentos desativados";
             }
-        },
+        },        
 
         async desativarEquipamento(id_equipamento) {
             const token = localStorage.getItem('token');
@@ -315,38 +323,65 @@ export const Lixeira = {
                 console.error('Erro ao deletar o usuário:', error);
             }
     },
-    mounted(){
+    mounted() {
+        // Ao carregar o componente, obtemos os dados dos usuários, equipamentos e laboratórios desativados
         this.getUsuariosDesativados();
-        this.getEquipamentosDesativados();     
-    },
-
-    template: `
-    <div>
-    <p id="titulo-ola">
-        Olá, seja bem vindo(a) a <strong>Lixeira</strong>.
-    </p>
-    <h2> Lixeira </h2>
-    <div class="card-com-itens" v-if="reservas && reservas.length > 0">
-            <div v-for="reserva in reservas" :key="reserva.id_reserva">
-                <div class="itensDesativados">
-                    <div id="sup-card-itens">
-                        <p>{{ nome_usuario }}</p>
-                    </div>
-                    <div id="txt-card-0">
-                    </div>
-                    <div id="acoes-card-itens">
-                        <button class="reativar" @click="reativarUsuario(users.id_usuario)">Reativar</button>
-                        <button class="deletar" @click="deletarUsuario(users.id_usuario)">Deletar</button>
-                    </div>
-                    </div>
+        this.getEquipamentosDesativados();
+        this.getLaboratoriosDesativados();
+      },
+    },    
+      template: `
+        <div>
+          <p id="titulo-ola">
+            Olá, seja bem-vindo(a) à <strong>Lixeira</strong>.
+          </p>
+          <h2>Lixeira</h2>
+    
+          <div class="card-com-itens" v-if="usuariosDesativados && usuariosDesativados.length > 0">
+            <div v-for="usuario in usuariosDesativados" :key="usuario.id_usuario">
+              <div class="itensDesativados">
+                <div id="sup-card-itens">
+                  <p>{{ usuario.nome }}</p>
+                </div>
+                <div id="acoes-card-itens">
+                  <button class="reativar" @click="reativarUsuario(usuario.id_usuario)">Reativar</button>
+                  <button class="deletar" @click="deletarUsuario(usuario.id_usuario)">Deletar</button>
+                </div>
+              </div>
             </div>
-        </div>
-
-        <div class="card-reservas" v-if="!reservas || reservas.length === 0">
+          </div>
+    
+          <div class="card-com-itens" v-if="equipamentosDesativados && equipamentosDesativados.length > 0">
+            <div v-for="equipamento in equipamentosDesativados" :key="equipamento.id_equipamento">
+              <div class="itensDesativados">
+                <div id="sup-card-itens">
+                  <p>{{ equipamento.nome }}</p>
+                </div>
+                <div id="acoes-card-itens">
+                  <button class="reativar" @click="reativarEquipamento(equipamento.id_equipamento)">Reativar</button>
+                  <button class="deletar" @click="deletarEquipamento(equipamento.id_equipamento)">Deletar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="card-com-itens" v-if="laboratoriosDesativados && laboratoriosDesativados.length > 0">
+            <div v-for="laboratorio in laboratoriosDesativados" :key="laboratorio.id_laboratorio">
+              <div class="itensDesativados">
+                <div id="sup-card-itens">
+                  <p>{{ laboratorio.nome }}</p>
+                </div>
+                <div id="acoes-card-itens">
+                  <button class="reativar" @click="reativarLaboratorio(laboratorio.id_laboratorio)">Reativar</button>
+                  <button class="deletar" @click="deletarLaboratorio(laboratorio.id_laboratorio)">Deletar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="card-reservas" v-if="!usuariosDesativados.length && !equipamentosDesativados.length && !laboratoriosDesativados.length">
             <p>{{ isProfessor ? 'Você não possui reservas até o momento' : 'Nenhum usuário, laboratório ou equipamento desativado.' }}</p>
+          </div>
         </div>
-    </div>
-</div>
-    `,
-    }
-}
+      `
+};
