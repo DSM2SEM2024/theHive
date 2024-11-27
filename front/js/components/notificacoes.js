@@ -16,7 +16,7 @@ export const Notificacoes = {
             negadas: [],
             //sistema
             logado: false,
-            professor: null,
+            professor: false,
             divNotificacoes: false,
             divPerfil: false,
             pesquisa: "",
@@ -132,12 +132,9 @@ export const Notificacoes = {
 
                 if(this.usuario.perfil == 'Professor'){
                     this.professor = true;
-                    alert(' professor!');
                 } else {
                     this.professor = false;
-                    alert(' nao é professor!');
                 }
-                
             } catch (error) {
                 console.error('Erro ao buscar informações do usuário:', error);
             }

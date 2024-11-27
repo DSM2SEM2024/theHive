@@ -8,11 +8,8 @@ import { Laboratorio } from './components/laboratorio.js';
 import { Calendario } from './components/calendario.js';
 import { Usuarios } from './components/usuarios.js';
 import { criarReserva } from './components/criarReserva.js';
-<<<<<<< HEAD
 import { Lixeira } from './components/lixeira.js';
-=======
 import { Equipamentos } from './components/equipamentos.js';
->>>>>>> 8bcf3a6f5bbde272c8f8db6ac69c8105237623ea
 
 const routes = [
     { path: '/', component: Login },
@@ -23,12 +20,8 @@ const routes = [
     { path: '/criarReserva/:idLab', name: 'Criar Reserva', component: criarReserva, props: true},
     { path: '/usuarios', component: Usuarios },
     { path: '/criarReserva', component: criarReserva },
-<<<<<<< HEAD
-    { path: '/lixeira', component: Lixeira }
-=======
     { path: '/equipamentos', component: Equipamentos },
->>>>>>> 8bcf3a6f5bbde272c8f8db6ac69c8105237623ea
-    
+    { path: '/lixeira', component: Lixeira }
 ];
 
 const router = VueRouter.createRouter({
