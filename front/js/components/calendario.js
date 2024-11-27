@@ -16,18 +16,18 @@ export const Calendario = {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`  
+                    'Authorization': `Bearer ${token}`
                 }
             })
             const data = await response.json();
             console.log('API Response:', data);
             this.reservas = Array.isArray(data) ? data : [];
-        }, 
+        },
 
         buscarReservas() {
-            const reservasFiltrados = this.filtroNome 
-                ? this.reservas.filter(reserva => reserva.nome === this.filtroNome) 
-                : this.reservas; 
+            const reservasFiltrados = this.filtroNome
+                ? this.reservas.filter(reserva => reserva.nome === this.filtroNome)
+                : this.reservas;
             this.renderCalendar(reservasFiltrados);
         },
         renderCalendar(reservas) {
@@ -41,9 +41,9 @@ export const Calendario = {
                     left: 'prev,next',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                  },
-                  locale: 'pt-br',
-				buttonText: {
+                },
+                locale: 'pt-br',
+                buttonText: {
                     prev: "<<",
                     today: "Hoje",
                     next: ">>",
@@ -51,25 +51,25 @@ export const Calendario = {
                     week: "Semana",
                     day: "Dia"
                 },
-				// dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'],
-				//  dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-				initialDate: Date.now(),
-				navLinks: true,
-				selectable: true,
-				nowIndicator: true,
-				dayMaxEvents: true,
-				editable: false,
-				businessHours: true,
-				dayMaxEvents: true,
+                // dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'],
+                //  dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                initialDate: Date.now(),
+                navLinks: true,
+                selectable: true,
+                nowIndicator: true,
+                dayMaxEvents: true,
+                editable: false,
+                businessHours: true,
+                dayMaxEvents: true,
                 events: reservas.map(reserva => ({
                     title: reserva.descricao,
                     start: `${reserva.data_inicial}T${reserva.horario_inicial}`,
-                    end: `${reserva.data_final}T${reserva.horario_final}`,   
+                    end: `${reserva.data_final}T${reserva.horario_final}`,
                     backgroundColor: "#FF5733",
                     extendedProps: {
                         id: reserva.id_reserva,
                         // descricao: reserva.descricao,
-                    
+
                     }
                 })),
                 eventClick: (info) => this.mostrarDetalhesReserva(info)
@@ -84,19 +84,19 @@ export const Calendario = {
         fecharModal() {
             this.reservaselecionado = null;
         },
-        carregarUsuarios() { 
-            const nomes = this.reservas.map(reserva => reserva.id_usuario); 
+        carregarUsuarios() {
+            const nomes = this.reservas.map(reserva => reserva.id_usuario);
             console.log(this.reservas[0])
             this.usuarios = [...new Set(nomes)];
         }
     },
 
-    async mounted() { 
-            await this.buscaReserva(this.id_lab);
-            this.carregarUsuarios();   
-            this.renderCalendar(this.reservas);
-     },
-    
+    async mounted() {
+        await this.buscaReserva(this.id_lab);
+        this.carregarUsuarios();
+        this.renderCalendar(this.reservas);
+    },
+
 
 
     template: `
@@ -106,13 +106,20 @@ export const Calendario = {
 
             <div v-if="reservaselecionado" class="modal">
                 <div id="info-reserva" class="modal-content">
-                    <h3>Detalhes do reserva</h3>
-                    <p><strong>ID:</strong> {{ reservaselecionado.reserva_base_id }}</p>
-                    <p><strong>Título:</strong> {{ reservaselecionado.titulo }}</p>
-                    <p><strong>Descrição:</strong> {{ reservaselecionado.descricao }}</p>
-                    <p><strong>Data Inicial:</strong> {{ reservaselecionado.datainicial }}</p>
-                    <p><strong>Data Final:</strong> {{ reservaselecionado.datafinal }}</p>
-                    <button @click="fecharModal">Fechar</button>
+                    <div id="sup-resultado">
+                        <h3>Detalhes da reserva</h3>
+                    </div>
+                    <div id="txt-resposta">
+                        <p><strong>Professor:</strong> {{ reservaselecionado.titulo }}</p>
+                        <p><strong>Descrição:</strong> {{ reservaselecionado.descricao }}</p>
+                        <p><strong>Data Inicial:</strong> {{ reservaselecionado.datainicial }}</p>
+                        <p><strong>Data Final:</strong> {{ reservaselecionado.datafinal }}</p>
+                        <p><strong>Horário Inicial:</strong> {{ reservaselecionado.datainicial }}</p>
+                        <p><strong>Horário Final:</strong> {{ reservaselecionado.datafinal }}</p>
+                    </div>
+                    <div id="div-btn-resposta">
+                        <button @click="fecharModal">Fechar</button>
+                    </div>
                 </div>
             </div>
         </div>

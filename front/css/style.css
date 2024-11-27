@@ -1533,18 +1533,63 @@ main {
     }
 
 }
-.modal{
+.modal {
     display: flex;
-    position: fixed;
-    width: 50%;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    background-color: #b03648;
+    position: relative;
+    width: 25rem;
+    height: 25rem;
+    padding: 2rem;
+    padding-top: 3rem;/* Alinha o conteúdo horizontalmente */
+    align-items: start;    /* Alinha o conteúdo verticalmente */
+    top: 20rem;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza a div considerando seu tamanho */
+    background-color: var(--gray-color);
     z-index: 50;
     border-radius: 20px;
-    color: #ffffff;
+    color: var(--black-gray-color);
+    border: solid 2px var(--main-color);
 }
+
+.modal-content {
+    width: 100%;
+    gap: 5rem;
+}
+
+#sup-resultado {
+    width: 100%;
+    background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px 20px 0px 0px;
+    color: var(--white-color);
+    font-size: 18px;
+}
+
+#txt-resposta {
+    height: 80%;
+    width: 100%;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+#div-btn-resposta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: #1a5c9d solid 2px;
+}
+
+
+
 .tabs {
     display: flex;
     position: relative;
