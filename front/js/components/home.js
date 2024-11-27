@@ -252,6 +252,8 @@ export const Home = {
                         </div>
                         <div id="txt-card-4">
                             <p>Data: {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
+                            <p>Hora Inicial: {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }}</p>
+                            <p>Hora Final: {{ formatarDataHora(reserva.data_final, reserva.horario_final).horaFormatada }}</p>
                         </div>
                     </div>
                     <div v-if="!isProfessor" id="acoes-card-reserva">
