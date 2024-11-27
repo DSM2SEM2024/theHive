@@ -364,10 +364,6 @@ span {
     font-weight: bolder;
 }
 
-.save-btn:hover {
-    color: var(--white-color);
-    background-color: var(--black-gray-color);
-}
 
 .andar-name {
     font-size: 20px;

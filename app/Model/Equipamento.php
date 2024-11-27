@@ -8,7 +8,6 @@ use App\Model\Log;
 class Equipamento {
     private $idEquipamento;
     private $nome;
-    private $numero;
     private $software;
     private $estado;
     private $dataCad;
@@ -42,13 +41,11 @@ class Equipamento {
 
     public function insertEquipamento($equipamento) {
         $nome = $equipamento->getNome();
-        $numero = $equipamento->getNumero();
         $software = $equipamento->getSoftware();
-        $query = "INSERT INTO $this->table (nome, numero, id_software) VALUES (:nome, :numero, :id_software)";
+        $query = "INSERT INTO $this->table (nome, id_software) VALUES (:nome, :id_software)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":numero", $numero);
         $stmt->bindParam(":id_software", $software, PDO::PARAM_INT);
 
         $executar = $stmt->execute();
@@ -61,12 +58,10 @@ class Equipamento {
 
     public function updateEquipamento($idEquipamento) {
         $nome = $this->getNome();
-        $numero = $this->getNumero();
         $software = $this->getSoftware();
-        $query = "UPDATE $this->table SET nome = :nome, numero = :numero, id_software = :id_software WHERE id_equipamento = :id_equipamento";
+        $query = "UPDATE $this->table SET nome = :nome, id_software = :id_software WHERE id_equipamento = :id_equipamento";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":numero", $numero);
         $stmt->bindParam(":id_software", $software, PDO::PARAM_INT);
         $stmt->bindParam(":id_equipamento", $idEquipamento);
     
@@ -130,15 +125,6 @@ class Equipamento {
     public function setNome($nome): self{
         $this->nome = $nome;
 
-        return $this;
-    }
-
-    public function getNumero(){
-        return $this->numero;
-    }
-
-    public function setNumero($numero): self{
-        $this->numero = $numero;
         return $this;
     }
 

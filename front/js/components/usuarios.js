@@ -86,7 +86,7 @@ export const Usuarios = {
                             </div>
                             <div class="modal-actions">
                                 <button type="button" @click="closeEditPopup" class="cancel-btn">Cancelar</button>
-                                <button type="submit" @click="updateUser" class="save-btn">Salvar</button>
+                                <button type="submit" @click="updateUser" class="salvar-btn">Salvar</button>
                             </div>
                         </form>
                     </div>
