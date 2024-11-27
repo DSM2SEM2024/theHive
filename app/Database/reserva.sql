@@ -87,7 +87,7 @@ CREATE TABLE EQUIPAMENTO_SOFTWARE (
 
 CREATE TABLE ANDAR (
 	id_andar int primary key auto_increment,
-    nome varchar(50) not null,
+    nome varchar(200) not null,
     cor varchar(50) not null,
 	estado BOOLEAN NOT NULL DEFAULT 1,
     data_cad TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -95,7 +95,7 @@ CREATE TABLE ANDAR (
 
 CREATE TABLE LABORATORIO (
 	id_laboratorio int primary key auto_increment,
-    nome varchar(50) not null,
+    nome varchar(200) not null,
     andar int,
     equipamento int,
     capacidade int(2) not null,

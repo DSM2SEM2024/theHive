@@ -3,12 +3,12 @@
 
 /* Estilo para as mensagens de erro ou sucesso */
 .error {
-    color: red;
+    color: var(--red-color);
     font-weight: bold;
 }
 
 .success {
-    color: green;
+    color: var(--green-color);
     font-weight: bold;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .dropdown-list .dropdown-item:hover {
-    background-color: #ddd;
+    background-color: var(--white-color);
 }
 
 /* Estilos para o carrossel */

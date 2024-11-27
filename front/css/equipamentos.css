@@ -1,0 +1,36 @@
+.equipment-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .equipment-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .equipment-card h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .equipment-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .equipment-card li {
+    background: #e9ecef;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+  }
+  
