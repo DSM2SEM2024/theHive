@@ -368,7 +368,7 @@ export const Navbar = {
                 </div>
             </div>
               </nav>
-              <router-view @login-success="handleLoginSuccess"></router-view>
+              <router-view ></router-view>
           </main>
         `
     };
