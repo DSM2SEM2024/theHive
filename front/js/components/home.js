@@ -253,15 +253,6 @@ export const Home = {
                     <h2> {{ isProfessor ? 'Reservas Pendentes' : 'Gerenciar Reservas' }}</h2>
                     <div v-if="reservas.length > 0" id="div-btn-reserva">
                         <button id="btn-reserva" type="button" @click="fazerReserva">{{ isProfessor ? 'Fazer Reservas' : 'Laboratórios' }}</button>
-                        <div id="div-filtro">
-                            <p>Ordenar por:</p>
-                            <select name="filtro" id="filtro">
-                                <option value="">Mais recentes</option>
-                                <option value="">Pendentes</option>
-                                <option value="">Aprovadas</option>
-                                <option value="">Recusadas</option>
-                            </select>
-                        </div>
                     </div>
         </div>
         <div class="card-com-reservas" v-if="reservas && reservas.length > 0">

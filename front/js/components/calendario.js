@@ -101,15 +101,11 @@ export const Calendario = {
 
     template: `
         <div>
-        <select v-model="filtroNome" @change="buscarReservas">
-                <option value="">Todos Usuários</option>
-                <option v-for="usuario in usuarios" :key="usuario" :value="usuario">{{ usuario }}</option>
-        </select>
-        <button @click="this.$router.push({ name: 'Criar Reserva', params: { idLab } })" class="criar-reserva-btn">Criar Reserva</button>
+        <button @click="this.$router.push({ name: 'Criar Reserva', params: { idLab } })" class="criar-reserva-btn">Fazer Reserva</button>
             <div id="calendar"> </div>
 
             <div v-if="reservaselecionado" class="modal">
-                <div class="modal-content">
+                <div id="info-reserva" class="modal-content">
                     <h3>Detalhes do reserva</h3>
                     <p><strong>ID:</strong> {{ reservaselecionado.reserva_base_id }}</p>
                     <p><strong>Título:</strong> {{ reservaselecionado.titulo }}</p>

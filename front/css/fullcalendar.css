@@ -1,13 +1,44 @@
+:root {
+    --green-color: #2D854E;
+    --dark-green-color: #216a3d;
+    --yellow-color: #FF8324;
+    --dark-yellow-color: #d26c1e;
+    --pink-color: #EB6E8E;
+    --dark-pink-color: #c25a74;
+    --blue-color: #337BC3;
+    --dark-blue-color: #1a5c9d;
+    --purple-color: #5A3168;
+    --dark-purple-color: #42234c;
+    --main-color: #B03648;
+    --text-color: #575757;
+    --text-color-light: #909090;
+    --gray-color: #e2e2e2;
+    --white-color: #f6f6f6;
+    --black-gray-color: #2c2c2c;
+    font-family: "Inter", sans-serif;
+}
+
 #calendar {
     position: absolute;
     z-index: 1;
     vertical-align: middle;
-    width: 80%;
+    width: 95%;
     height: 80%;
 }
 
 .criar-reserva-btn {
-    color: blue
+    height: 2rem;
+    background-color: var(--red-color);
+    color: var(--white-color);
+    border-radius: 8px;
+    width: 8rem;
+    margin-left: auto;
+    border: 0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 1rem;
 }
 
 .fc-icon,.fc-unselectable {
@@ -17,7 +48,7 @@
 
 .fc .fc-button,.fc-icon {
     text-transform: none;
-    font-weight: 400
+    font-weight: 400;
 }
 
 .fc-not-allowed,.fc-not-allowed .fc-event {
@@ -171,53 +202,32 @@
     border-radius: .25em
 }
 
-.fc .fc-button:focus {
-    outline: 0;
-    box-shadow: 0 0 0 .2rem rgba(44,62,80,.25)
-}
-
-.fc .fc-button-primary:focus,.fc .fc-button-primary:not(:disabled).fc-button-active:focus,.fc .fc-button-primary:not(:disabled):active:focus {
-    box-shadow: 0 0 0 .2rem rgba(76,91,106,.5)
-}
-
-.fc .fc-button:disabled {
-    opacity: .65
-}
-
 .fc .fc-button-primary {
-    color: #fff;
-    color: var(--fc-button-text-color,#fff);
-    background-color: #2C3E50;
-    background-color: var(--fc-button-bg-color,#2C3E50);
-    border-color: #2C3E50;
-    border-color: var(--fc-button-border-color,#2C3E50)
-}
-
-.fc .fc-button-primary:hover {
-    color: #fff;
-    color: var(--fc-button-text-color,#fff);
-    background-color: #1e2b37;
-    background-color: var(--fc-button-hover-bg-color,#1e2b37);
-    border-color: #1a252f;
-    border-color: var(--fc-button-hover-border-color,#1a252f)
+    color: var(--main-color);
+    font-weight: 500;
+    background-color: var(--white-color);
+    border-color: var(--white-color);
+    border-color: var(--white-color),
 }
 
 .fc .fc-button-primary:disabled {
-    color: #fff;
-    color: var(--fc-button-text-color,#fff);
-    background-color: #2C3E50;
-    background-color: var(--fc-button-bg-color,#2C3E50);
-    border-color: #2C3E50;
-    border-color: var(--fc-button-border-color,#2C3E50)
+    color: var(--white-color);
+    color: var(--white-color);
+    font-weight: 500;
+    background-color: var(--main-color);
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+    border-color: var(--main-color)
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active,.fc .fc-button-primary:not(:disabled):active {
-    color: #fff;
-    color: var(--fc-button-text-color,#fff);
-    background-color: #1a252f;
-    background-color: var(--fc-button-active-bg-color,#1a252f);
-    border-color: #151e27;
-    border-color: var(--fc-button-active-border-color,#151e27)
+    color: var(--white-color);
+    color: var(--white-color);
+    font-weight: 500;
+    background-color: var(--main-color);
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+    border-color: var(--main-color)
 }
 
 .fc .fc-button .fc-icon {
@@ -232,10 +242,6 @@
 .fc .fc-button-group>.fc-button {
     position: relative;
     flex: 1 1 auto
-}
-
-.fc .fc-button-group>.fc-button.fc-button-active,.fc .fc-button-group>.fc-button:active,.fc .fc-button-group>.fc-button:focus,.fc .fc-button-group>.fc-button:hover {
-    z-index: 1
 }
 
 .fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
@@ -275,6 +281,7 @@
 }
 
 .fc .fc-toolbar-title {
+    color: var(--main-color);
     font-size: 1.75em;
     margin: 0
 }
@@ -1135,7 +1142,8 @@ a.fc-col-header-cell-cushion {}
 
 .fc-timegrid-event-short .fc-event-main-frame {
     flex-direction: row;
-    overflow: hidden
+    overflow: hidden;
+    background-color: var(--main-color);
 }
 
 .fc-timegrid-event-short .fc-event-time:after {
