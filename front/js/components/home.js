@@ -1,17 +1,17 @@
 export const Home = {
-    inject: ['urlBase'], // Corrigido para usar inject corretamente
+    inject: ['urlBase'],
     data() {
         return {
             nomeUsuario: null,
             pesquisa: '',
             reservas: [],
             filtro: 'Mais recentes',
-            professor: false, // Adicionado para manipular filtros no select
+            professor: false, 
         };
     },
     methods: {
         handleClick() {
-            this.getReservas(); // Atualiza as reservas sem recarregar a página
+            this.getReservas();
         },
 
         limparPesquisa() {
@@ -50,11 +50,7 @@ export const Home = {
                     perfil: data.perfil || "Não especificado"
                 };
                 localStorage.setItem('usuario_nome', this.usuario.nome);
-                if (this.usuario.perfil === 'Professor') {
-                    this.professor = true;
-                } else {
-                    this.professor = false;
-                }
+                this.professor = this.usuario.perfil === 'Professor';
                 this.getReservas();
             } catch (error) {
                 console.error('Erro ao buscar informações do usuário:', error);
@@ -62,13 +58,13 @@ export const Home = {
         },
 
         async getReservas() {
-            const id_usuarioss = localStorage.getItem('id_usuario');
+            const id_usuario = localStorage.getItem('id_usuario');
             const token = localStorage.getItem('token');
-            if (!id_usuarioss || !token) return;
+            if (!id_usuario || !token) return;
 
             let url;
             if (this.professor) {
-                url = `${this.urlBase}reserve/prof/${id_usuarioss}`;
+                url = `${this.urlBase}reserve/prof/${id_usuario}`;
             } else {
                 url = `${this.urlBase}reserve/estado/pendente`;
             }
@@ -87,8 +83,6 @@ export const Home = {
 
                 for (const reserva of this.reservas) {
                     reserva.nome_laboratorio = await this.getLaboratorioName(reserva.id_laboratorio);
-                    reserva.nome_disciplina = await this.getDisciplinaName(reserva.id_disciplina);
-                    reserva.nome_usuario = await this.getUsuarioName(reserva.id_usuario);
                 }
             } catch (error) {
                 console.error('Erro ao obter reservas:', error);
@@ -114,50 +108,6 @@ export const Home = {
             } catch (error) {
                 console.error('Erro ao buscar laboratório:', error);
                 return 'Laboratório desconhecido';
-            }
-        },
-
-        async getUsuarioName(id_usuario) {
-            const token = localStorage.getItem('token');
-            if (!id_usuario || !token) return null;
-
-            try {
-                const response = await fetch(`${this.urlBase}users/${id_usuario}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) throw new Error('Erro ao obter o nome do professor');
-                const data = await response.json();
-                return data.nome || 'Professor desconhecido';
-            } catch (error) {
-                console.error('Erro ao buscar professor:', error);
-                return 'Professor desconhecido';
-            }
-        },
-
-        async getDisciplinaName(id_disciplina) {
-            const token = localStorage.getItem('token');
-            if (!id_disciplina || !token) return null;
-
-            try {
-                const response = await fetch(`${this.urlBase}disciplina/${id_disciplina}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) throw new Error('Erro ao obter o nome da disciplina');
-                const data = await response.json();
-                return data.nome || 'Disciplina desconhecida';
-            } catch (error) {
-                console.error('Erro ao buscar disciplina:', error);
-                return 'Disciplina desconhecida';
             }
         },
 
@@ -192,7 +142,7 @@ export const Home = {
                 });
 
                 if (!response.ok) throw new Error('Erro ao cancelar');
-                this.getReservas(); // Atualiza reservas após exclusão
+                this.getReservas();
             } catch (error) {
                 console.error('Erro ao cancelar:', error);
             }
@@ -240,7 +190,7 @@ export const Home = {
     },
     mounted() {
         this.nomeUsuario = localStorage.getItem('usuario_nome');
-        this.getUserInfo(); 
+        this.getUserInfo();
     },
     setup() {
         const isProfessor = Vue.inject('isProfessor');
@@ -258,34 +208,33 @@ export const Home = {
 
     <div id="container-reservas">
         <div id="sup-reservas">
-                    <h2> {{ isProfessor ? 'Reservas Pendentes' : 'Gerenciar Reservas' }}</h2>
-                    <div v-if="reservas.length > 0" id="div-btn-reserva">
-                        <button id="btn-reserva" type="button" @click="fazerReserva">{{ isProfessor ? 'Fazer Reservas' : 'Laboratórios' }}</button>
-                    </div>
+            <h2>{{ isProfessor ? 'Reservas Pendentes' : 'Gerenciar Reservas' }}</h2>
+            <div v-if="reservas.length > 0" id="div-btn-reserva">
+                <button id="btn-reserva" type="button" @click="fazerReserva">{{ isProfessor ? 'Fazer Reservas' : 'Laboratórios' }}</button>
+            </div>
         </div>
         <div class="card-com-reservas" v-if="reservas && reservas.length > 0">
             <div v-for="reserva in reservas" :key="reserva.id_reserva">
                 <div class="reserva">
                     <div id="sup-card-reserva">
                         <p>{{ isProfessor ? reserva.nome_laboratorio : reserva.nome_usuario }}</p>
-                        <i v-if="isProfessor" @click="excluirReserva(reserva.id_reserva)" @click="handleClick" class="fi fi-ss-trash"></i>
+                        <i v-if="isProfessor" @click="excluirReserva(reserva.id_reserva)" class="fi fi-ss-trash"></i>
                     </div>
                     <div id="txt-card-0">
                         <div id="txt-card-3">
+                            
                             <p>Status da reserva: <strong id="status">{{ reserva.status_reserva }}</strong></p>
-                            <p>Disciplina: {{ reserva.nome_disciplina }}</p>
+                            <p>Descrição: {{ reserva.descricao || 'Sem descrição disponível' }}</p>
                         </div>
                         <div id="txt-card-4">
                             <p>Data inicial: {{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).dataFormatada }}</p>
-                            <p>Data final: {{ formatarDataHora(reserva.data_final, reserva.horario_final).dataFormatada }}</p>
-                            <p>{{ formatarDataHora(reserva.data_inicial, reserva.horario_inicial).horaFormatada }} às {{ formatarDataHora(reserva.data_final, reserva.horario_final).horaFormatada }}</p>
                         </div>
                     </div>
                     <div v-if="!isProfessor" id="acoes-card-reserva">
                         <button class="aprovar" @click="aprovarReserva(reserva.id_reserva)">Aprovar</button>
                         <button class="negar" @click="negarReserva(reserva.id_reserva)">Negar</button>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
 
@@ -295,5 +244,5 @@ export const Home = {
         </div>
     </div>
 </div>
-    `,
+    `
 };
