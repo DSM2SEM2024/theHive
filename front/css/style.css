@@ -725,15 +725,15 @@ main {
 }
 
 #acoes-card-reserva button.negar:hover {
-    background-color: #c9302c;
+    background-color: #b51b32;
 }
 
 #acoes-card-reserva button.aprovar {
-    background-color: #5cb85c;
+    background-color: #4cae4c;
 }
 
 #acoes-card-reserva button.aprovar:hover {
-    background-color: #4cae4c;
+    background-color: #5cb85c;
 }
 
 @media (max-width: 1170px) {
