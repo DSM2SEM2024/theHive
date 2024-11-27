@@ -103,11 +103,12 @@ export const Laboratorio = {
             </div>
 
             <!-- Botão de calendário -->
+            <button class="btn-calendario" @click="verCalendario(laboratorio.id_laboratorio)">
+                Ver calendário
+            </button>
         </div>
     </div>
-    <button class="btn-calendario" @click="verCalendario(laboratorio.id_laboratorio)">
-    Ver calendário
-</button>
+    
         <!-- Modal para Atualizar Laboratório -->
     <div v-if="modalAberto" class="modal-overlay" >
       <div class="modal-card">

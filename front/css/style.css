@@ -1079,13 +1079,13 @@ main {
         min-height: calc(100vh - 160px);
     }
 
-    ::-webkit-scrollbar {
+    /* ::-webkit-scrollbar {
         display: none;
     }
 
     ::-webkit-scrollbar-thumb {
         display: none;
-    }
+    } */
 
     .busca {
         display: none;
@@ -1294,13 +1294,13 @@ main {
         font-size: 18px;
     }
 
-    ::-webkit-scrollbar {
+    /* ::-webkit-scrollbar {
         display: none;
     }
 
     ::-webkit-scrollbar-thumb {
         display: none;
-    }
+    } */
 
     .busca {
         display: none;
