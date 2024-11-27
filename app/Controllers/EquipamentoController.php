@@ -72,6 +72,18 @@ class EquipamentoController {
         }
     }
 
+    public function filterByEstado($estado){
+        $this->helper->visualizar();
+        $result = $this->equip->getEquipamentoByEstado($estado);
+        if ($result) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Nenhum equipamento encontrado com o estado: $estado"]);
+        }
+    }
+
     public function desativar($id)
     {
         $this->helper->desativar();

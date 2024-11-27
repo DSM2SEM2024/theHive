@@ -8,6 +8,7 @@ import { Laboratorio } from './components/laboratorio.js';
 import { Calendario } from './components/calendario.js';
 import { Usuarios } from './components/usuarios.js';
 import { criarReserva } from './components/criarReserva.js';
+import { Lixeira } from './components/lixeira.js';
 
 const routes = [
     { path: '/', component: Login },
@@ -17,7 +18,8 @@ const routes = [
     { path: '/calendario/:idLab', name: 'Calendario', component: Calendario, props: true},
     { path: '/criarReserva/:idLab', name: 'Criar Reserva', component: criarReserva, props: true},
     { path: '/usuarios', component: Usuarios },
-    { path: '/criarReserva', component: criarReserva }
+    { path: '/criarReserva', component: criarReserva },
+    { path: '/lixeira', component: Lixeira }
     
 ];
 

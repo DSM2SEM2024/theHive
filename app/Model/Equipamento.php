@@ -40,6 +40,15 @@ class Equipamento {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getEquipamentoByEstado($estado) {
+        $query = "SELECT * FROM $this->table WHERE estado = :estado";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":estado", $estado);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function insertEquipamento($equipamento) {
         $nome = $equipamento->getNome();
         $numero = $equipamento->getNumero();
