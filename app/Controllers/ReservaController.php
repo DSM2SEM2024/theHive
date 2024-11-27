@@ -165,7 +165,6 @@ class ReservaController {
     
     private function criarReservasRecorrentes(Reserva $reserva)
     {
-        $this->helper->criar();
         $recorrencia = $reserva->getRecorrencia();
         $dataInicial = new DateTime($reserva->getDataInicial());
         $dataFinalOriginal = new DateTime($reserva->getDataFinal());
