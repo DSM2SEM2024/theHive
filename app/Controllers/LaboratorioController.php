@@ -2,15 +2,18 @@
 namespace App\Controllers;
 
 use App\Model\Laboratorio;
+use App\Model\Equipamento;
 use App\utils\AuthHelpers;
 
 class LaboratorioController {
     private $lab;
     private $helper;
+    private $equip;
 
     public function __construct() {
         $this->lab = new Laboratorio();
         $this->helper = new AuthHelpers();
+        $this->equip = new Equipamento();
     }
     public function create($data) {
         $this->helper->criar();
@@ -20,8 +23,12 @@ class LaboratorioController {
             return;
         }
 
-        $this->lab->setNome($data->nome)->setAndar($data->andar)->setEquipamento($data->equipamento)->setCapacidade($data->capacidade);
-        if ($this->lab->insertLaboratorio($this->lab)) {
+        $this->lab->setNome($data->nome)->setAndar($data->andar)->setCapacidade($data->capacidade);
+        $id = $this->lab->insertLaboratorio($this->lab);
+        if ($id) {
+            foreach($data->id_equipamento as $equip){
+                $this->equip->labEquipamento($id, $equip);
+            }
             http_response_code(201);
             echo json_encode(["success"=> true,"message" => "Laboratório criado com sucesso."]);
         } else {

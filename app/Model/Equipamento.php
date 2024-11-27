@@ -84,6 +84,15 @@ class Equipamento {
         }
         return $executar;
     }
+    public function labEquipamento($idLab, $idEqui) {
+        $query = "INSERT INTO laboratorio_equipamento (`id_laboratorio_equipamento`, `id_equipamento`)
+        VALUES (:idLab ,:idEqui)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":idLab", $idLab);
+        $stmt->bindParam(":idEqui", $idEqui);
+    
+        return $stmt->execute();
+    }
 
     public function desativar($id)
     {
