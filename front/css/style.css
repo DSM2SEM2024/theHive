@@ -113,7 +113,7 @@ header #tituloFatec {
     gap: 5rem;
 }
 
-#icons i {
+header i {
     text-align: center;
     font-size: 32px;
     color: var(--white-color);
@@ -121,9 +121,14 @@ header #tituloFatec {
     transition: 0.2s;
 }
 
-#icons i:hover {
+header i:hover {
     transition: 0.2s;
     color: var(--gray-color);
+}
+
+#icon-home {
+    font-size: 30px;
+    margin-top: 0.5rem;
 }
 
 nav {
