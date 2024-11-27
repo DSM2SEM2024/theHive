@@ -15,6 +15,7 @@ class Equipamento {
     private $conn;
     private $log;
     private $helper;
+    private $numero;
 
     public function __construct() {
         $this->conn = Database::getInstance();
@@ -51,11 +52,13 @@ class Equipamento {
     public function insertEquipamento($equipamento) {
         $nome = $equipamento->getNome();
         $software = $equipamento->getSoftware();
-        $query = "INSERT INTO $this->table (nome, id_software) VALUES (:nome, :id_software)";
+        $numero = $equipamento->getNumero();
+        $query = "INSERT INTO $this->table (nome,numero, id_software) VALUES (:nome,:numero, :id_software)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":id_software", $software, PDO::PARAM_INT);
+        $stmt->bindParam(":numero", $numero, PDO::PARAM_INT);
+        $stmt->bindParam(":id_software", $software);
 
         $executar = $stmt->execute();
         if ($executar) {
@@ -71,7 +74,7 @@ class Equipamento {
         $query = "UPDATE $this->table SET nome = :nome, id_software = :id_software WHERE id_equipamento = :id_equipamento";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":id_software", $software, PDO::PARAM_INT);
+        $stmt->bindParam(":id_software", $software);
         $stmt->bindParam(":id_equipamento", $idEquipamento);
     
         $executar = $stmt->execute();
@@ -136,7 +139,15 @@ class Equipamento {
 
         return $this;
     }
+    public function getNumero(){
+        return $this->numero;
+    }
 
+    public function setNumero($numero): self{
+        $this->numero = $numero;
+
+        return $this;
+    }
     public function getSoftware() {
         return $this->software;
     }

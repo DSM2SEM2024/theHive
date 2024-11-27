@@ -22,7 +22,7 @@ class EquipamentoController {
             return;
         }
 
-        $this->equip->setNome($data->nome)->setSoftware($data->software);
+        $this->equip->setNome($data->nome)->setSoftware($data->software)->setNumero($data->numero);
         if ($this->equip->insertEquipamento($this->equip)) {
             http_response_code(201);
             echo json_encode(["success"=> true,"message" => "Equipamento criado com sucesso."]);
@@ -126,10 +126,10 @@ class EquipamentoController {
         $this->helper->deletar();
         if ($this->equip->deleteEquipamento($id)) {
             http_response_code(200);
-            echo json_encode(["message" => "Equipamento excluído com sucesso."]);
+            echo json_encode(["status"=> true, "message" => "Equipamento excluído com sucesso."]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Erro ao excluir equipamento."]);
+            echo json_encode(["status"=> false,"error" => "Erro ao excluir equipamento."]);
         }
     }
 }
