@@ -31,7 +31,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 32rem;
+    height: 38rem;
     background-color: var(--white-color);
 
 }
@@ -40,7 +40,7 @@
     border: solid 3px var(--red-color);
     align-items: center;
     width: 32rem;
-    height: 31rem;
+    height: 33rem;
     background-color: var(--gray-color);
     border-radius: 8px;
 }
@@ -64,11 +64,9 @@
 }
 
 #box-campos {
-    margin-top: 0.8rem;
     padding: 2rem;
     display: grid;
     justify-content: center;
-    align-items: center;
     width: 100%;
 }
 
@@ -79,7 +77,7 @@
 #box-descricao {
     background-color: var(--white-color);
     align-items: start;
-    width: 24rem;
+    width: 100%;
     height: 40px;
     border-radius: 10px;
     overflow: hidden;
@@ -108,8 +106,15 @@
     align-items: center;
     margin-top: 2rem;
     margin-bottom: -2.5rem;
-    margin-left: 0.2rem;
     gap: 0.6rem;
+}
+
+.group-inputs-data1{
+    gap: 0.6rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 0.5rem;
 }
 
 .box-data-hora1 {
@@ -146,10 +151,17 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    margin-top: 2.5rem;
+    margin-top: 2.6rem;
     margin-bottom: -2.5rem;
-    margin-left: 0.2rem;
     gap: 0.6rem;
+}
+
+.group-inputs-data2{
+    gap: 0.6rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 1rem;
 }
 
 .box-data-hora2 {
@@ -184,18 +196,17 @@
 }
 
 #group-recorrencia {
+    width: 24.5rem;
     display: flex;
     flex-direction: start;
     align-items: center;
-    margin-top: 3.5rem;
-    gap: 0.2rem;
+    margin-top: 3rem;
 }
 
 #box-recorrencia {
     background-color: var(--white-color);
-    align-items: start;
-    width: 8.2rem;
-    height: 2.2rem;
+    width: 6rem;
+    height: 2rem;
     border-radius: 10px;
     overflow: hidden;
     border: var(--black-gray-color) 1.5px solid;
@@ -214,25 +225,20 @@
     align-items: center;
 }
 
-#group-mensagem {
-    width: 24.2rem;
-    display: flex;
-    margin-top: 3.5rem;
-}
-
 #box-mensagem-reserva {
-    bottom: 20px;
-    width: 100%;
-    margin-top: 0.5rem;
-    text-align: start;
-    font-size: 14px;
+    display: flex;
+    justify-content: start;
+    width: 25rem;
+    height: 2rem;
+    align-items: center;
+    margin-top: 4.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .mensagem-reserva {
-    color: var(--black-gray-color);
+    color: var(--red-color);
     font-size: 14px;
     font-weight: normal;
-    margin-top: 0.3rem;
 }
 
 #group-button {
@@ -240,7 +246,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     margin-left: auto;
     margin-right: auto;
     width: auto;
@@ -266,7 +272,7 @@
     margin-right: 0.5rem;
     border: 0;
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     position: right;
 }
@@ -295,7 +301,7 @@
     margin-left: auto;
     border: 0;
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -318,88 +324,3 @@
 }
 
 
-/* responsividade */
-
-@media (max-width: 510px) {
-
-    .titulo h2 {
-        font-size: 12px;
-    }
-
-    .box-form {
-        width: 100%;
-        height: auto;
-        margin-top: 3rem;
-    }
-
-    .box-form form {
-        width: 24rem;
-        height: 30rem;
-        padding: 1.5rem;
-        align-items: center;
-    }
-
-    #card-vermelho {
-        width: 200px;
-        /* Centraliza e ajusta o tamanho */
-        height: 45px;
-        margin-top: -1.5rem;
-    }
-
-    #card-vermelho h1 {
-        font-size: 14px;
-        /* Texto maior */
-        margin-top: 0.2rem;
-    }
-
-    #box-campos {
-        margin-top: -3rem;
-        display: grid;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #box-descricao {
-        width: 15rem;
-        /* Ajusta para aproveitar mais espaço */
-        height: 2rem;
-        /* Altura mais confortável */
-        display: flex;
-        justify-content: center;
-    }
-
-    #group-button {
-        gap: 5rem;
-        /* Reduz o espaçamento entre os botões */
-    }
-
-    .calendar-btn,
-    .box-button-evento button {
-        width: 6.5rem;
-        /* Botões maiores */
-        height: 2rem;
-        /* Altura maior */
-        font-size: 12px;
-    }
-
-    .group-data-hora1,
-    .group-data-hora2 {}
-
-    .box-data-hora1,
-    .box-data-hora2 {
-        width: 8rem;
-        /* Ajusta os inputs de data e hora */
-    }
-
-    .box-data-hora1,
-    .box-data-hora2 select {
-        font-size: 12px;
-        /* Ajusta os inputs de data e hora */
-    }
-
-    #box-recorrencia {
-        width: 12rem;
-        /* Campo de recorrência maior */
-        height: 2rem;
-    }
-}

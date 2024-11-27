@@ -288,7 +288,6 @@ export const Navbar = {
                     <i class="fi fi-ss-circle-user" ref="iconPerfil" @click="alteraPerfil"></i>
               </div>
               <div id="icons" v-if="logado && !this.professor">
-                   <i title="Status das Reservas" class="fi fi-br-list-check" ref="iconNotificacoes" @click="this.$router.push('/notificacoes');"></i>
                     <i title="Notificações" class="fi fi-ss-bell" ref="iconNotificacoes" @click="alteraNotificacoes"></i>
                     <i title="Editar Usuários" ref="iconUsuario" @click="this.$router.push('/usuarios');" class="fi fi-ss-admin-alt"></i>
                     <i title="Equipamentos" ref="iconEquipamentos" @click="this.$router.push('/equipamentos');" class="fi fi-br-module"</i>
