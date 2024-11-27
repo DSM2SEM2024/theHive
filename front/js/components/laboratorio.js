@@ -97,7 +97,7 @@ export const Laboratorio = {
                 <div class="descricao-lab">
                     <ul>
                         <li id="capacidade"><strong>Capacidade:</strong><br> {{ laboratorio.capacidade }} alunos</li>
-                        <!-- <li id="equipamento"><strong>Equipamentos:</strong><br> {{ laboratorio.equipamento }}</li>
+                        <li id="equipamento"><strong>Equipamentos:</strong><br> {{ laboratorio.equipamento }}</li>
                     </ul>
                 </div>
             </div>
@@ -109,7 +109,7 @@ export const Laboratorio = {
     Ver calendário
 </button>
         <!-- Modal para Atualizar Laboratório -->
-    <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
+    <div v-if="modalAberto" class="modal-overlay" >
       <div class="modal-card">
         <div class="modal-header">
           <h3>Atualizar Laboratório</h3>
