@@ -57,6 +57,32 @@ export const Home = {
             }
         },
 
+        
+        async getUsuarioName(id_usuario) {
+            const token = localStorage.getItem('token');
+            if (!id_usuario || !token) return null;
+    
+            try {
+                const response = await fetch(`http://localhost:3000/users/${id_usuario}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Erro ao obter o nome do professor');
+                }
+    
+                const data = await response.json();
+                return data.nome || "Professor desconhecido";
+            } catch (error) {
+                console.error('Erro ao buscar professor:', error);
+                return "Professor desconhecido";
+            }
+        },
+
         async getReservas() {
             const id_usuario = localStorage.getItem('id_usuario');
             const token = localStorage.getItem('token');
