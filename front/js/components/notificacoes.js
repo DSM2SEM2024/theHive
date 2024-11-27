@@ -23,11 +23,6 @@ export const Notificacoes = {
         };
     },
     inject: ['urlBase'],
-    provide() {
-        return {
-            isProfessor: Vue.computed(() => this.professor)
-        };
-    },
     //métodos
     methods: {
         //sistema

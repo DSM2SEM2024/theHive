@@ -50,19 +50,68 @@ router.beforeEach((to, from, next) => {
 });
 
 const app = {
+    data() {
+        return {
+            professor: false, // Inicialmente como false
+            usuario: {
+                nome: '',
+                email: '',
+                perfil: ''
+            }
+        }
+    },
     components: {
         Navbar
     },
     setup() {
         const urlBase = 'http://localhost:3000/'; 
         return {
-            urlBase
+            urlBase,
         };
+    },
+    mounted() {
+        this.getUserInfo();
     },
     provide() {
         return {
-            urlBase: this.urlBase 
+            urlBase: this.urlBase,
+            isProfessor: Vue.computed(() => this.professor)
         };
+    },
+    methods: {
+        async getUserInfo() {
+            const id_usuario = localStorage.getItem('id_usuario');
+            const token = localStorage.getItem('token');
+            if (!id_usuario) return;
+
+            try {
+                const response = await fetch(`${this.urlBase}users/${id_usuario}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Erro ao obter informações do usuário');
+                }
+
+                const data = await response.json();
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+
+                this.usuario.nome = data.nome || "Não especificado";
+                this.usuario.email = data.email || "Não especificado";
+                this.usuario.perfil = data.perfil || "Não especificado";
+                localStorage.setItem('usuario_nome', this.usuario.nome);
+
+                this.professor = this.usuario.perfil === 'Professor';
+            } catch (error) {
+                console.error('Erro ao buscar informações do usuário:', error);
+            }
+        },
     },
     template: `
     <Navbar></Navbar>
@@ -72,3 +121,4 @@ const app = {
 const App = Vue.createApp(app);
 App.use(router);
 App.mount('#app');
+
