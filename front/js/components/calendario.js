@@ -40,7 +40,7 @@ export const Calendario = {
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,list'
                 },
                 locale: 'pt-br',
                 buttonText: {

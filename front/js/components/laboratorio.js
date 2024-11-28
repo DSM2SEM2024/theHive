@@ -72,7 +72,7 @@ export const Laboratorio = {
 
         <!-- Botão de exclusão para deletar o andar e os laboratórios -->
         <button class="delete-btn" v-if="!isProfessor" @click="deleteAndar(andar.id_andar)">
-            Deletar
+            Deletar Andar
         </button>
 
         <!-- Card cinza para adicionar laboratório -->
@@ -83,10 +83,10 @@ export const Laboratorio = {
         <!-- Renderizar os laboratórios do andar -->
         <div v-if="andar.laboratorios.length > 0" v-for="(laboratorio, labIndex) in andar.laboratorios" :key="labIndex" class="card-lab" @click="abrirModal(laboratorio)">
             <!-- Barra superior do card -->
-            <span id="barra-card"></span>
+            <span id="barra-card">{{ laboratorio.nome }}</span>
 
             <!-- Nome do laboratório -->
-            <h3 id="nome-lab">{{ laboratorio.nome }}</h3>
+            <h3 id="nome-lab"></h3>
 
             <!-- Conteúdo do laboratório -->
             <div class="lab-content">

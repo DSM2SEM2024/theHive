@@ -395,12 +395,15 @@ span {
 }
 
 .card-lab #barra-card {
+    display: flex;
+    color: white;
     width: 100%;
     height: 1.5rem;
     background-color: var(--cor-andar);
     border-radius: 20px 20px 0 0;
     position: absolute;
     top: 0;
+    justify-content: center;
 }
 
 .card-lab #nome-lab {
@@ -484,12 +487,12 @@ span {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-width: 15rem;
+    min-width: 5rem;
     height: 15rem;
     background-color: var(--gray-color);
     border-radius: 17px;
     cursor: pointer;
-    margin-top: 2rem;
+    margin-top: 1rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -531,7 +534,9 @@ span {
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
-    margin-top: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
   
   .delete-btn:hover {
