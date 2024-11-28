@@ -696,26 +696,25 @@ main {
     margin-top: 16px;
     display: flex;
     justify-content: flex-start;
-    gap: 8px;
 }
 
 #acoes-card-reserva button {
     padding: 10px 20px;
     font-size: 14px;
     border: none;
-    border-radius: 5px;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
 }
 
 #acoes-card-reserva {
     display: flex;
     justify-content: center;
-    gap: 10px;
     margin-top: 12px;
     position: absolute;
     bottom: 0px;
+    width: 100%;
 }
 
 .reserva {
