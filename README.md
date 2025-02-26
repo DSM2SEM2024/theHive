@@ -32,4 +32,4 @@ Autenticação de usuários
 
 Validação de horários e disponibilidade de salas
 
-Interface responsiva e intuitiva
+Interface intuitiva
